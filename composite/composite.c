@@ -7,8 +7,15 @@
  * bottom-to-top on the Composite Overlay Window. There is no second X server
  * and no VNC-style copy, unlike the original Metisse.
  *
- * Phase 1 draws every window flat and unmodified. Later phases replace the
- * orthographic projection with per-window 3D transforms.
+ * Phase 2 adds a per-window 3D transform, read from the window property
+ * _METISSE_TRANSFORM (type INTEGER, format 32, values in thousandths):
+ *     rx ry rz   rotation about the X, Y and Z axes through the window
+ *                centre, in degrees (so 30000 = 30 degrees)
+ *     scale      uniform scale (1000 = 1.0)
+ *     opacity    0..1000
+ * Missing values default to 0 0 0 1000 1000. A perspective camera is set up
+ * so an untransformed window lands exactly on its X position and size.
+ * (Pointer input is not yet remapped: clicks still hit the real flat window.)
  *
  * Usage:  composite [-display NAME] [-shot FILE.ppm]
  *   SIGUSR1  write the next frame to FILE.ppm (when -shot is given)
@@ -27,7 +34,9 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glxext.h>
+#include <math.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,6 +54,8 @@ typedef struct Win {
 	GLXPixmap gpix;
 	GLuint tex;
 	int inverted;		/* texture is stored top-down */
+	float rx, ry, rz;	/* rotation in degrees */
+	float scale, opacity;
 	struct Win *next;	/* towards the top of the stack */
 } Win;
 
@@ -54,6 +65,7 @@ static Window root, overlay;
 static Win *bottom;		/* bottom-most window; list runs upwards */
 static int damage_event, damage_error;
 static int xerr;
+static Atom transform_atom;
 static volatile sig_atomic_t quit, want_shot;
 static int need_paint = 1;
 static const char *shot_file;
@@ -203,6 +215,31 @@ static int update_texture(Win *w)
 	return w->gpix != 0;
 }
 
+static void read_transform(Win *w)
+{
+	Atom type;
+	int fmt;
+	unsigned long n, after;
+	unsigned char *data = NULL;
+	long v[5] = { 0, 0, 0, 1000, 1000 };
+
+	xerr = 0;
+	if (XGetWindowProperty(dpy, w->id, transform_atom, 0, 5, False,
+			       XA_INTEGER, &type, &fmt, &n, &after, &data) ==
+	    Success && !xerr && type == XA_INTEGER && fmt == 32 && data) {
+		for (unsigned long i = 0; i < n && i < 5; i++)
+			v[i] = (int32_t)((long *)data)[i];
+	}
+	if (data)
+		XFree(data);
+	w->rx = v[0] / 1000.0f;
+	w->ry = v[1] / 1000.0f;
+	w->rz = v[2] / 1000.0f;
+	w->scale = v[3] / 1000.0f;
+	w->opacity = v[4] < 0 ? 0 : v[4] > 1000 ? 1 : v[4] / 1000.0f;
+	need_paint = 1;
+}
+
 /* ---- tracking top-level windows ---------------------------------------- */
 
 static void add_win(Window id)
@@ -219,8 +256,11 @@ static void add_win(Window id)
 	w->bw = a.border_width;
 	w->depth = a.depth;
 	w->vid = XVisualIDFromVisual(a.visual);
+	w->scale = w->opacity = 1.0f;
 	w->mapped = (a.map_state == IsViewable);
 	w->damage = XDamageCreate(dpy, id, XDamageReportNonEmpty);
+	XSelectInput(dpy, id, PropertyChangeMask);
+	read_transform(w);
 	Win **p = &bottom;
 	while (*p)
 		p = &(*p)->next;
@@ -305,6 +345,11 @@ static void handle_event(XEvent *e)
 			need_paint = 1;
 		}
 		break;
+	case PropertyNotify:
+		if (e->xproperty.atom == transform_atom &&
+		    (w = find_win(e->xproperty.window)))
+			read_transform(w);
+		break;
 	case SelectionClear:
 		quit = 1;	/* another compositor took over */
 		break;
@@ -338,34 +383,61 @@ static void draw_window(Win *w)
 {
 	if (!update_texture(w))
 		return;
-	float x0 = w->x, y0 = w->y;
-	float x1 = w->x + w->w + 2 * w->bw, y1 = w->y + w->h + 2 * w->bw;
+	float fw = w->w + 2 * w->bw, fh = w->h + 2 * w->bw;
+	float cx = w->x + fw / 2, cy = w->y + fh / 2;
 	float t0 = w->inverted ? 1.0f : 0.0f, t1 = 1.0f - t0;
+
+	glPushMatrix();
+	glTranslatef(cx, cy, 0);
+	glRotatef(w->rz, 0, 0, 1);
+	glRotatef(w->ry, 0, 1, 0);
+	glRotatef(w->rx, 1, 0, 0);
+	glScalef(w->scale, w->scale, w->scale);
+	glTranslatef(-cx, -cy, 0);
+	glColor4f(w->opacity, w->opacity, w->opacity, w->opacity);
 	glBindTexture(GL_TEXTURE_2D, w->tex);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, t1); glVertex2f(x0, y0);
-	glTexCoord2f(1, t1); glVertex2f(x1, y0);
-	glTexCoord2f(1, t0); glVertex2f(x1, y1);
-	glTexCoord2f(0, t0); glVertex2f(x0, y1);
+	glTexCoord2f(0, t1); glVertex2f(w->x, w->y);
+	glTexCoord2f(1, t1); glVertex2f(w->x + fw, w->y);
+	glTexCoord2f(1, t0); glVertex2f(w->x + fw, w->y + fh);
+	glTexCoord2f(0, t0); glVertex2f(w->x, w->y + fh);
 	glEnd();
+	glPopMatrix();
+}
+
+/*
+ * Perspective camera chosen so that the z=0 plane maps 1:1 to X pixels:
+ * the eye sits at distance d from the screen plane with a vertical field of
+ * view of FOV, and y is flipped because X's y axis points down.
+ */
+#define FOV_DEG 40.0
+static void setup_camera(int vw, int vh)
+{
+	const double n = 10.0, f = 10000.0;
+	double half = tan(FOV_DEG * 3.14159265358979 / 360.0);
+	double d = (vh / 2.0) / half;
+	double top = n * half, right = top * vw / (double)vh;
+	glViewport(0, 0, vw, vh);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(-right, right, -top, top, n, f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslated(0, 0, -d);
+	glScaled(1, -1, 1);
+	glTranslated(-vw / 2.0, -vh / 2.0, 0);
 }
 
 static void paint(GLXWindow gw)
 {
 	XWindowAttributes a;
 	XGetWindowAttributes(dpy, overlay, &a);
-	glViewport(0, 0, a.width, a.height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, a.width, a.height, 0, -1, 1);	/* y down, like X */
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	setup_camera(a.width, a.height);
 	glClearColor(0.15f, 0.20f, 0.30f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);	/* X alpha is premultiplied */
-	glColor4f(1, 1, 1, 1);
 	for (Win *w = bottom; w; w = w->next)
 		draw_window(w);
 	glDisable(GL_TEXTURE_2D);
@@ -424,6 +496,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	scr = DefaultScreen(dpy);
+	transform_atom = XInternAtom(dpy, "_METISSE_TRANSFORM", False);
 	root = RootWindow(dpy, scr);
 	XSetErrorHandler(on_xerror);
 
