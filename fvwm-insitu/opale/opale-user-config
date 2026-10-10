@@ -1,0 +1,24 @@
+# opale config 1 0 
+#
+# Do not edit! this file may be replaced when you upgrade!
+#
+
+
+ImagePath $[FVWM_USERDIR]/images/:$[OPALE_CONFIG_DIR]/opale/icons:+
+
+# opale, metisse or ... system bootstraping
+Read $[OPALE_SUBSYSTEM]/bootstrap
+
+# load system common stuff
+Read opale-common/config
+
+# load opale, metisse or ... system specific stuff
+Read $[OPALE_SUBSYSTEM]/config
+
+
+### User specific stuff
+
+Read common/applications
+Read common/extra
+
+Read $[OPALE_SUBSYSTEM]/extra

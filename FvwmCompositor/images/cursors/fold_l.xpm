@@ -1,0 +1,26 @@
+/* XPM */
+static char *fold_l[] = {
+/* columns rows colors chars-per-pixel hot-spot */
+"17 17 3 1 4 9",
+"A c gray100",
+". c black",
+"  c None",
+/* pixels */   
+"                 ",
+"                 ",
+"         ..      ",
+"         .A.     ",
+"    .     .A.    ",
+"   .A.     .A.   ",
+"  .A.A.     .A.  ",
+" .A. .A.......A. ",
+".A.   .AAAAAAAAA.",
+" .A. .A.......A. ",
+"  .A.A.     .A.  ",
+"   .A.     .A.   ",
+"    .     .A.    ",
+"         .A.     ",
+"         ..      ",
+"                 ",
+"                 "
+};

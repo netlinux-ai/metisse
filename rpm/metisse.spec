@@ -1,0 +1,74 @@
+#%define prefix %{_prefix}
+%define prefix /usr
+
+%define ver 0.4.1
+%define rel 1
+%define c_p --without-gnome --without-rplay-library --sysconfdir=/etc --x-includes=/usr/X11R6/include/ --x-libraries=/usr/X11R6/lib/ --disable-bidi --disable-xinerama -with-freetype-exec-prefix=/usr
+
+%define m_p CFLAGS="-O2"
+
+# Different distributions expect sources to be in different places;
+# the following solves this problem, but makes it harder to reuse .src.rpm
+%define _sourcedir /tmp
+
+Summary:   Metisse a 3D X Desktop
+Name:      metisse
+Version:   %{ver}
+Release:   %{rel}
+Copyright: GPL
+Group:     User Interface/Desktops
+Source:    %{name}-%{version}.tar.gz
+URL:       http://insitu.lri.fr/
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Packager:  Metisse
+Autoreq:   1
+
+Requires:  libXpm.so.4
+#Requires:  xpm >= 3.4g
+Requires:  perl >= 5.004
+
+# GTK, Imlib, stroke
+
+# RedHat should stop using name "fvwm" to refer to fvwm1 package.
+Provides:  metisse
+
+Docdir:    %{prefix}/share/doc
+
+%description
+
+Metisse is an experimental X desktop with some OpenGL capacity.  It
+consists of a virtual X server called Xmetisse, a special version of FVWM,
+and a FVWM module FvwmCompositor. Xmetisse is a mix of Xvnc and XDarwin. It
+draws nothing on your screen; everything is drawn into
+pixmaps. Similarly to Xvnc, but with a different protocol, Xmetisse can
+send these pixmaps (and other information) to a "viewer". FvwmCompositor
+is such a viewer; it uses OpenGL for rendering the X desktop into a
+window of a "regular" 3D accelerated X server.
+
+%prep
+%setup
+
+%build
+# gnome libs are only used in FvwmGtk, probably it is overhead to require them;
+# compiling without -g saves about 7Mb
+./configure --prefix=%{prefix} --mandir=/usr/share/man %{c_p}
+make %{m_p}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT prefix=%{prefix} install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+
+%{prefix}/bin/*
+%{prefix}/libexec/*
+%{prefix}/share/*
+
+%define date%(echo `LC_ALL="C" date +"%a %b %d %Y"`)
+%changelog
+* Sun Jun 29 2004 Olivier Chapuis
+  - First try at making the package

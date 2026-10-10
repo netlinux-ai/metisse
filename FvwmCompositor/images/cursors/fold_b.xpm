@@ -1,0 +1,26 @@
+/* XPM */
+static char *fold_b[] = {
+/* columns rows colors chars-per-pixel */
+"17 17 3 1 9 13",
+"  c black",
+". c gray100",
+"X c None",
+/* pixels */
+"XXXXXXXX XXXXXXXX",
+"XXXXXXX . XXXXXXX",
+"XXXXXX ... XXXXXX",
+"XXXXX . . . XXXXX",
+"XXXX .  .  . XXXX",
+"XXX . X . X . XXX",
+"XX . XX . XX . XX",
+"XX  XXX . XXX  XX",
+"XXXXXXX . XXXXXXX",
+"XXXXXXX . XXXXXXX",
+"XXXXXX . . XXXXXX",
+"XXXXX . X . XXXXX",
+"XXXX . XXX . XXXX",
+"XXXXX . X . XXXXX",
+"XXXXXX . . XXXXXX",
+"XXXXXXX . XXXXXXX",
+"XXXXXXXX XXXXXXXX"
+};

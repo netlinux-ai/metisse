@@ -1,0 +1,276 @@
+#!/bin/sh
+
+prefix=@prefix@
+datadir=@datadir@
+pkgdatadir=${datadir}/@PACKAGE@
+
+fvwmrc_revision=@FVWM2RC_REVISION@
+metisserc_revision=@METISSERC_REVISION@
+
+METISSE_FVWM_CONFIG_DIR=@METISSE_FVWM_CONFIG_DIR@
+METISSE_SHADERS_DIR=@METISSE_SHADERS_DIR@
+
+print_help ()
+{
+    echo "Usage:
+
+  metisse-start-fvwm [ options ] -- [FvwmCompositor options] -- [fvwm options]
+
+metisse-start-fvwm options:
+
+  -h        show this help and exit
+  -c  path  user fvwm config dir (default ~/.fvwm-metisse)
+  -wd :x    display number of the Xmetisse server (default :1)
+  -wh host  the host of the Xmetisse server (default 127.0.0.1)
+  -wp pass  passowrd for Xmetisse (no password by default)
+  -r        re-install user configuration file 
+  -a        enable accessibility for facades
+"
+
+}
+
+# Arguments
+fvwmArgs=""
+compositorArgs=""
+whoseArgs="my"
+
+# default
+fvwmExe="fvwmi"
+reInstallConfig=0
+FVWMCOMPOSITOR_DISPLAY=$DISPLAY
+FVWMCOMPOSITOR_STENCIL=yes
+
+user_config_dir=$HOME/.fvwm-metisse
+
+WDPY=":1"
+WHOST="127.0.0.1"
+WPASS="no"
+XMETISSE_DISPLAY="metisse://$WHOST$WDPY"
+FVWM_DISPLAY="$WHOST$WDPY"
+ENABLE_ACCESSIBILITY=no
+
+while [ "x$1" != "x" ]; do
+	case "$1" in
+	--help|-help|-h)
+	    print_help
+	    exit
+	;;
+	--)
+		if [ "$whoseArgs" = "my" ]; then
+			whoseArgs="compositor"
+		elif [ "$whoseArgs" = "compositor" ]; then
+			whoseArgs="fvwm"
+		fi
+	;;
+	*)
+		if [ "$whoseArgs" = "fvwm" ]; then
+			case "$1" in
+			--sm-client-id)
+				shift
+				fvwmArgs="$fvwmArgs -i $1"
+			;;
+			*)
+				fvwmArgs="$fvwmArgs $1"
+			;;
+			esac
+		elif [ "$whoseArgs" = "compositor" ]; then
+			case "$1" in
+			-d)
+				shift
+				FVWMCOMPOSITOR_DISPLAY=$1
+			;;
+			-w)
+				shift
+				XMETISSE_DISPLAY=$1
+			;;
+			-t)
+				FVWMCOMPOSITOR_STENCIL=no
+				compositorArgs="$compositorArgs $1"
+			;;
+			*)
+				compositorArgs="$compositorArgs $1"
+			;;
+			esac
+		else
+			case "$1" in
+			--wdisplay|--wd|-wd)
+				shift
+				WDPY="$1"
+				XMETISSE_DISPLAY="metisse://$WHOST$WDPY"
+				FVWM_DISPLAY=$WHOST$WDPY
+				if [ ! "x$WPASS" = "x" ]; then
+				    XMETISSE_DISPLAY="$XMETISSE_DISPLAY?password=$WPASS"
+				fi
+			;;
+			--whost|-wh)
+				shift
+				WHOST="$1"
+				XMETISSE_DISPLAY="metisse://$WHOST$WDPY"
+				FVWM_DISPLAY=$WHOST$WDPY
+				if [ ! "x$WPASS" = "x" ]; then
+				    XMETISSE_DISPLAY="$XMETISSE_DISPLAY?password=$WPASS"
+				fi
+			;;
+			--wpassword|--wp|-wp)
+				shift
+				WPASS="$1"
+				XMETISSE_DISPLAY="metisse://$WHOST$WDPY?password=$WPASS"
+			;;
+			--fvwm|-fvwm|--fvwm-exe|-fvwm-exe|-e)
+				shift
+				fvwmExe="$1"
+			;;
+			-r|--r)
+			    reInstallConfig=1
+			;;
+			-c|--c)
+			    shift
+			    user_config_dir="$1"
+			;;
+			-a|--a)
+			    ENABLE_ACCESSIBILITY=yes
+			;;
+			*)
+			    print_help
+			    exit
+			esac
+		fi
+	;;
+	esac
+	shift
+done
+
+system_fvwmrc=$METISSE_FVWM_CONFIG_DIR/config
+user_fvwmrc=$user_config_dir/config
+
+system_metisserc=$METISSE_FVWM_CONFIG_DIR/metisserc
+user_metisserc=$user_config_dir/metisserc
+
+config_files_list=$METISSE_FVWM_CONFIG_DIR/config-files-list
+shaders_files_list=$METISSE_SHADERS_DIR/shaders-files-list
+
+# sanity check 2
+bad_install=0
+not_found=""
+if [ ! -f $system_fvwmrc ]; then
+    bad_install=1
+    not_found="$not_found $system_fvwmrc"
+fi
+if [ ! -f $config_files_list ]; then
+    bad_install=1
+    not_found="$not_found $config_files_list"
+fi
+if [ ! -f $system_metisserc ]; then
+    bad_install=1
+    not_found="$not_found $system_metisserc"
+fi
+
+if [ $bad_install = 1 ]; then
+    echo "WARNING:"
+    echo "WARNING: cannot found fvwm metisse config file(s):"
+    echo "WARNING: $not_found"
+    echo "WARNING: do you make install?"
+    echo "WARNING: ABORT!"
+    echo "WARNING:"
+    exit 1
+fi
+
+[ -d $user_config_dir ] || mkdir -p $user_config_dir
+
+if [ ! -d $user_config_dir ]; then
+  echo "Fail to create $user_config_dir"
+  echo "ABORT!"
+fi
+
+isNewVersion=0
+isfvwmrcNewVersion=0
+ismetissercNewVersion=0
+
+if [ ! -f $user_fvwmrc -o $reInstallConfig = 1 ]; then
+    isNewVersion=1
+    isfvwmrcNewVersion=1
+else
+    hl="`head -1 $user_fvwmrc 2>/dev/null`"
+    test "`echo $hl | cut -d' ' -f5`" = "$fvwmrc_revision"
+    isfvwmrcNewVersion="$?"
+fi
+
+if [ "x$isfvwmrcNewVersion" = "x1" ]; then
+    echo "[metisse-fvwm-start] Installing: $user_fvwmrc"
+    cp $system_fvwmrc $user_fvwmrc
+fi
+
+if [ ! -f $user_metisserc -o $reInstallConfig = 1 ]; then
+    ismetissercNewVersion=0
+elif [ ! -f $user_config_dir/fonts ]; then
+    # pre 0.3.0 config
+    ismetissercNewVersion=1
+else
+    hl="`head -1 $user_metisserc 2>/dev/null`"
+    test "`echo $hl | cut -d' ' -f5`" = "$metisserc_revision"
+    ismetissercNewVersion="$?"
+fi
+
+if [ "x$ismetissercNewVersion" = "x1" ]; then
+
+    echo "
+[metisse-fvwm-start] WARNING:
+[metisse-fvwm-start] WARNING: your metisse fvwm config files do not match the
+[metisse-fvwm-start] WARNING: metisse version. You may want to backup your
+[metisse-fvwm-start] WARNING: $user_config_dir dir and use the
+[metisse-fvwm-start] WARNING: -r option
+[metisse-fvwm-start] WARNING:
+"
+
+fi
+
+if [ ! -f $user_metisserc -o $reInstallConfig = 1 ]; then
+    if [ ! -d $user_config_dir/window ]; then
+	mkdir $user_config_dir/window
+    fi
+    if [ ! -d $user_config_dir/colours ]; then
+	mkdir $user_config_dir/colours
+    fi
+    if [ ! -d $user_config_dir/themes ]; then
+	mkdir $user_config_dir/themes
+    fi
+    if [ ! -d $user_config_dir/shaders ]; then
+	mkdir $user_config_dir/shaders
+    fi
+    for f in `cat $config_files_list`; do
+	if [ $reInstallConfig = 1 ]; then
+	    echo "[metisse-fvwm-start] Installing: $user_config_dir/$f" 
+	    cp -f $METISSE_FVWM_CONFIG_DIR/$f $user_config_dir/$f
+	elif [ ! -f $user_config_dir/$f ]; then
+	    echo "[metisse-fvwm-start] Installing: $user_config_dir/$f" 
+	    cp -f $METISSE_FVWM_CONFIG_DIR/$f $user_config_dir/$f
+	fi
+    done
+    for f in `cat $shaders_files_list`; do
+	if [ $reInstallConfig = 1 ]; then
+	    echo "[metisse-fvwm-start] Installing: $user_config_dir/shaders/$f" 
+	    cp -f $METISSE_SHADERS_DIR/$f $user_config_dir/shaders/$f
+	elif [ ! -f $user_config_dir/shaders/$f ]; then
+	    echo "[metisse-fvwm-start] Installing: $user_config_dir/shaders/$f" 
+	    cp -f $METISSE_SHADERS_DIR/$f $user_config_dir/shaders/$f
+	fi
+    done
+    rm -f $user_config_dir/.aconfig
+    touch $user_config_dir/.aconfig
+fi
+
+if [ "x$ENABLE_ACCESSIBILITY" = "xyes" ]; then
+    export GTK_MODULES="gail:atk-bridge"
+fi
+
+FVWMCOMPOSITOR_ARGS="-d $FVWMCOMPOSITOR_DISPLAY -w $XMETISSE_DISPLAY $compositorArgs"
+export FVWMCOMPOSITOR_ARGS
+export METISSE_FVWM_CONFIG_DIR
+export FVWMCOMPOSITOR_STENCIL
+export METISSE_SHADERS_DIR
+
+echo "Start fvwmi with args $FVWMCOMPOSITOR_ARGS for FvwmCompositor"
+
+env FVWM_USERDIR=$user_config_dir $fvwmExe -display $FVWM_DISPLAY $fvwmArgs
+
+#echo "leaving metisse-start-fvwm"

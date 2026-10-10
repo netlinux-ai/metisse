@@ -1,0 +1,31 @@
+
+DestroyFunc TableTopOn
+AddToFunc   TableTopOn
++ I All (FvwmPager) Iconify On
++ I All (FvwmButtons) Iconify On
++ I All (Mozilla-firefox-bin) Iconify On
++ I All (gkrellm) Iconify On
+#+ I All sma Scale 0.5
++ I XineramaSlsSize 1x2
++ I XineramaSls On
++ I XineramaPrimaryScreen 1
++ I Xinerama On
++ I sma Surface On TableTop
++ I Exec fvwm-root --scale $[METISSE_FVWM_CONFIG_DIR]/images/backgrounds/tabletop.png
++ I All (Mozilla-bin) Iconify On
+
+DestroyFunc TableTopOff
+AddToFunc   TableTopOff
++ I All (FvwmPager) Iconify Off
++ I All (FvwmButtons) Iconify Off
++ I All (Mozilla-firefox-bin) Iconify Off
++ I All (gkrellm) Iconify Off
++ I XineramaSls Off
++ I Xinerama Off
++ I sma Surface Off
+#+ I All sma Scale 2
++ I AFuncCheckAndSetScaledBg $[METISSE_FVWM_CONFIG_DIR]/images/backgrounds/sky-metisse.jpg
++ I All (Mozilla-bin) Iconify Off
+
+PointerKey t A 4C TableTopOn
+PointerKey g A 4C TableTopOff

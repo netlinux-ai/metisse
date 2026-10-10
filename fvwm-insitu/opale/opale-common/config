@@ -1,0 +1,30 @@
+# system common stuff
+
+ImagePath $[FVWM_USERDIR]/images/:$[OPALE_CONFIG_DIR]/icons:+
+
+#! FuncRestartModule module_name module_alias module_args
+#! Restart the module module_name with name module_alias and arguments
+#! modules_args
+DestroyFunc FuncRestartModule
+AddToFunc   FuncRestartModule
++ I KillModule $0 $1
++ I Module $*
+
+# Window activation asked by applications (panel or normal client)
+DestroyFunc EWMHActivateWindowFunc
+AddToFunc   EWMHActivateWindowFunc
++ I FuncShowWindow
+
+DestroyFunc EWMHActivateClientWindowFunc
+AddToFunc   EWMHActivateClientWindowFunc
++ I DemandsAttention On
+
+DestroyFunc EWMHActivateLegacyWindowFunc
+AddToFunc   EWMHActivateLegacyWindowFunc
++ I DemandsAttention On
+
+AddToFunc UrgencyFunc
++ I DemandsAttention On
+
+# Window list
+

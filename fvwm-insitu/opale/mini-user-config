@@ -1,0 +1,130 @@
+# mini config 1 0 
+
+# Yes this config is minimal!
+
+# destroying the default fvwm config
+
+Silent Key Help R A -
+Key F1 R A -
+Key Escape A MC -
+Key Tab A M -
+
+DestroyMenu MenuFvwmRoot
+
+#### desktop
+
+DesktopSize 2 2
+
+EdgeScroll 0 0
+EdgeThickness 0
+EdgeResistance 0 0
+
+#### Functions 
+
+DestroyFunc FuncAppFvwmConsole
+AddToFunc   FuncAppFvwmConsole
++ I Test (x rxvt) Module FvwmConsole -terminal rxvt
++ I TestRc (Match) break
++ I Test (x xterm) Module FvwmConsole
++ I Echo Please install rxvt
+
+DestroyFunc FuncAppSimpleTerminal
+AddToFunc   FuncAppSimpleTerminal
++ I Test (x rxvt) Exec rxvt
++ I TestRc (Match) break 1
++ I Test (x xterm) Exec xterm
++ I TestRc (Match) break 1
++ I Test (x konsole) Exec konsole
++ I TestRc (Match) break 1
++ I Test (x gnome-terminal) Exec gnome-terminal
++ I TestRc (Match) break 1
++ I Echo No Terminal found, edit applications
+
+DestroyFunc FuncFuncGotoPage
+AddToFunc   FuncFuncGotoPage
++ I GotoPage $*
+#+ I GotoPage Animate $*
+
+#### styles
+
+Style * SloppyFocus, ClickToFocusPassesClick, ClickToFocusRaises, \
+	MouseFocusClickRaises
+Style * !FPGrabFocus, FPReleaseFocus
+
+Style * MinOverlapPercentPlacement, DecorateTransient
+
+Style FvwmPager NoTitle, Sticky, WindowListSkip, UsePPosition
+Style FvwmCompositor StartsOnPage 0 1
+
+#### pager config
+DestroyModuleConfig FvwmPager*
+
+*FvwmPager: Geometry -0-0
+*FvwmPager: DeskTopScale 16
+*FvwmPager: SolidSeparators
+*FvwmPager: Window3DBorders
+*FvwmPager: UseSkipList
+*FvwmPager: Balloons            All
+*FvwmPager: Font None
+*FvwmPager: BalloonColorset * 0
+*FvwmPager: BalloonFont -*-helvetica-medium-r-*-12-*
+*FvwmPager: SmallFont -*-helvetica-medium-r-*-8-*
+
+#### start 2 terminals
+
+DestroyFunc InitFunction
+AddToFunc   InitFunction
++ I FuncAppSimpleTerminal
++ I FuncAppSimpleTerminal
++ I Echo InitFunc
++ I Module FvwmPager *
+
+DestroyFunc RestartFunction
+AddToFunc   RestartFunction
++ I Echo RestartFunc
++ I Module FvwmPager *
+
+DestroyFunc SessionInitFunction
+AddToFunc   SessionInitFunction
++ I InitFunction
++ I Echo SessionInitFunc
+
+DestroyFunc SessionRestartFunction
+AddToFunc   SessionRestartFunction
++ I RestartFunction
++ I Echo SessionRestartFunc
+
+# root menu
+
+DestroyMenu MenuRoot
+AddToMenu   MenuRoot 
++ "&Terminal" 		FuncAppSimpleTerminal
++ "&Fvwm Console"	FuncAppFvwmConsole
++ "&Restart"		Restart
++ "&Quit"		Quit
+
+Mouse 1 R A Menu MenuRoot
+
+Key Left	A	CM	FuncFuncGotoPage -1p +0p
+Key Right	A	CM	FuncFuncGotoPage +1p +0p
+Key Up  	A	CM	FuncFuncGotoPage +0p -1p
+Key Down	A	CM	FuncFuncGotoPage +0p +1p
+
+DestroyFunc FuncFvwmRemoveBinding
+AddToFunc   FuncFvwmRemoveBinding
+#    Key/Mouse  (match)   key/button   context modifiers   method
++ I  $0         $1        $2            W       $4           --
+
+DestroyFunc FuncFvwmRemoveBindingsOnWindow
+AddToFunc   FuncFvwmRemoveBindingsOnWindow
+#
++ I FuncFvwmRemoveBinding Key "($0)" Left A CM
++ I FuncFvwmRemoveBinding Key "($0)" Right A CM
++ I FuncFvwmRemoveBinding Key "($0)" Up A CM
++ I FuncFvwmRemoveBinding Key "($0)" Down A CM
+
+FuncFvwmRemoveBindingsOnWindow FvwmCompositor
+key (FvwmCompositor) Left  A CMS  FuncFuncGotoPage -1p +0p
+Key (FvwmCompositor) Right A CMS	FuncFuncGotoPage +1p +0p
+Key (FvwmCompositor) Up  	 A CMS	FuncFuncGotoPage +0p -1p
+Key (FvwmCompositor) Down	 A CMS	FuncFuncGotoPage +0p +1p

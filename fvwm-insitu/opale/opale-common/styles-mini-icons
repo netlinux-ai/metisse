@@ -1,0 +1,292 @@
+Style "*"		MiniIcon 16x16/apps/unknown.png
+Style "NoResource"	MiniIcon 16x16/apps/unknown.png
+
+# Terminals
+Style "Eterm*"                 MiniIcon 16x16/apps/utilities-terminal.png
+Style "rxvt"                   MiniIcon 16x16/apps/utilities-terminal.png
+Style "XTerm"                  MiniIcon 16x16/apps/utilities-terminal.png
+Style "rxterm"                 MiniIcon 16x16/apps/terminal-remote.png
+
+# These are not all mine, most of globs must be removed.
+Style "DDD*"                   MiniIcon 16x16/apps/development.png
+Style "GRASP*"                 MiniIcon 16x16/apps/file-manager.png
+Style "HyTeX*"                 MiniIcon 16x16/apps/viewer.png
+Style "ImageMagic*"            MiniIcon 16x16/apps/image-processor.png
+Style "KDisk*"                 MiniIcon 16x16/apps/disk.png
+Style "LyX"                    MiniIcon 16x16/apps/lyx.png
+Style "MathSpad*"              MiniIcon 16x16/apps/science.png
+Style "MuPAD*"                 MiniIcon 16x16/apps/science.png
+Style "StarOffice*"            MiniIcon 16x16/apps/word-processor.png
+Style "SystemInfo*"            MiniIcon 16x16/apps/information.png
+Style "Tk man"                 MiniIcon 16x16/apps/help.png
+Style "Visual Tcl"             MiniIcon 16x16/apps/todo.png
+
+Style "amaya*"                 MiniIcon 16x16/apps/www.png
+Style "Appointment"            MiniIcon 16x16/apps/clock.png
+Style "asWedit*"               MiniIcon 16x16/apps/accessories-text-editor.png
+Style "bitmap*"                MiniIcon 16x16/apps/image-processor.png
+Style "?calc"                  MiniIcon 16x16/apps/accessories-calculator.png
+Style "?clock"                 MiniIcon 16x16/apps/clock.png
+Style "cooledit"               MiniIcon 16x16/apps/accessories-text-editor.png
+Style "control*"               MiniIcon 16x16/places/home.png
+Style "Dayview"                MiniIcon 16x16/apps/clock.png
+Style "Dialogue"               MiniIcon 16x16/apps/www.png
+Style "Display"                MiniIcon 16x16/apps/image-viewer.png
+Style "display"                MiniIcon 16x16/apps/image-viewer.png
+Style "dosemu*"                MiniIcon 16x16/apps/todo.png
+Style "emacs"                  MiniIcon 16x16/apps/gnu.png
+Style "Explorer"               MiniIcon 16x16/apps/file-manager.png
+Style "Fractine"               MiniIcon 16x16/apps/science.png
+Style "fr"                     MiniIcon 16x16/apps/file-manager.png
+Style "freeamp"                MiniIcon 16x16/apps/music.png
+Style "FreeAmp*"               MiniIcon 16x16/apps/music.png
+Style "File Viewer*"           MiniIcon 16x16/apps/viewer.png
+Style "Fvwm*"                  MiniIcon 16x16/apps/utility.png
+Style "ghostview"              MiniIcon 16x16/apps/ghostview.png
+Style "ghostscript"            MiniIcon 16x16/apps/ghostview.png
+Style "gifview"                MiniIcon 16x16/apps/image-viewer.png
+Style "gkrellm"                MiniIcon 16x16/apps/monitoring.png
+Style "GNUplot"                MiniIcon 16x16/apps/science.png
+Style "GV"                     MiniIcon 16x16/apps/ghostview.png
+Style "Help_popup"             MiniIcon 16x16/apps/help.png
+Style "Image Viewer*"          MiniIcon 16x16/apps/image-viewer.png
+Style "isdn-config"            MiniIcon 16x16/apps/network.png
+Style "ixset"                  MiniIcon 16x16/apps/todo.png
+Style "licq-bin"               MiniIcon 16x16/apps/licq.png
+Style "Lynx"                   MiniIcon 16x16/apps/www.png
+Style "Manual Page*"           MiniIcon 16x16/apps/help.png
+Style "matlab"                 MiniIcon 16x16/apps/science.png
+# too general
+Style "Midnight-Commander"     MiniIcon 16x16/apps/file-manager.png
+Style "mgv*"                   MiniIcon 16x16/apps/ghostview.png
+Style "moxfm*"                 MiniIcon 16x16/apps/file-manager.png
+Style "mldonkey*"              MiniIcon 16x16/apps/network.png
+Style "mtools*"                MiniIcon 16x16/apps/disk.png
+Style "mxaudio"                MiniIcon 16x16/apps/music.png
+Style "NEdit*"                 MiniIcon 16x16/apps/nedit.png
+Style "nedit*"                 MiniIcon 16x16/apps/nedit.png
+Style "Netscape"               MiniIcon 16x16/apps/netscape.png
+Style "Download"               MiniIcon 16x16/places/folder.png
+Style "Mail"                   MiniIcon 16x16/apps/mail.png
+Style "Composition"            MiniIcon 16x16/apps/mail.png
+Style "NcFtp"                  MiniIcon 16x16/apps/network.png
+Style "nscal*"                 MiniIcon 16x16/apps/clock.png
+Style "News"                   MiniIcon 16x16/apps/news.png
+Style "opera"                  MiniIcon 16x16/apps/opera.png
+Style "panel"                  MiniIcon 16x16/places/home.png
+Style "pine"                   MiniIcon 16x16/apps/mail.png
+Style "pixmap*"                MiniIcon 16x16/apps/image-processor.png
+Style "qps*"                   MiniIcon 16x16/apps/mail.png
+Style "sxpm"                   MiniIcon 16x16/apps/image-viewer.png
+Style "Tail File*"             MiniIcon 16x16/apps/viewer.png
+Style "textedit"               MiniIcon 16x16/apps/accessories-text-editor.png
+Style "thot*"                  MiniIcon 16x16/apps/www.png
+Style "THX-1138"               MiniIcon 16x16/apps/accessories-calculator.png
+Style "timidity"               MiniIcon 16x16/apps/music.png
+Style "Top"                    MiniIcon 16x16/apps/monitoring.png
+Style "usernet"                MiniIcon 16x16/apps/network.png
+Style "VIM"                    MiniIcon 16x16/apps/gvim.png
+Style "VI"                     MiniIcon 16x16/apps/gvim.png
+Style "vppp*"                  MiniIcon 16x16/apps/network.png
+Style "conx"                   MiniIcon 16x16/apps/network.png
+Style "vmware"                 MiniIcon 16x16/apps/windows.png
+Style "wmCalClock"             MiniIcon 16x16/apps/clock.png
+Style "workman"                MiniIcon 16x16/apps/cd-player.png
+Style "X11Amp"                 MiniIcon 16x16/apps/music.png
+Style "X3270xad"               MiniIcon 16x16/apps/utilities-terminal.png
+Style "xanim"                  MiniIcon 16x16/apps/multimedia.png
+Style "xapm"                   MiniIcon 16x16/apps/monitoring.png
+Style "xbiff"                  MiniIcon 16x16/apps/mail.png
+Style "xbm*"                   MiniIcon 16x16/apps/image-viewer.png
+Style "XbmBrowser"             MiniIcon 16x16/apps/image-viewer.png
+Style "xclipboard"             MiniIcon 16x16/apps/information.png
+Style "xcolorsel"              MiniIcon 16x16/apps/colors.png
+Style "xconsole"               MiniIcon 16x16/apps/utilities-terminal.png
+Style "xdaliclock"             MiniIcon 16x16/apps/clock.png
+Style "xdiskinfo*"             MiniIcon 16x16/apps/disk.png
+Style "xditview"               MiniIcon 16x16/apps/viewer.png
+Style "XDos*"                  MiniIcon 16x16/apps/todo.png
+Style "xedit"                  MiniIcon 16x16/apps/accessories-text-editor.png
+Style "xephem*"                MiniIcon 16x16/apps/science.png
+Style "xfig*"                  MiniIcon 16x16/apps/xfig.png
+Style "xfontsel"               MiniIcon 16x16/apps/preferences-desktop-font.png
+Style "xgraph"                 MiniIcon 16x16/apps/image-viewer.png
+Style "xkey*"                  MiniIcon 16x16/apps/preferences-desktop-keyboard.png
+Style "xli"                    MiniIcon 16x16/apps/image-viewer.png
+Style "xload"                  MiniIcon 16x16/apps/monitoring.png
+# -- [ xman resources --
+Style "Xman"                   MiniIcon 16x16/apps/help.png
+Style "topBox"                 MiniIcon 16x16/places/folder.png
+Style "manualBrowser"          MiniIcon 16x16/apps/help.png
+Style "help"                   MiniIcon 16x16/apps/information.png
+# -- xman resources ] --
+Style "xmag"                   MiniIcon 16x16/apps/viewer.png
+Style "Xmessage"               MiniIcon 16x16/apps/information.png
+Style "xosview"                MiniIcon 16x16/apps/monitoring.png
+# -- [ xpaint resources --
+Style "XPaint"                 MiniIcon 16x16/apps/image-processor.png
+Style "Canvas"                 MiniIcon 16x16/apps/todo.png
+Style "fatbits"                MiniIcon 16x16/apps/todo.png
+Style "filebrowser"            MiniIcon 16x16/apps/file-manager.png
+# -- xpaint resources ] --
+Style "xmh"                    MiniIcon 16x16/apps/mail.png
+Style "xmixer"                 MiniIcon 16x16/apps/sound.png
+Style "xmms"                   MiniIcon 16x16/apps/xmms.png
+Style "xpdf"                   MiniIcon 16x16/apps/xpdf.png
+Style "Xpdf"                   MiniIcon 16x16/apps/xpdf.png
+Style "xplaycd"                MiniIcon 16x16/apps/cd-player.png
+Style "xscreensaver"           MiniIcon 16x16/actions/system-lock-screen.png
+Style "xsysinfo*"              MiniIcon 16x16/apps/information.png
+Style "xtar*"                  MiniIcon 16x16/apps/file.png
+Style "XTel"                   MiniIcon 16x16/apps/terminal-special.png
+Style "XTide"                  MiniIcon 16x16/apps/science.png
+Style "xv"                     MiniIcon 16x16/apps/xv.png
+Style "xvgr"                   MiniIcon 16x16/apps/image-viewer.png
+Style "xvmount"                MiniIcon 16x16/apps/disk.png
+Style "xwp"                    MiniIcon 16x16/apps/word-processor.png
+Style "xwpe"                   MiniIcon 16x16/apps/development.png
+Style "xxgdb"                  MiniIcon 16x16/apps/development.png
+
+# Open File dialog
+Style "Browse * Select a File" MiniIcon 16x16/places/folder.png
+Style "File Directory"         MiniIcon 16x16/places/folder.png
+Style "fileSelector*"          MiniIcon 16x16/places/folder.png
+Style "fileSelection_popup"    MiniIcon 16x16/places/folder.png
+Style "Open document"          MiniIcon 16x16/places/folder.png
+Style "Save as"                MiniIcon 16x16/places/folder.png
+Style "Select a file to open"  MiniIcon 16x16/places/folder.png
+Style "Select a file to load"  MiniIcon 16x16/places/folder.png
+Style "selFile"                MiniIcon 16x16/places/folder.png
+Style "Open File..."           MiniIcon 16x16/places/folder.png
+Style "xgetfile"               MiniIcon 16x16/places/folder.png
+
+# Too general
+Style "*_applet"               MiniIcon 16x16/apps/utility.png
+Style "help*"                  MiniIcon 16x16/apps/information.png
+Style "*icq"                   MiniIcon 16x16/apps/chat.png
+Style "*irc"                   MiniIcon 16x16/apps/chat.png
+Style "*info"                  MiniIcon 16x16/apps/information.png
+Style "info*"                  MiniIcon 16x16/apps/information.png
+Style "Information"            MiniIcon 16x16/apps/information.png
+Style "_o_*"                   MiniIcon 16x16/apps/information.png
+Style "About"                  MiniIcon 16x16/apps/information.png
+Style "about_popup"            MiniIcon 16x16/apps/information.png
+Style "about"                  MiniIcon 16x16/apps/information.png
+
+# FVWM / FVWM Themes
+Style "Fvwm*"                  MiniIcon 16x16/apps/utility.png
+Style "FvwmConsole"            MiniIcon 16x16/apps/terminal-special.png
+Style "FVWM Themes*"           MiniIcon 16x16/apps/themes.png
+Style "FVWM Themes Global Feel" MiniIcon 16x16/apps/configuration.png
+Style "FVWM Themes Doc*"       MiniIcon 16x16/apps/help.png
+Style "FVWM Themes Menu*"      MiniIcon 16x16/apps/accessories-text-editor.png
+Style "Color Selector"         MiniIcon 16x16/apps/colors.png
+Style "Font Selector"          MiniIcon 16x16/apps/preferences-desktop-font.png
+Style "Icon Browser"           MiniIcon 16x16/apps/image-viewer.png
+Style "Image Browser"          MiniIcon 16x16/apps/image-viewer.png
+Style "FvwmForm-ThemeSettings" MiniIcon 16x16/apps/configuration.png
+Style "FvwmForm-Restart"       MiniIcon 16x16/actions/restart.png
+Style "FormFvwmAnimate"        MiniIcon 16x16/actions/window-iconify.png
+Style "FvwmForm-Form"          MiniIcon 16x16/apps/configuration.png
+Style "FvwmForm-RootCursor"    MiniIcon 16x16/devices/video-display.png
+Style "FvwmScript-BellSetup"   MiniIcon 16x16/apps/sound.png
+Style "FvwmScript-Keyboard"    MiniIcon 16x16/apps/preferences-desktop-keyboard.png
+Style "FvwmScript-ScreenSetup" MiniIcon 16x16/devices/video-display.png
+Style "FvwmScript-PointerSetup" MiniIcon 16x16/devices/input-mouse.png
+
+# Gtk Apps
+Style "Dia"                    MiniIcon 16x16/apps/dia.png
+Style "GQview"                 MiniIcon 16x16/apps/gqview.png
+Style "gtk-gnutella"           MiniIcon 16x16/apps/network.png
+Style "gtk-shell"              MiniIcon 16x16/apps/information.png
+Style "gtkicq"                 MiniIcon 16x16/apps/chat.png
+Style "gtop"                   MiniIcon 16x16/apps/monitoring.png
+Style "helix-update"           MiniIcon 16x16/apps/network.png
+Style "idetool"                MiniIcon 16x16/apps/disk.png
+Style "logview"                MiniIcon 16x16/apps/viewer.png
+Style "MPlayer"                MiniIcon 16x16/apps/video.png
+Style "X-Chat"                 MiniIcon 16x16/apps/chat.png
+
+# XFCE Apps
+Style "xfclock"                MiniIcon 16x16/apps/clock.png
+Style "xftree"                 MiniIcon 16x16/apps/file-manager.png
+
+
+# CDE Apps
+Style "Dterm"                  MiniIcon 16x16/apps/utilities-terminal.png
+Style "Dtfile"                 MiniIcon 16x16/apps/file-manager.png
+Style "Dtpad"                  MiniIcon 16x16/apps/accessories-text-editor.png
+Style "Dthelp*"                MiniIcon 16x16/apps/help.png
+Style "Dtcm*"                  MiniIcon 16x16/apps/clock.png
+Style "Dtcalc"                 MiniIcon 16x16/apps/accessories-calculator.png
+Style "Dticon*"                MiniIcon 16x16/apps/image-processor.png
+Style "Dtprint*"               MiniIcon 16x16/actions/devices/printer.png
+Style "Dtstyle*"               MiniIcon 16x16/apps/configuration.png
+Style "Applications Manager"   MiniIcon 16x16/apps/programs.png
+Style "Trash Can"              MiniIcon 16x16/apps/file.png
+
+# Games
+Style "SDL_App"                MiniIcon 16x16/apps/game.png
+Style "*angband"               MiniIcon 16x16/apps/game.png
+Style "gcfclient"              MiniIcon 16x16/apps/game.png
+Style "Heroes ?.*"             MiniIcon 16x16/apps/game-action.png
+Style "Maelstrom"              MiniIcon 16x16/apps/game-action.png
+Style "MirrorMagic"            MiniIcon 16x16/apps/game-logic.png
+Style "PowerManga*"            MiniIcon 16x16/apps/game-action.png
+Style "PySol"                  MiniIcon 16x16/apps/game-cards.png
+Style "Rocks'n'Diamonds"       MiniIcon 16x16/apps/game-action.png
+Style "XGammon"                MiniIcon 16x16/apps/game.png
+Style "XGammon-Buttons"        MiniIcon 16x16/apps/information.png
+Style "xgoban"                 MiniIcon 16x16/apps/game.png
+Style "comment"                MiniIcon 16x16/apps/information.png
+Style "xmahjongg"              MiniIcon 16x16/apps/game-logic.png
+Style "*tetris"                MiniIcon 16x16/apps/game.png
+Style "xtrojka"                MiniIcon 16x16/apps/game.png
+Style "xemeraldia"             MiniIcon 16x16/apps/game.png
+Style "XGalaga"                MiniIcon 16x16/apps/game-action.png
+Style "xeyes"                  MiniIcon 16x16/apps/amusement.png
+
+# 11 xpuzzles
+Style "xcubes"                 MiniIcon 16x16/apps/game-logic.png
+Style "xdino"                  MiniIcon 16x16/apps/game-logic.png
+Style "xhexagons"              MiniIcon 16x16/apps/game-logic.png
+Style "xmball"                 MiniIcon 16x16/apps/game-logic.png
+Style "xmlink"                 MiniIcon 16x16/apps/game-logic.png
+Style "xoct"                   MiniIcon 16x16/apps/game-logic.png
+Style "xpanex"                 MiniIcon 16x16/apps/game-logic.png
+Style "xpyraminx"              MiniIcon 16x16/apps/game-logic.png
+Style "xrubik"                 MiniIcon 16x16/apps/game-logic.png
+Style "xskewb"                 MiniIcon 16x16/apps/game-logic.png
+Style "xtriangles"             MiniIcon 16x16/apps/game-logic.png
+
+Style "High score*"            MiniIcon 16x16/apps/information.png
+Style "Statistics"             MiniIcon 16x16/apps/information.png
+Style "xboard"                 MiniIcon 16x16/apps/game-board.png
+Style "xevil"                  MiniIcon 16x16/apps/game-action.png
+Style "xsok*"                  MiniIcon 16x16/apps/game-logic.png
+Style "xbomb"                  MiniIcon 16x16/apps/game-logic.png
+Style "*Scavenger"             MiniIcon 16x16/apps/game-action.png
+Style "Freeciv*"               MiniIcon 16x16/apps/game.png
+Style "XPat"                   MiniIcon 16x16/apps/game-cards.png
+Style "dontspace"              MiniIcon 16x16/apps/game-cards.png
+Style "klondike"               MiniIcon 16x16/apps/game-cards.png
+Style "spider"                 MiniIcon 16x16/apps/game.png
+Style "X-Mame*"                MiniIcon 16x16/apps/game-action.png
+Style "xlin-city*"             MiniIcon 16x16/apps/game.png
+Style "xchomp"                 MiniIcon 16x16/apps/game-action.png
+Style "mahjongg"               MiniIcon 16x16/apps/game-logic.png
+Style "gtkballs"               MiniIcon 16x16/apps/game-logic.png
+Style "gfpoken"                MiniIcon 16x16/apps/game-logic.png
+
+Style "Psi"                    MiniIcon 16x16/apps/psi.png
+Style "psi"                    MiniIcon 16x16/apps/psi.png
+
+Style "OpenOffice*"            MiniIcon 16x16/apps/ooo_writer.png
+Style "*OpenOffice*Writer"     MiniIcon 16x16/apps/ooo_writer.png
+Style "*OpenOffice*Calc"       MiniIcon 16x16/apps/ooo_calc.png
+Style "*OpenOffice*Impress"    MiniIcon 16x16/apps/ooo_impress.png
+
+Style "Drakconf*"              MiniIcon 16x16/apps/drakconf.png
+
+Style "xsane"                  MiniIcon 16x16/devices/scanner.png
+Style "Xsane"                  MiniIcon 16x16/devices/scanner.png

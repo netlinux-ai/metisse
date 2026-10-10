@@ -1,0 +1,83 @@
+Changes in release 0.3.5 (2004-12-16, version_0_3_5)
+
+* An Xwnc crash caused by off pixmap rendering was fixed.
+* A depth 16 Xwnc crash was fixed (Xwnc can be ran at depth 16 again). 
+* Some gcc-3.4 mmx code from Xorg (for composite operation and filling) was
+added (small speed improvement).
+* FvwmAmetista Image encoding handling was improved.
+ 
+-------------------------------------------------------------------
+Changes in release 0.3.4 (2004-12-01, version_0_3_4)
+
+* Fixed temporary lock with applications which draw a lot of disjoint
+rectangle at once.
+* Some configuration improvement: a new default background, use some of the 
+new configuration options of FvwmButtons and FvwmIconMan. 
+* Started to add support for an hypothetical wm specification for
+unmanaged window and in particular tips window (FVWM tips for now).
+* Added shadow and alpha to (recognized) tips window.
+* Added a few XF86XK keysym: Mail, WWW, Launch0 and Launch1.
+* Fixed a core dump caused by very big cursor.
+* Respect the pseudo-gravity of a window for X and Y rotations.
+* Some focus fixes.
+* Added an isroot member to the wnc protocol (rfbConfigureWindowMsg)
+
+FVWM In Situ news:
+
+* Merge with fvwm cvs (2004-11-22 cvs)
+* Some new fvwm-insitu features: new options MaxButtonWidth and
+MaxButtonWidthByColumns to IconMan; added a library for tips; added
+tips to IconMan; new options to FvwmButtons Swallow: noResClass,
+noName and sysTray. Some these features will go in the official FVWM
+tree soon.
+
+-------------------------------------------------------------------
+Changes in release 0.3.3 (2004-08-12, version_0_3_3)
+
+* Implemented "software" cursor (for Mac OSX).
+* Enabled the experimental fvwm-insitu focus/stacking policy styles for
+  text selection and xdnd (after fixing a possible crash in fvwmi).
+* Fixed bad (jumping) position of windows during a resize (interactive
+  or not).
+* Fixed fvwm icons related crash reported by Tony J. White.
+* Added some configuration support for fvwm icons (However fvwm icons are
+  not really supported by FvwmAmetista).
+* Removed the grey lines around the windows.
+
+-------------------------------------------------------------------
+Changes in release 0.3.2 (2004-07-28, version_0_3_2)
+
+* Added support for ARGB cursors.
+* Fixed FvwmAmetista iconification (button 3 on the task bar).
+* Fixed various Xwnc and FvwmAmetista segmentation fault.
+* New option -p to FvwmAmetista which causes mipmap generation. This
+  improves rendering of transformed windows (but this needs more memory
+  and slowdown rendering).
+* FvwmAmetista now use RGBA textures (faster). New option -a for
+  forcing RGB textures.
+* New option -t to FvwmAmetista which disable the use of the stencil
+  buffer. Shaped window are broken with option.
+* Added GLX extension to Xwnc. The rendering is not accelerated. 
+* Added XRecord, XFixes and double buffer extensions to Xwnc.
+* More --enable-freetype compilation fixes.
+* Disabled the X smart scheduler.
+* Fixed a crash caused by FvwmButtons panel sliding (Thanks to Tony J. White).
+* Fixed compilation with gcc 3.3 and gcc 3.4.
+
+-------------------------------------------------------------------
+Changes in release 0.3.1 (2004-07-05, version_0_3_1)
+
+* Improved window operations handling.
+* Fixed cursor jumping when moving a window.
+* New command SaveFrame for creating screen shot. If you upgrade add
+	AFuncPointerKeyAmetistaCmd   f  A "sma SaveFrame"
+in bindings and "Ctl-Shfit f" will create capture.jpg.
+* Documentation update. 
+* Fixed building problems with gcc-2.9.
+* Fixed compilation with --enable-freetype.
+
+-------------------------------------------------------------------
+First release 0.3.0 (2004-06-28, version_0_3_0)
+
+-------------------------------------------------------------------
+First virtual release 0.2.1 (2003-12-18, version_0_2_1)

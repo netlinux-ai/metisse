@@ -1,0 +1,40 @@
+Please see
+
+http://standards.freedesktop.org/icon-naming-spec/
+
+before adding icons.
+
+Missing in this spec:
+
+-actions:
+the window manager action?
+wm-move
+wm-resize
+wm-shade
+wm-stick
+wm-close
+wm-destroy
+
+- categories:
+applications - The icon for the Programs menu (for example)
+
+CREDITS:
+-------
+
+* 16x16/apps
+
+calculator.png (16x16-crystalclear wm-icons)
+opale.png
+unkown.png (16x16-crystalclear wm-icons)
+
+* 16x16/categories
+
+applications.png from crystalsvg (package)
+applications-internet.png from crystalsvg (package_network)  
+applications-office.png  from crystalsvg  (wp)
+
+* 16x16/places
+
+folder.png crystalsvg (folder)
+
+unkown.png

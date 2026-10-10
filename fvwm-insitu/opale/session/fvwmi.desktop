@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=FVWMI
+Comment=FVWM InSitu
+Exec=fvwmi
+Icon=opale.png
+Type=Application

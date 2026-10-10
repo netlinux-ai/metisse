@@ -1,0 +1,156 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel=stylesheet type="text/css" href="../metisse.css">
+<title>Running Metisse</title>
+</head>
+
+<body>
+
+<div class="titre-document">
+<a href="../index.html"><img id="uplink" alt="Metisse home page" src="../up.jpg"></a>
+Running Metisse
+</div>
+
+<p>The Metisse window system follows a compositing approach, making a
+clear distinction between the rendering of windows and the interactive
+compositing process. The Metisse <i>server</i> is a modified X server
+that renders windows off-screen. The Metisse <i>compositor</i> is a
+combination of a slightly modified version
+of <a href="http://www.fvwm.org/">FVWM</a> with an
+<a href="http://www.opengl.org/">OpenGL</a>-based interactive viewer
+called <i>FvwmCompositor</i>. FvwmCompositor runs as an FVWM module
+connected to both the Metisse server and your native window system (a
+traditional X server or the OS X WindowServer).  Among other things,
+FvwmCompositor displays window images received from the Metisse server
+and forwards to it native input device events (Figure 1).</p>
+
+<div class="figure">
+<a href="metisse-architecture.png"><img border="0" width="300" src="metisse-architecture.png"></a><br>
+Figure 1: The Metisse architecture
+</div>
+
+<h1>Starting the server</h1>
+
+<p>The Metisse server can be started from a terminal with
+the <span class="code">Xmetisse</span> command:</p>
+
+<pre class="code">Xmetisse -geometry 1024x768 -ac :1</pre>
+
+<p>In this example, the server is configured to emulate a 1024x768
+desktop, disable X access control restrictions and listen for incoming
+X clients on the first X display (i.e. listen on TCP port 6001).</p>
+
+<p><span class="code">Xmetisse -help</span> will give you the full
+list of supported options.</p>
+
+<p>The <span class="code">-depth 16 -pixelformat rgb565</span>
+options, for example, allow to switch the internal pixel format to a
+16 bits encoding (instead of a default 24), reducing network bandwidth
+when the server and the compositor run on different machines.</p>
+
+<p>The <span class="code">-rfbauth</span> option allows you to specify
+a VNC password file to be used to authenticate Metisse compositors
+that connect to the server (e.g. <span class="code">-rfbauth
+$HOME/.vnc/passwd</span>).</p>
+
+<h1>Starting the compositor</h1>
+
+<p>As a result of the system architecture, starting the compositor
+actually consists in attaching to the Metisse server a
+properly-configured instance of FVWM that will in turn execute the
+FvwmCompositor
+module. The <span class="code">metisse-start-fvwm</span> will do just
+that. It will also create a default FVWM configuration for you
+in <span class="code">~/.fvwm-metisse</span> if it doesn't find one
+the first time you run it. To connect to the server launched in the
+previous step, just type:</p>
+
+<pre class="code">metisse-start-fvwm -wd :1</pre>
+
+<p>The <span class="code">metisse-start-fvwm -help</span> will give
+you the list of options supported by the script. The general syntax
+is the following:</p>
+
+<pre class="code">
+metisse-start-fvwm [options] -- [FvwmCompositor options] -- [fvwm options]
+</pre>
+
+<p>FvwmCompositor options include:</p>
+
+<p class="indent"><span class="code">-t</span> disables the use of
+OpenGL's stencil buffer to render shaped windows. This may slow down
+the compositor but it might also solve problems with applications like
+xeyes, xine or xmms.</p>
+
+<p class="indent"><span class="code">-C</span> enables a software
+cursor. This might solve some rendering problems and allows to create
+screenshots that show the cursor.</p>
+
+<p class="indent"><span class="code">-p</span> enables the use of
+OpenGL's mipmapping functions. This will use more memory but might
+produce better renderings of transformed windows.</p>
+
+<p class="indent"><span class="code">-n</span> enables
+non-power-of-two texture support. This might improve performance and
+reduce memory usage but might also cause rendering problems on some
+graphics hardware.</p>
+
+<p class="indent"><span class="code">-m</span> disables shared memory
+communication with the server</p>
+
+<p class="indent"><span class="code">-s</span> disables window
+shadows</p>
+
+<h1>Using Metisse as your default environment</h1>
+
+<p>Running Metisse inside your usual desktop environment is likely to
+cause problems at some point because of conflicting mouse or key
+bindings. Once a convinced Metisse user, you might want to replace
+your original desktop with a Metisse-based one.</p>
+
+<p>A simple way of doing this for old-style people who still
+use <span class="code">startx</span> is to put something like this in
+your <span class="code">.xinitrc</span> file
+(<span class="code">rxvt</span> could be replaced
+by <span class="code">xterm</span> or any other terminal
+application):</p>
+
+<pre class="code">
+Xmetisse -ac -depth 16 -geometry 1680x1050 :1 >& .Xmetisse-log &
+metisse-start-fvwm >& .compositor-log &
+rxvt # this will allow you to terminate this session by typing "exit" and to
+     # restart the compositor using metisse-start-fvwm if it ever crashes
+killall Xmetisse
+</pre>
+
+<p>If you want to run a Gnome session using Metisse, use the following <span
+class="code">.xinitrc</span>.</p>
+
+<pre class="code">
+prefix=/path/to/metisse/prefix (if you installed using --prefix)
+
+# run Xmetisse
+geom=`xdpyinfo | awk '$1 == "dimensions:" { print $2 }'`
+$prefix/bin/Xmetisse -geometry $geom -ac :1 &
+
+# run gnome-session with fvwm
+export DISPLAY=":1"
+export PATH="$prefix/bin:$PATH"
+export WINDOW_MANAGER="$prefix/bin/metisse-start-fvwm  -- -d :0 -- --sm-client-id default0"
+export AT_SPI_DISPLAY=":1"
+export XKL_XMODMAP_DISABLE=1
+eval `/usr/bin/dbus-launch --exit-with-session --sh-syntax`
+gnome-session
+</pre>
+
+<p>Your local X11 guru might be able to figure out a similar solution
+if you're using a display manager (e.g. KDM or GDM).</p>
+
+<p>Note that although the Metisse compositor is currently implemented
+as an FVWM module, the system is desktop agnostic. People interested
+in using a particular environment (e.g. GNOME, KDE) are invited to
+contribute the necessary configuration files or scripts.</p>
+
+</body>
+</html>

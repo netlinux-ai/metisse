@@ -1,0 +1,1951 @@
+2008-12-02  Remi Cardona <remi.cardona@lri.fr>
+
+	* modules/FvwmConfig/main.c:
+	use strcmp() instead of g_strcmp0() to allow building with older glib
+
+	* modules/FvwmGConf/FvwmGConf.c:
+	* modules/FvwmGConf/Makefile.am:
+	don't build FvwmGConf with -std=c99 and fix gcc errors
+
+2008-12-01  Remi Cardona <remi.cardona@lri.fr>
+
+	* libs/libgfvwm/gfvwm.c:
+	exit on SIGHUP
+
+	* modules/FvwmConfig/main.c:
+	* modules/FvwmConfig/preferences.c:
+	* modules/FvwmConfig/preferences.h:
+	read the current set theme on startup
+
+	* modules/FvwmConfig/preferences.c:
+	hook prefs_set_theme() to gconf
+
+	* modules/FvwmConfig/Makefile.am:
+	* modules/FvwmConfig/main.c:
+	don't build FvwmConfig with -std=c99 and fix gcc warnings
+
+2008-10-06  Remi Cardona <remi.cardona@lri.fr>
+
+	* libs/libgfvwm/gfvwm.c:
+	* modules/FvwmGConf/FvwmGConf.c:
+	remove useless debug and plug leak
+
+2008-08-28  Remi Cardona <remi.cardona@lri.fr>
+
+	* libs/libgfvwm/Makefile.am:
+	* modules/FvwmConfig/Makefile.am:
+	* modules/FvwmGConf/Makefile.am:
+	fix "make distcheck"
+
+	* modules/FvwmConfig/main.c:
+	* modules/FvwmConfig/preferences.c:
+	* modules/FvwmConfig/preferences.h:
+	reacting to the theme selection works, gconf is not yet plugged in
+
+	* libs/libgfvwm/gfvwm.c:
+	* libs/libgfvwm/gfvwm.h:
+	* modules/FvwmConfig/main.c:
+	* modules/FvwmGConf/FvwmGConf.c:
+	Add a "name" parameter to gfvwm_init()
+
+	* modules/FvwmConfig/preferences.c:
+	strip the ".theme" extension from the filename and display that in the
+	prefs dialog
+
+	* configure.ac:
+	* modules/FvwmConfig/FvwmConfig.glade:
+	* modules/FvwmConfig/Makefile.am:
+	* modules/FvwmConfig/main.c:
+	* modules/FvwmConfig/preferences.c:
+	* modules/FvwmConfig/preferences.h:
+	* modules/FvwmGConf/Makefile.am:
+	* modules/Makefile.am:
+	Add the configuration UI as a module
+
+	* libs/libgfvwm/gfvwm.c:
+	* libs/libgfvwm/gfvwm.h:
+	* modules/FvwmGConf/Makefile.am:
+	Finish the gvfwm wrapper by adding the read callback function
+
+2008-04-18  Remi Cardona <remi.cardona@lri.fr>
+
+	* Add glib mainloop integrator for fvwm modules
+	and a simple gconf/gtk module
+
+2008-03-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/builtins.c (CMD_ShowDesktop):
+	Execute FuncShowDesktopOn/FuncShowDesktopOff if
+	Scr.bo.MetisseWorkaround
+	
+	* fvwm/functable.c (func_table):
+	Allows ewmh desktop modulewindowoperation ... maybe we should not
+	commit this
+	
+	* fvwm/cursor.c (cursor_name_to_index):
+	Use the good cursor during region selection
+	
+	* fvwm/stack.c (get_transientfor_fvwmwindow): 
+	Fixed layer of transient window of an "on top" ewmh desktop
+
+2008-02-28  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/builtins.c: (CMD_StrokeFunc):
+	* fvwm/events.c: (__handle_xdnd_keys):
+	New Metisse options to the StrokeFunc
+	
+2008-01-20  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/Flocale.h:
+	* libs/FlocaleCharset.c: (FlocaleInit_X_Charset),
+	(FlocaleCharsetInit), (FlocaleCharsetGetDefaultCharset):
+	* libs/defaults.h:
+	Fixes for UTF-8 systems 
+
+	* fvwm/ewmh.c: (ewmh_HandleDock):
+	NeverFocus and no decoration for Dock
+	
+2007-02-07  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh_events.c: (ewmh_WMStateDemandsAttention):
+	* libs/PictureImageLoader.c:
+	(PImageCreatePixmapFromArgbDataAtSize):
+	* libs/PictureImageLoader.h:
+	Applied random warnings fixes Frederic patch
+
+2007-02-07  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (HandleReparentNotify): 
+	Fixed kde sys tray ??
+
+2007-02-06  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/add_window.c:
+	* fvwm/builtins.c:
+	* fvwm/ewmh.c: (ewmh_HandleSplash):
+	* fvwm/gnome.c: (CMD_GnomeShowDesks):
+	* fvwm/move_resize.c: (placement_binding):
+	* modules/FvwmIconMan/fvwm.c: (set_win_configuration):
+	Applied Gwenole Beauchene 64 bits arch patch
+
+2007-01-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* I've just cvs tag metisse_verssion-0_4_0_rc4
+
+2007-01-17  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/stack.c (get_transientfor_fvwmwindow):
+	Fixed layer of transient window of a ewmh desktop
+
+2007-01-12  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/focus.c: (__modality_reject_focus):
+	Fixed modality vs transient for and window group
+
+2007-01-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c: (HandleFocusIn):
+	* fvwm/focus.c: (__try_program_focus):
+	* fvwm/style.c: (style_parse_one_style_option):
+	* fvwm/style.h:
+	* fvwm/window_flags.h:
+	* fvwm/fvwm.h:
+	Experimental style IgnoreSetInputFocus which attempts to forbid an
+	application (with an active or locally active ICCCM focus policy) to
+	set the focus to one of its windows (This style may does not work
+	perfectly, but work with psi o:).
+	
+	* fvwm/ewmh_events.c: (ewmh_WMStateModal):
+	* fvwm/focus.c: (__modality_reject_focus), (__try_program_focus),
+	(__check_allow_focus), (set_focus_window):
+	* fvwm/placement.c: (__place_get_wm_pos):
+	* fvwm/stack.c: (__restack_window), (collect_transients_recursive),
+	(mark_transient_subtree), (new_layer):
+	Handle correctly the ewmh modale window state (ewmh modal
+	transient are made sticky if the user attempt to focus its parent;
+	windows for which the transient is modal are not highlighted if
+	a user attempt to give it the focus; ewmh modal windows without
+	position hints are placed in the center of its parent).
+
+2007-01-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/FEvent.c: (FWarpPointer), (FWarpPointerUpdateEvpos):
+	Sync
+
+2007-01-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh_events.c: (ewmh_WMStateModal):
+	* fvwm/focus.c: (__try_program_focus):
+	Started to fix ewmh modale window state (no visible change for now)
+	
+	* fvwm/menus.c: (do_menu):
+	Warp back the cursor for (if this was brought up with a keypress and
+	we're returning from a top level menu, and a button release event didn't
+	end it) only if the menu is aborted (escape).
+
+2007-01-08  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/borders.c: (get_common_decorations),
+	(border_get_border_gcs), (border_fetch_thin_layout),
+	(border_draw_part_relief), (border_draw_x_mark),
+	(border_draw_y_mark), (border_draw_part_marks),
+	(border_get_border_bar_pixmap), (border_get_border_background),
+	(border_draw_one_border_part), (border_draw_vector_to_pixmap),
+	(border_draw_decor_to_pixmap), (border_set_button_pixmap),
+	(border_set_title_pixmap), (border_get_titlebar_descr),
+	(border_get_part_geometry), (border_draw_decorations):
+	* fvwm/builtins.c: (ReadDecorFace):
+	* fvwm/fvwm.c: (CreateGCs):
+	* fvwm/fvwm.h:
+	* fvwm/geometry.c: (__get_window_borders),
+	(get_window_borders_no_title), (get_window_title_borders_no_title):
+	* fvwm/menuitem.c: (menuitem_paint):
+	* fvwm/screen.h:
+	* fvwm/style.c: (style_parse_one_style_option),
+	(check_window_style_change):
+	* fvwm/style.h:
+	* fvwm/window_flags.h:
+	* libs/Colorset.c: (GetWindowBackgroundPixmapSize):
+	* libs/FImage.c: (FShmInit):
+	* libs/FRender.c: (FRenderDrawLine):
+	* libs/FRenderInterface.h:
+	* libs/Fft.c: (FftDrawRect):
+	* libs/Flocale.c: (FlocaleDrawUnderline):
+	* libs/PictureGraphics.c: (PGraphicsDrawLine):
+	* libs/PictureGraphics.h:
+	Added new styles ThinBorder, TitleBordersUseTitleDecor and
+	TitleBordersTitleDecorUseRelief and removed broken style
+	BorderUnderTitle, TitleBorders, TopBorder.
+	New ButtonStyle flags Alpha, Tint and LineWidth and new ButtonStyle type 
+	AVector for anti-aliased vector button (use Render to draw the lines).
+	Used anti-aliased lines to underline letters.
+	Improved the look of selected greyed menu items.
+	Fixed ThinBorder. 
+	
+2006-12-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/borders.c: (get_common_decorations),
+	(border_get_border_gcs), (border_get_border_relief_size_descr),
+	(border_draw_part_marks), (border_draw_one_border_part),
+	(border_draw_decor_to_pixmap):
+	* fvwm/fvwm.h:
+	* fvwm/style.c: (style_parse_one_style_option):
+	* fvwm/style.h:
+	* fvwm/window_flags.h:
+	New style ThinBorder to have 1 pixel relief only
+
+2006-12-21  Olivier Chapuis  <chapuis@lri.fr>
+
+	* AUTHORS:
+	* NEWS:
+	* configure.ac:
+	* fvwm/borders.c: (border_fetch_thin_layout),
+	(border_fetch_mwm_layout), (border_fetch_fvwm_layout),
+	(border_get_border_relief_size_descr),
+	(border_draw_one_border_part), (border_draw_title_stick_lines):
+	* fvwm/commands.h:
+	* fvwm/events.c: (__check_click_to_focus_or_raise),
+	(__handle_click_to_focus):
+	* fvwm/focus.c: (focus_get_fpol_context_flag):
+	* fvwm/functable.c:
+	* fvwm/fvwm.1.in:
+	* fvwm/fvwm.h:
+	* fvwm/icons.c: (DrawIconTitleWindow):
+	* fvwm/module_interface.c: (CMD_Send_Reply):
+	* fvwm/style.c: (merge_styles), (__simplify_style_list),
+	(style_parse_one_style_option), (check_window_style_change):
+	* fvwm/style.h:
+	* fvwm/window_flags.h:
+	* libs/Module.h:
+	* libs/PictureUtils.c: (init_static_colors_table):
+	* bin/Makefile.am:
+	* debian/control.in:
+	* docs/ANNOUNCE:
+	* docs/FAQ:
+	* docs/todo-2.6:
+	* modules/FvwmCommand/FvwmCommand.1.in:
+	* modules/FvwmCommand/FvwmCommand.c: (main), (process_message):
+	* modules/FvwmCommand/FvwmCommandS.c: (server), (process_message):
+	* modules/FvwmPager/FvwmPager.c: (main), (process_message),
+	(handle_config_win_package), (list_add), (list_configure),
+	(list_reply):
+	* modules/FvwmPager/FvwmPager.h:
+	* modules/FvwmPager/x_pager.c: (do_scroll), (CalcGeom):
+	* modules/FvwmWinList/ButtonArray.c: (ButtonNew), (AddButton):
+	* modules/FvwmWinList/FvwmWinList.c: (ProcessMessage), (StartMeUp_I):
+	Merge with fvwm current cvs ... we have the new style
+	!StickyStippledTitle (from Thomas Adam)
+	
+2006-12-20  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/move_resize.c: (__resize_window):
+	Fixed resizing in normal fvwm (typo in a prev patch)
+	
+2006-12-16  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh.c: (ewmh_HandleSplash):
+	* fvwm/ewmh_intern.h:
+	* fvwm/fvwm.h:
+	* fvwm/style.c: (__style_command):
+	* modules/FvwmIdent/FvwmIdent.c: (MakeList):
+	Implemented _NET_WM_WINDOW_TYPE_SPLASH
+	
+	* fvwm/style.c (__style_command): 
+	Allowed "" style name
+	
+2006-12-14  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/icons/16x16/places/Makefile.am:
+	* opale/icons/16x16/places/folder-open.png:
+	* opale/icons/16x16/places/folder.png:
+	* bin/fvwm-menu-directory.in:
+	Fixed fvwm-menu-directory vs opale icons
+
+2006-12-14  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/icons/16x16/devices/Makefile.am:
+	* opale/icons/16x16/devices/scanner.png:
+	* opale/opale-common/styles-mini-icons:
+	A scanner png for xsane
+
+2006-12-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* configure.ac:
+	* fvwm/geometry.c: (__get_window_borders), (get_window_borders):
+	Clean up
+	
+	* fvwm/move_resize.c: (__resize_window):
+	Do not warp the cursor with metisse
+	
+	* opale/icons/16x16/Makefile.am:
+	* opale/icons/16x16/actions/Makefile.am:
+	* opale/icons/16x16/actions/restart.png:
+	* opale/icons/16x16/actions/system-lock-screen.png:
+	* opale/icons/16x16/actions/window-close.png:
+	* opale/icons/16x16/actions/window-delete.png:
+	* opale/icons/16x16/actions/window-destroy.png:
+	* opale/icons/16x16/actions/window-iconify.png:
+	* opale/icons/16x16/actions/window-identify.png:
+	* opale/icons/16x16/actions/window-lower.png:
+	* opale/icons/16x16/actions/window-maximize.png:
+	* opale/icons/16x16/actions/window-move.png:
+	* opale/icons/16x16/actions/window-raise.png:
+	* opale/icons/16x16/actions/window-resize.png:
+	* opale/icons/16x16/actions/window-shade.png:
+	* opale/icons/16x16/actions/window-stick.png:
+	* opale/icons/16x16/apps/Makefile.am:
+	* opale/icons/16x16/apps/accessories-calculator.png:
+	* opale/icons/16x16/apps/accessories-text-editor.png:
+	* opale/icons/16x16/apps/amusement.png:
+	* opale/icons/16x16/apps/blender.png:
+	* opale/icons/16x16/apps/cd-player.png:
+	* opale/icons/16x16/apps/chat.png:
+	* opale/icons/16x16/apps/clock.png:
+	* opale/icons/16x16/apps/colors.png:
+	* opale/icons/16x16/apps/configuration.png:
+	* opale/icons/16x16/apps/development.png:
+	* opale/icons/16x16/apps/dia.png:
+	* opale/icons/16x16/apps/disk-cd.png:
+	* opale/icons/16x16/apps/disk-floppy.png:
+	* opale/icons/16x16/apps/disk.png:
+	* opale/icons/16x16/apps/drakconf.png:
+	* opale/icons/16x16/apps/file-manager.png:
+	* opale/icons/16x16/apps/file.png:
+	* opale/icons/16x16/apps/game-action.png:
+	* opale/icons/16x16/apps/game-board.png:
+	* opale/icons/16x16/apps/game-cards.png:
+	* opale/icons/16x16/apps/game-logic.png:
+	* opale/icons/16x16/apps/game.png:
+	* opale/icons/16x16/apps/ghostview.png:
+	* opale/icons/16x16/apps/gnu.png:
+	* opale/icons/16x16/apps/gqview.png:
+	* opale/icons/16x16/apps/gvim.png:
+	* opale/icons/16x16/apps/help.png:
+	* opale/icons/16x16/apps/image-viewer.png:
+	* opale/icons/16x16/apps/images-processor.png:
+	* opale/icons/16x16/apps/information.png:
+	* opale/icons/16x16/apps/licq.png:
+	* opale/icons/16x16/apps/lyx.png:
+	* opale/icons/16x16/apps/mail.png:
+	* opale/icons/16x16/apps/monitoring.png:
+	* opale/icons/16x16/apps/multimedia-volume-control.png:
+	* opale/icons/16x16/apps/multimedia.png:
+	* opale/icons/16x16/apps/music.png:
+	* opale/icons/16x16/apps/nedit.png:
+	* opale/icons/16x16/apps/netscape.png:
+	* opale/icons/16x16/apps/network.png:
+	* opale/icons/16x16/apps/news.png:
+	* opale/icons/16x16/apps/ooo_calc.png:
+	* opale/icons/16x16/apps/ooo_impress.png:
+	* opale/icons/16x16/apps/ooo_writer.png:
+	* opale/icons/16x16/apps/opera.png:
+	* opale/icons/16x16/apps/preferences-desktop-font.png:
+	* opale/icons/16x16/apps/preferences-desktop-keyboard.png:
+	* opale/icons/16x16/apps/psi.png:
+	* opale/icons/16x16/apps/science.png:
+	* opale/icons/16x16/apps/sound.png:
+	* opale/icons/16x16/apps/stylesheet.png:
+	* opale/icons/16x16/apps/system.png:
+	* opale/icons/16x16/apps/terminal-remote.png:
+	* opale/icons/16x16/apps/terminal-special.png:
+	* opale/icons/16x16/apps/themes.png:
+	* opale/icons/16x16/apps/todo.png:
+	* opale/icons/16x16/apps/unknown.png:
+	* opale/icons/16x16/apps/utilities-terminal.png:
+	* opale/icons/16x16/apps/utility.png:
+	* opale/icons/16x16/apps/video.png:
+	* opale/icons/16x16/apps/viewer.png:
+	* opale/icons/16x16/apps/windows.png:
+	* opale/icons/16x16/apps/word-processor.png:
+	* opale/icons/16x16/apps/wp.png:
+	* opale/icons/16x16/apps/www.png:
+	* opale/icons/16x16/apps/xeyes.png:
+	* opale/icons/16x16/apps/xfig.png:
+	* opale/icons/16x16/apps/xload.png:
+	* opale/icons/16x16/apps/xmms.png:
+	* opale/icons/16x16/apps/xosview.png:
+	* opale/icons/16x16/apps/xpdf.png:
+	* opale/icons/16x16/apps/xv.png:
+	* opale/icons/16x16/devices/Makefile.am:
+	* opale/icons/16x16/devices/input-mouse.png:
+	* opale/icons/16x16/devices/printer.png:
+	* opale/icons/16x16/devices/video-display.png:
+	* opale/icons/16x16/places/Makefile.am:
+	* opale/icons/16x16/places/user-home.png:
+	* opale/icons/README:
+	* opale/opale-common/Makefile.am:
+	* opale/opale-common/styles-mini-icons:
+	Added some icons
+	
+2006-12-07  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/add_window.c: (destroy_window_font), (setup_window_font):
+	* fvwm/borders.c: (get_common_decorations),
+	(border_draw_one_border_part), (border_draw_title_mono),
+	(border_draw_title_deep), (border_get_titlebar_draw_descr),
+	(border_set_title_pixmap), (border_draw_title),
+	(border_get_titlebar_descr), (border_draw_titlebar),
+	(border_get_part_geometry):
+	* fvwm/borders.h:
+	* fvwm/frame.c: (frame_get_titlebar_dimensions):
+	* fvwm/fvwm.h:
+	* fvwm/geometry.c: (gravity_get_naked_geometry),
+	(get_title_geometry), (get_window_borders), (__get_window_borders),
+	(get_window_borders_no_title), (get_window_title_borders_no_title):
+	* fvwm/geometry.h:
+	* fvwm/menuitem.c: (menuitem_paint):
+	* fvwm/style.c: (merge_styles), (free_style), (free_style_mask),
+	(style_parse_one_style_option), (check_window_style_change):
+	* fvwm/style.h:
+	* fvwm/window_flags.h:
+	"Decoration Patch". Some patches from http://abdn.ac.uk/~u15dm4/fvwm/
+	applied (BorderUnderTitle.patch TopBorder.patch  InactiveFont.patch)
+	which give InactiveFont, !TopBorder, BorderUnderTitle new styles.
+	Improved !TopBorder with a NoTitleBorders styles.
+	Improved Greyed Selected item in menu look.
+	
+2006-11-23  Olivier Chapuis  <chapuis@lri.fr>
+
+	* AUTHORS:
+	* INSTALL:
+	* INSTALL.fvwm:
+	* Makefile.am:
+	* NEWS:
+	* README:
+	* configure.ac:
+	* fvwm/ConfigFvwmSetup:
+	* fvwm/Makefile.am:
+	* fvwm/add_window.c: (MappedNotOverride), (setup_window_structure),
+	(__add_window_handle_x_resources), (AddWindow), (FetchWmProtocols),
+	(destroy_window):
+	* fvwm/bindings.c: (ParseBinding):
+	* fvwm/borders.c: (border_draw_one_border_part),
+	(border_rotate_titlebar_descr):
+	* fvwm/builtins.c: (ReadDecorFace), (CMD_CursorMove), (CMD_State):
+	* fvwm/colorset.c: (parse_colorset):
+	* fvwm/commands.h:
+	* fvwm/conditional.c: (CreateConditionMask),
+	(MatchesConditionMask), (__rc_matches_rcstring_consume), (CMD_All),
+	(CMD_Test):
+	* fvwm/decorations.c: (GetMwmHints), (GetOlHints),
+	(__is_resize_allowed), (is_function_allowed):
+	* fvwm/decorations.h:
+	* fvwm/events.c: (HandleFocusIn), (HandleFocusOut):
+	* fvwm/ewmh.c: (atom_get), (EWMH_GetWorkAreaIntersection),
+	(ewmh_HandleDesktop), (ewmh_HandleWindowType), (EWMH_fullscreen):
+	* fvwm/ewmh.h:
+	* fvwm/ewmh_conf.c: (EWMH_CMD_Style):
+	* fvwm/ewmh_events.c: (ewmh_WMStateFullScreen),
+	(ewmh_WMIconGeometry):
+	* fvwm/ewmh_icons.c: (EWMH_DeleteWmIcon), (EWMH_SetIconFromWMIcon):
+	* fvwm/ewmh_names.c: (EWMH_SetVisibleName), (EWMH_SetDesktopNames):
+	* fvwm/expand.c: (__eae_parse_range), (expand_args_extended),
+	(expand_vars_extended), (expand_vars):
+	* fvwm/focus.c: (__set_focus_to_fwin), (warp_to_fvwm_window),
+	(__activate_window_by_command), (CMD_WarpToWindow):
+	* fvwm/focus.h:
+	* fvwm/frame.c: (combine_gravities),
+	(get_resize_decor_gravities_one_axis),
+	(frame_get_titlebar_dimensions_only), (frame_setup_border),
+	(frame_setup_titlebar), (frame_get_resize_decor_gravities),
+	(frame_mrs_hide_changing_parts), (frame_reshape_border),
+	(frame_get_titlebar_dimensions), (frame_create_move_resize_args),
+	(frame_free_move_resize_args):
+	* fvwm/frame.h:
+	* fvwm/functable.c:
+	* fvwm/functions.c: (__execute_function),
+	(__run_complex_function_items), (execute_complex_function),
+	(execute_function):
+	* fvwm/fvwm.1.in:
+	* fvwm/fvwm.c: (LoadDefaultLeftButton), (LoadDefaultRightButton),
+	(main):
+	* fvwm/fvwm.h:
+	* fvwm/geometry.c: (constrain_size):
+	* fvwm/gnome.c: (AtomGet), (GNOME_HandlePropRequest):
+	* fvwm/icccm2.c: (icccm2_handle_selection_request):
+	* fvwm/icons.c: (DrawIconTitleWindow), (AutoPlaceIcon),
+	(do_all_iconboxes):
+	* fvwm/menuitem.c: (menuitem_paint):
+	* fvwm/menuitem.h:
+	* fvwm/menus.c: (menu_get_outer_geometry), (move_any_menu),
+	(menuShortcuts), (append_item_to_menu), (calculate_item_sizes),
+	(size_menu_horizontally), (size_menu_vertically), (make_menu),
+	(update_menu), (get_menu_paint_item_parameters), (paint_menu),
+	(select_menu_item), (pop_menu_up), (__mloop_handle_event),
+	(do_menu), (menu_expose), (repaint_transparent_menu),
+	(UpdateMenuColorset), (get_menu_options), (__mloop_get_trigger):
+	* fvwm/menus.h:
+	* fvwm/menustyle.c: (menustyle_free_face), (menustyle_copy_face),
+	(menustyle_parse_face), (menustyle_get_styleopt_index),
+	(menustyle_free), (menustyle_update), (menustyle_parse_style),
+	(menustyle_copy), (CMD_MenuStyle):
+	* fvwm/menustyle.h:
+	* fvwm/misc.c: (IsRectangleOnThisPage):
+	* fvwm/module_interface.c: (ClosePipes), (do_execute_module),
+	(executeModuleDesperate), (CMD_Module), (CMD_ModuleListenOnly),
+	(CMD_ModuleSynchronous), (KillModule), (SendPacket),
+	(SendNewPacket), (BroadcastNewPacket), (__get_allowed_actions),
+	(make_named_packet), (SendName), (BroadcastName),
+	(SendFvwmPicture), (BroadcastFvwmPicture), (PositiveWrite):
+	* fvwm/move_resize.c: (GetOnePositionArgument), (GetMoveArguments),
+	(ParseOneResizeArgument), (GetResizeArguments),
+	(GetResizeMoveArguments), (resize_move_window),
+	(placement_binding), (__move_icon), (__move_window),
+	(DoSnapAttract), (__move_loop), (__resize_window), (CMD_Maximize),
+	(stick_across_pages):
+	* fvwm/move_resize.h:
+	* fvwm/placement.c: (__place_get_wm_pos), (__explain_placement):
+	* fvwm/read.c: (push_read_file), (run_command_file):
+	* fvwm/read.h:
+	* fvwm/schedule.c: (schedule), (execute_obj_func), (CMD_Schedule):
+	* fvwm/screen.h:
+	* fvwm/session.c: (SaveWindowStates), (LoadWindowStates),
+	(MatchWinToSM):
+	* fvwm/session.h:
+	* fvwm/style.c: (blockor), (blockand), (blockunmask),
+	(blockissubset), (blocksintersect), (style_ids_are_equal),
+	(style_id_equals_id), (styles_have_same_id), (fw_match_style_id),
+	(one_fw_can_match_both_ids), (remove_all_of_style_from_list),
+	(__simplify_style_list), (style_parse_button_style),
+	(style_parse_focus_policy_style), (style_parse_icon_size_style),
+	(style_parse_icon_box_style), (style_parse_icon_grid_style),
+	(style_parse_icon_fill_style), (style_parse_one_style_option),
+	(parse_and_set_window_style), (simplify_style_list),
+	(check_window_style_change):
+	* fvwm/style.h:
+	* fvwm/virtual.c: (unmap_window), (map_window), (CMD_EdgeScroll):
+	* fvwm/window_flags.h:
+	* fvwm/windowshade.c: (CMD_WindowShade):
+	* libs/ColorUtils.c: (fvwmlib_free_colors), (fvwmlib_copy_color):
+	* libs/Colorset.c: (CreateBackgroundPixmap):
+	* libs/Colorset.h:
+	* libs/CombineChars.c: (convert_to_ucs2), (CombineChars):
+	* libs/FEvent.c: (FWarpPointerUpdateEvpos):
+	* libs/FEvent.h:
+	* libs/FGettext.c:
+	* libs/FScreen.c: (FScreenConfigureSLSScreens),
+	(FScreenGetScrRect), (FScreenClipToScreen),
+	(FScreenCenterOnScreen), (FScreenGetResistanceRect),
+	(FScreenIsRectangleOnScreen), (FScreenGetGeometry):
+	* libs/FScreen.h:
+	* libs/FTips.c:
+	* libs/FTips.h:
+	* libs/Fft.c: (FftGetFontWidths), (FftGetFont), (FftTextWidth):
+	* libs/Fft.h:
+	* libs/Ficonv.c: (convert_charsets):
+	* libs/Flocale.c: (FlocaleStringNumberOfBytes),
+	(FlocaleStringByteToCharOffset), (FlocaleStringCharToByteOffset),
+	(FlocaleStringCharLength), (FlocaleUtf8ToUnicodeStr2b),
+	(FlocaleStringToString2b), (FlocaleEncodeString),
+	(FlocaleFontStructDrawString), (FlocaleRotateDrawString),
+	(FlocaleLoadFont), (FlocaleDrawString):
+	* libs/Flocale.h:
+	* libs/FlocaleCharset.c: (FlocaleCharsetSetFlocaleCharset),
+	(FlocaleCharsetGetUnknownCharset):
+	* libs/Graphics.c: (CreateGradientPixmap):
+	* libs/Makefile.am:
+	* libs/Module.c: (ParseModuleArgs):
+	* libs/Module.h:
+	* libs/Parse.c: (SkipNTokens):
+	* libs/Picture.h:
+	* libs/PictureBase.c: (PictureInitCMap):
+	* libs/PictureGraphics.c: (PGraphicsRenderPixmaps),
+	(PGraphicsCreateTransparency), (PGraphicsTintRectangle):
+	* libs/PictureGraphics.h:
+	* libs/PictureImageLoader.c: (PImageCreatePixmapFromArgbData),
+	(PImageLoadPixmapFromFile), (PImageLoadFvwmPictureFromFile),
+	(PImageLoadPixmapFromXpmData):
+	* libs/PictureImageLoader.h:
+	* libs/PictureUtils.c: (PictureCloseImageColorAllocator):
+	* libs/PictureUtils.h:
+	* libs/Strings.c: (QuoteEscapeString), (QuoteEscapeStringLength):
+	* libs/Strings.h:
+	* libs/System.c:
+	* libs/XError.c:
+	* libs/alloca.c: (i00afunc):
+	* libs/envvar.c:
+	* libs/fvwmlib.h:
+	* libs/fvwmrect.c: (fvwmrect_subtract_rectangles):
+	* libs/fvwmrect.h:
+	* libs/fvwmsignal.c: (fvwmSetTerminate), (fvwmSelect):
+	* libs/fvwmsignal.h:
+	* libs/gravity.c: (gravity_move_resize_parent_child):
+	* libs/gravity.h:
+	* libs/safemalloc.c:
+	* libs/strdup.c:
+	* libs/usleep.c:
+	* libs/vpacket.h:
+	* libs/wcontext.c:
+	* libs/wcontext.h:
+	* libs/wild.c: (matchWildcards):
+	* sample.fvwmrc/system.fvwm2rc:
+	* sample.fvwmrc/system.fvwm2rc-sample-1:
+	* bin/fvwm-bug.in:
+	* bin/fvwm-config.1.in:
+	* bin/fvwm-menu-directory.in:
+	* bin/fvwm-menu-headlines.1:
+	* bin/fvwm-menu-headlines.in:
+	* bin/fvwm-perllib.in:
+	* bin/fvwm-root.1.in:
+	* bin/fvwm-root.c: (SetRootWindow):
+	* bin/ANNOUNCE:
+	* bin/COMMANDS:
+	* bin/CONVENTIONS:
+	* bin/DEVELOPERS:
+	* bin/FAQ:
+	* bin/todo-2.6:
+	* bin/todo-3.0:
+	* modulesFvwmAnimate/FvwmAnimate.c: (AnimateResizeZoom3D):
+	* modulesFvwmAuto/FvwmAuto.c: (main):
+	* modulesFvwmBacker/FvwmBacker.1.in:
+	* modulesFvwmBacker/FvwmBacker.c: (SetDeskPageBackground),
+	(ParseConfigLine), (ParseNewCommand), (AddCommand):
+	* modulesFvwmBanner/FvwmBanner.c:
+	* modulesFvwmButtons/FvwmButtons.1.in:
+	* modulesFvwmButtons/FvwmButtons.c: (mymalloc), (DestroyedWindow),
+	(SwallowedWindow), (IsThereADestroyEvent), (DeadPipe),
+	(TerminateHandler), (DeadPipeCleanup), (SetButtonSize),
+	(AddButtonAction), (GetButtonAction), (SetTransparentBackground),
+	(myErrorHandler), (main), (reallyLeaveWindow), (Loop),
+	(RedrawWindow), (RecursiveLoadData), (CreateUberButtonWindow),
+	(DebugEvents), (My_FNextEvent), (SpawnSome),
+	(change_swallowed_window_colorset), (send_bg_change_to_module),
+	(update_root_transparency), (recursive_change_colorset),
+	(change_colorset), (handle_config_info_packet), (process_message),
+	(CheckForHangon), (GetRealGeometry), (GetPanelGeometry), (swallow),
+	(exec_swallow):
+	* modules/FvwmButtons/FvwmButtons.h:
+	* modules/FvwmButtons/button.c:
+	* modules/FvwmButtons/button.h:
+	* modules/FvwmButtons/draw.c:
+	* modules/FvwmButtons/draw.h:
+	* modules/FvwmButtons/dynamic.c: (parse_message_line):
+	* modules/FvwmButtons/icons.c: (GetIconPosition), (DrawForegroundIcon):
+	* modules/FvwmButtons/icons.h:
+	* modules/FvwmButtons/misc.c: (ConstrainSize):
+	* modules/FvwmButtons/misc.h:
+	* modules/FvwmButtons/output.c: (DumpButtons), (SaveButtons):
+	* modules/FvwmButtons/parse.c: (trimleft), (seekright), (my_get_font),
+	(ParseBack), (ParseBoxSize), (ParseTitle), (ParseSwallow),
+	(ParsePanel), (ParseContainer), (ParseButton), (ParseConfigLine),
+	(ParseConfigFile), (parse_window_geometry), (ParseConfiguration):
+	* modules/FvwmCommand/FvwmCommand.1.in:
+	* modules/FvwmCommand/FvwmCommand.c: (main), (process_message),
+	(list_configure):
+	* modules/FvwmCommand/FvwmCommand.h:
+	* modules/FvwmCommand/FvwmCommandS.c: (server), (open_fifos),
+	(relay_packet):
+	* modules/FvwmCommand/Makefile.am:
+	* modules/FvwmConsole/FvwmConsole.1.in:
+	* modules/FvwmConsole/FvwmConsole.c: (main), (server):
+	* modules/FvwmConsole/FvwmConsole.h:
+	* modules/FvwmConsole/FvwmConsoleC.c: (main):
+	* modules/FvwmConsole/FvwmConsoleC.pl.1.in:
+	* modules/FvwmConsole/getline.c: (get_line):
+	* modules/FvwmCpp/FvwmCpp.c: (cpp_defs):
+	* modules/FvwmDebug/FvwmGtkDebug.1:
+	* modules/FvwmDebug/FvwmGtkDebug.in:
+	* modules/FvwmDebug/FvwmOldDebug.c:
+	* modules/FvwmDragWell/fvwmDragWell.c: (mouseInButton), (veryLongLoop),
+	(XStartup):
+	* modules/FvwmDragWell/xdndDragSource.c: (xdndSrcDoDrag),
+	(xdndErrorHandler), (xdndSrcQueryDndAware):
+	* modules/FvwmEvent/FvwmEvent.1.in:
+	* modules/FvwmForm/FvwmForm-Rlogin:
+	* modules/FvwmForm/FvwmForm.1.in:
+	* modules/FvwmForm/FvwmForm.c: (ParseConfigLine), (ct_ActivateOnPress),
+	(AssignDrawTable), (ct_Choice), (ReadConfig), (Restart),
+	(OpenWindows), (ParseActiveMessage), (main), (ErrorHandler):
+	* modules/FvwmForm/FvwmForm.h:
+	* modules/FvwmForm/ReadXServer.c: (ReadXServer), (process_paste_request):
+	* modules/FvwmGtk/FvwmGtk.c: (parse_config_line), (parse_options),(main):
+	* modules/FvwmGtk/expand.c:
+	* modules/FvwmGtk/windowlist.c:
+	* modules/FvwmIconBox/FvwmIconBox.c:
+	* modules/FvwmIconBox/FvwmIconBox.h:
+	* modules/FvwmIconBox/icons.c: (GetBackPixmap):
+	* modules/FvwmIconMan/FvwmIconMan.1.in:
+	* modules/FvwmIconMan/FvwmIconMan.c: (PrintMemuse), (main):
+	* modules/FvwmIconMan/FvwmIconMan.h:
+	* modules/FvwmIconMan/debug.c: (ConsoleDebug):
+	* modules/FvwmIconMan/debug.h:
+	* modules/FvwmIconMan/debuglevels.h:
+	* modules/FvwmIconMan/functions.c: (builtin_gotomanager):
+	* modules/FvwmIconMan/fvwm.c: (property_change):
+	* modules/FvwmIconMan/globals.c: (print_managers):
+	* modules/FvwmIconMan/readconfig.c: (print_args), (print_binding),
+	(parse_format_dependencies), (read_in_resources):
+	* modules/FvwmIconMan/winlist.c: (iconmanager_show):
+	* modules/FvwmIconMan/xmanager.c: (draw_manager),
+	(check_managers_consistency), (print_button_info):
+	* modules/FvwmIdent/FvwmIdent.1.in:
+	* modules/FvwmIdent/FvwmIdent.c: (main), (list_configure),
+	(list_window_name), (list_icon_name), (list_class),
+	(list_res_name), (ProcessXEvent), (list_end), (PixmapDrawWindow),
+	(change_window_name), (MakeList), (ErrorHandler):
+	* modules/FvwmM4/FvwmM4.c: (main), (m4_defs):
+	* modules/FvwmPager/FvwmPager.c: (main), (process_message),
+	(list_configure), (list_string), (ParseOptions):
+	* modules/FvwmPager/FvwmPager.h:
+	* modules/FvwmPager/x_pager.c: (do_scroll), (HandleScrollDone),
+	(DispatchEvent), (AddNewWindow), (Scroll), (MoveWindow),
+	(IconMoveWindow):
+	* modules/FvwmPerl/FvwmPerl.1:
+	* modules/FvwmPerl/FvwmPerl.in:
+	* modules/FvwmProxy/FvwmProxy.1.in:
+	* modules/FvwmProxy/FvwmProxy.c: (ExpandSlots), (LinkSlotAction),
+	(LinkAction), (loadPicture), (parse_options),
+	(WindowName_WindowName), (new_WindowName), (delete_WindowName),
+	(ProxyGroup_ProxyGroup), (new_ProxyGroup), (delete_ProxyGroup),
+	(GetProperty), (GetProcessId), (GetLeader), (GetParentProcessId),
+	(FindProxyGroup), (MatchWindowName),
+	(FindProxyGroupWithWindowName), (DrawWindow), (SortProxiesOnce),
+	(AdjustOneWindow), (ReshuffleWindows), (SendResolve),
+	(WaitToConfig), (IsolateGroup), (IconifyGroup), (RaiseLowerGroup),
+	(ClearRaised), (ShiftWindows), (CatchWindows), (MoveProxiedWindow),
+	(ResolvePendingWindows), (FindUniqueGroup), (MoveGroupToDesk),
+	(FindNeighborInGroup), (FindNeighborForProxy),
+	(FindNeighborForProcess), (FindNeighborForLeader),
+	(FindNeighborForApplication), (ProxyGroupCheckSoft),
+	(UpdateProxyGroup), (UpdateProxyGroupForAll), (AdhereGroup),
+	(SetGroup), (DumpStampQueue), (StoreStamp), (UndoStamp),
+	(RedoStamp), (ConfigureWindow), (IconifyWindow), (IsolateCheck),
+	(DestroyWindow), (RotateIsolated), (ProcessMessage),
+	(DispatchEvent), (main):
+	* modules/FvwmProxy/FvwmProxy.h:
+	* modules/FvwmProxy/Makefile.am:
+	* modules/FvwmRearrange/FvwmRearrange.c: (get_window), (parse_args),
+	(main):
+	* modules/FvwmSave/FvwmSave.1.in:
+	* modules/FvwmSave/FvwmSave.c: (main):
+	* modules/FvwmSaveDesk/FvwmSaveDesk.c: (main):
+	* modules/FvwmScript/FvwmScript.1.in:
+	* modules/FvwmScript/FvwmScript.c: (ReadConfig), (OpenWindow), (main):
+	* modules/FvwmScript/Instructions.c: (LaunchScript), (ReceivFromScript):
+	* modules/FvwmScript/Scripts/FvwmScript-ComExample.in:
+	* modules/FvwmScript/Widgets/List.c: (EvtMouseList):
+	* modules/FvwmScript/Widgets/Menu.c:
+	* modules/FvwmScript/Widgets/TextField.c: (EvtMouseTextField):
+	* modules/FvwmScript/types.h:
+	* modules/FvwmScroll/FvwmScroll.c: (main), (DeadPipe), (GetTargetWindow),
+	(ErrorHandler):
+	* modules/FvwmScroll/FvwmScroll.h:
+	* modules/FvwmScroll/GrabWindow.c: (CreateWindow), (LoopOnEvents),
+	(change_window_name), (change_icon_name), (GrabWindow):
+	* modules/FvwmTaskBar/ButtonArray.c: (ButtonDimensions):
+	* modules/FvwmTaskBar/ButtonArray.h:
+	* modules/FvwmTaskBar/FvwmTaskBar.1.in:
+	* modules/FvwmTaskBar/FvwmTaskBar.c: (main), (ParseConfig),
+	(ParseConfigLine), (StartMeUp), (ChangeWindowName), (ErrorHandler):
+	* modules/FvwmTaskBar/Goodies.c: (GoodiesParseConfig), (LoadGoodiesFont):
+	* modules/FvwmTaskBar/List.c: (PrintList):
+	* modules/FvwmTaskBar/Start.c: (StartButtonParseConfig),
+	(ParseButtonOptions), (StartButtonInit), (MouseInStartButton),
+	(StartAndLaunchButtonItemInit):
+	* modules/FvwmTheme/FvwmTheme.1.in:
+	* modules/FvwmTheme/FvwmTheme.c: (main), (main_loop), (parse_config),
+	(signal_handler):
+	* modules/FvwmWharf/ASSound/ASSound.c:
+	* modules/FvwmWharf/FvwmWharf.c: (Loop), (MapFolder), (swallow):
+	* modules/FvwmWharf/Wharf.h:
+	* modules/FvwmWharf/icons.c: (LoadIconFile):
+	* modules/FvwmWharf/stepgfx.c:
+	* modules/FvwmWinList/ButtonArray.c:
+	* modules/FvwmWinList/FvwmWinList.c:
+	* modules/FvwmWinList/List.c:
+	* FvwmTabs/ConfigFvwmTabs:
+	* FvwmTabs/FvwmTabs-DefaultSetup:
+	* FvwmTabs/FvwmTabs.1:
+	* FvwmTabs/FvwmTabs.in:
+	* FvwmTabs/FvwmTabs.pod:
+	* modules/Makefile.am:
+	* perllib/FVWM/Commands.pm:
+	* perllib/FVWM/Module.pm.in:
+	* perllib/FVWM/Module/Tk.pm:
+	* perllib/FVWM/Tracker.pm:
+	* tests/hints/hints_test.c: (main):
+	* utils/xselection.c: (paste_primary):
+	Merge with fvwm current cvs (2.5.19 --  2006-11-20 12:08:00). There
+	are interesting fixes in these versions (e.g., 64bit arch fixes)
+	
+2006-11-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* configure.ac:
+	* libs/PictureImageLoader.c: (PImageLoadWithGdkPixbuf),
+	(PImageCreatePixmapFromArgbDataAtSize):
+	Required gdk-pixbuf >= 2.6 and fixed the image loading at scale
+	for fvwm-root
+	
+2006-11-17  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/mini-user-config:
+	Renaming FvwmAmetista to FvwmCompositor
+	
+2006-11-16  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/defaults.h:
+	Renaming FvwmAmetista to FvwmCompositor
+
+2006-11-14  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/backgrounds/Makefile.am:
+	* opale/backgrounds/sky-metisse.jpg:
+	Removed the metisse sky
+	
+2006-11-04  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/focus.c: (CMD_WarpToWindow):
+	XSync after cursor warp
+	
+	* fvwm/icons.c: (DeIconify), (Iconify):
+	Fixed infinite loop
+	
+	* fvwm/module_interface.c: (do_execute_module):
+	PRE_COMMAND update
+	
+	* opale/Makefile.am:
+	Fixed compilation of the tarball
+
+2006-10-05  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (__handle_fp_restack): 
+	Removed debug code
+
+2006-09-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* acinclude.m4:
+	Fixed warning
+
+	* fvwm/icons.c (GetIconWindow):
+	* fvwm/fvwm.h (FvwmWindow):
+	* fvwm/events.c: (fake_map_unmap_notify), (__handle_cr_on_icon),
+	(HandleMapNotify), (HandleMapRequestKeepRaised),
+	(HandlePropertyNotify), (HandleUnmapNotify):
+	Merge events.c with head (2006-08-31) to fix a crash
+
+2006-09-05  Olivier Chapuis  <chapuis@lri.fr>
+
+	* acinclude.m4:
+	* configure.ac:
+	* configure.in:
+	configure.in to configure.ac migration (merge acinclude.m4 and
+	configure.ac with fvwm HEAD 2006-09-04)
+
+2006-08-25  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (WaitForButtonsUp): 
+	Do not use the wait cursor (MetisseWorkaround)
+	
+2006-08-23  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c: (__check_primary_selection),
+	(__handle_fp_restack), (__test_for_motion),
+	(__check_click_to_focus_or_raise):
+	* fvwm/screen.h:
+	* fvwm/style.c: (style_parse_focus_policy_style):
+	* libs/defaults.h:
+	Improved styles FPRestackRaiseTextSelectionMotion and
+	FPLeaveRestackRaiseClickMotion (window are raised at press and not
+	at release)
+
+	* fvwm/virtual.c: (MoveViewport):
+	Reduce grabbing
+
+	* libs/defaults.h:
+	#define NUMBER_OF_EXTENDED_MOUSE_BUTTONS   31
+	
+2006-07-03  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/add_window.c: (AddWindow):
+	Cleanup
+	
+	* fvwm/events.c: (__handle_fp_restack),
+	(__check_click_to_focus_or_raise):
+	Passed focus on tmp restacking
+	
+	* opale/opale-common/config:
+	Humm ...
+	
+2006-06-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (__handle_fp_restack):
+	Fixed stacking problem with transient windows
+	
+	* fvwm/add_window.c (AddWindow):
+	Cleanup
+
+2006-06-06  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/placement.c (test_fit): 
+	Fixed computation of the avoidance factor
+	
+2006-06-02  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/session.c (get_version_string):
+	Set the sm restart string to VERSION
+	
+	* fvwm/add_window.c (AddWindow):
+	Fixed demands attention again
+	
+2006-05-26  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/bin/opale-start-fvwmi.in:
+	* opale/mini-user-config:
+	A minimal config for running others windowed X window system
+	(metisse, vnc, xgl, ... maybe all together)
+	
+	* opale/icons/README:
+	Typo
+	
+	* opale/Makefile.am:
+	* opale/session/*:
+	Some .desktop file for the dm
+
+2006-05-24  Olivier Chapuis  <chapuis@lri.fr>
+
+	* configure.in:
+	* opale/Makefile.am:
+	* opale/bin/Makefile.am:
+	* opale/bin/opale-start-fvwmi.in:
+	* opale/opale-common/Makefile.am:
+	* opale/opale-common/config:
+	* opale/opale-user-config:
+	* opale/opale/Makefile.am:
+	* opale/opale/config:
+	Opale skeleton
+
+2006-05-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/icons/16x16/:
+	Fixed compilation
+	
+2006-05-21  Olivier Chapuis  <chapuis@lri.fr>
+
+	* opale/icons/16x16/categories/Makefile.am:
+	Fixed compilation
+
+2006-04-20  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c: (__handle_fp_restack),
+	(__check_click_to_focus_or_raise):
+	* fvwm/focus_policy.c: (fpol_init_default_fp):
+	* fvwm/focus_policy.h:
+	* fvwm/style.c: (style_parse_focus_policy_style):
+	* libs/Module.h:
+	* libs/defaults.h:
+	RestackRaiseTextSelectionMotionModule, RestackRaiseClickMotionModule new
+	style which do not raise but send a MX_STARTSTOP_OPERATION msg with arg
+	MX_STARTSTOP_OPERATION_SELECT  or MX_STARTSTOP_OPERATION_CLICK_MOTION
+	respectively
+	
+	* fvwm/window_flags.h:
+	* fvwm/fvwm.h:
+	* fvwm/ewmh.c:
+	* fvwm/ewmh_events.c: (ewmh_WMFacadeSource), (ewmh_WMFacade):
+	* fvwm/ewmh_intern.h:
+	Facade source
+	
+	* fvwm/metisse.c: (metisse_is_unmap_forbided):
+	Fixed
+
+	* FvwmScript/Widgets/TextField.c: (DrawTextField),
+	(EvtKeyTextField):
+	Removed debugging code
+	
+2006-03-25  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/add_window.c: (AddWindow):
+	Fixed the demands attention state at restart and recapture
+	
+2006-03-23  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ConfigFvwmDefaults:
+	* fvwm/add_window.c: (AddWindow):
+	* fvwm/builtins.c: (__check_demands_attention),
+	(builtins_check_demands_attention), (CMD_DemandsAttention):
+	* fvwm/builtins.h:
+	* fvwm/commands.h:
+	* fvwm/events.c: (HandleEnterNotify), (HandleFocusIn),
+	(HandleVisibilityNotify):
+	* fvwm/ewmh.c:
+	* fvwm/ewmh_events.c: (ewmh_ActiveWindow),
+	(ewmh_WMStateDemandsAttention):
+	* fvwm/ewmh_intern.h:
+	* fvwm/functable.c:
+	* fvwm/fvwm.h:
+	* fvwm/placement.c:
+	* fvwm/update.c: (apply_window_updates):
+	* fvwm/window_flags.h:
+	A first implementation of the demands attention principle
+
+	* FvwmIconMan/FvwmIconMan.h:
+	* FvwmIconMan/fvwm.c: (set_win_configuration):
+	* FvwmIconMan/globals.c:
+	* FvwmIconMan/readconfig.c: (read_in_resources):
+	* FvwmIconMan/winlist.c: (figure_win_manager):
+	* FvwmIconMan/x.c: (create_manager_window):
+	* FvwmIconMan/xmanager.c: (set_attention), (check_in_window),
+	(draw_button), (draw_transparent_buttons):
+	Demands attention colorsets and button state
+
+	* FvwmButtons/FvwmButtons.c: (main):
+	* FvwmIconMan/x.c: (create_manager_window):
+	Use the circle cursor
+	
+2006-03-21  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c: (set_win_iconified):
+	Send the window with the animate message
+	
+	* fvwm/icons.c: (DeIconify), (Iconify):
+	* fvwm/module_interface.c: (do_execute_module), (BroadcastPacket),
+	(PositiveWrite):
+	Valgrind options and if0ed code
+
+2006-03-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh_events.c: (ewmh_WMFacade):
+	* fvwm/fvwm.h:
+	Added a list which describes the win cuts which compose a facade and
+	set it if the window is a facade
+
+	* fvwm/metisse.c: (metisse_is_unmap_forbided):
+	Do not unmap a window when iconified only if needed
+	
+	* fvwm/menus.c: (do_menu):
+	* fvwm/metisse.c: (metisse_check_pointer_pos):
+	* fvwm/metisse.h:
+	Fixed menu position popup when the window is a duplicate or facade.
+
+	* fvwm/metisse.c: (CMD_ModuleWindowOperation):
+	Finish to fix this cmd with facade
+	
+2006-03-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c: (__handle_bpress_action), (__handle_key):
+	* fvwm/ewmh.c: (ewmh_check_wm_duplicate):
+	* fvwm/execcontext.c: (__exc_change_context):
+	* fvwm/execcontext.h:
+	* fvwm/functions.c: (DeferExecution):
+	* fvwm/fvwm.h:
+	* fvwm/metisse.c: (CMD_ModuleWindowOperation):
+	Set the Duplicate for window, added a ofw (o for overrided) FvwmWindow
+	in the exc, translate the cursor position when a ModuleWindowOperation
+	operation is done ... just experimental tmp code should warp
+	fev_get_evpos_or_query to take in account the facade and the duplicate?
+	
+2006-03-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c: (__handle_bpress_action),
+	(__handle_bpress_on_managed), (__handle_key):
+	* fvwm/fvwm.c: (InitVariables):
+	* fvwm/menus.c: (make_menu_window), (make_menu), (pop_menu_up):
+	Minor improvement of the previous commit
+
+2006-03-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/commands.h:
+	* fvwm/events.c: (__check_click_to_focus_or_raise),
+	(__handle_bpress_action), (__handle_bpress_on_managed),
+	(__handle_key):
+	* fvwm/functable.c:
+	* fvwm/functions.c: (DeferExecution):
+	* fvwm/metisse.c: (metisse_handle_module_input),
+	(CMD_MetisseSelectedWindow), (CMD_ModuleWindowOperation):
+	* fvwm/metisse.h:
+	* fvwm/screen.h:
+	New cmd MetisseSelectedWindow to allow a compositor to send the
+	"selected window" (which can be != than the pointer window du to
+	facade or duplicate. Then, fvwmi use this window for some window
+	management action (KeyPointer, mouse button action and click to raise)
+	when the context is the client window. However, See the FIXME in
+	__check_click_to_focus_or_raise
+	
+	* fvwm/functions.c: (func_draw_marking_help):
+	Fixed module name
+	
+2006-03-09  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh.c: (ewmh_check_wm_duplicate), (EWMH_WindowInit):
+	* fvwm/ewmh_events.c: (ewmh_WMFacade):
+	* fvwm/ewmh_intern.h:
+	* fvwm/fvwm.h:
+	* fvwm/icons.c: (Iconify):
+	* fvwm/metisse.c: (metisse_is_unmap_forbided),
+	(CMD_MetisseSelectedWindow):
+	* fvwm/metisse.h:
+	* fvwm/window_flags.h:
+	Reconize facade and duplicate, do not unmap certain windows when
+	iconified ... work in progress
+
+2006-03-03  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/builtins.c: (CMD_StrokeFunc):
+	* fvwm/functions.c: (func_draw_marking_help):
+	* libs/defaults.h:
+	Some naming fixes
+	
+2005-12-28  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/builtins.c: (CMD_StrokeFunc):
+	* fvwm/functable.c:
+	* fvwm/functions.c: (func_draw_marking_help):
+	FvwmAmetista -> FvwmCompositor. FIXME: added modules msg to be
+	independent of the metisse compositor name!
+	
+2005-10-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/Fgdk-pixbuf.h (fgdk_pixbuf_new_from_file_at_size):
+	Fixed missprint
+	
+2005-10-04  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwmi-config.in:
+	* configure.ac:
+	Added --source-dir and --build-dir options to fvwmi-config
+
+2005-09-18  Olivier Chapuis  <chapuis@lri.fr>
+
+	* NEWS:
+	* fvwm/ewmh_events.c: (ewmh_WMDesktop):
+	* FvwmIdent/FvwmIdent.c: (MakeList):
+	Merge with fvwm (2005-09-18)
+	
+2005-09-05  Olivier Chapuis  <chapuis@lri.fr>
+
+	* AUTHORS:
+	* NEWS:
+	* acconfig.h:
+	* acinclude.m4:
+	* configure.in:
+	* fvwm/add_window.c: (FetchWmProtocols), (GetWindowSizeHints),
+	(destroy_window):
+	* fvwm/bindings.c: (ParseBinding):
+	* fvwm/borders.c: (border_get_tb_parts_to_draw),
+	(border_draw_one_border_part), (border_draw_all_border_parts):
+	* fvwm/builtins.c: (do_button_style):
+	* fvwm/colorset.c: (get_root_pixmap), (update_root_pixmap):
+	* fvwm/conditional.c: (Circulate), (CreateConditionMask),
+	(MatchesConditionMask), (direction_cmd), (CMD_Test):
+	* fvwm/decorations.c: (GetMwmHints), (GetOlHints):
+	* fvwm/events.c: (__cr_detect_icccm_move),
+	(__check_click_to_focus_or_raise), (__handle_focus_raise_click),
+	(HandleEnterNotify), (HandleFocusIn), (HandleLeaveNotify),
+	(HandleMapNotify), (HandleMapRequestKeepRaised),
+	(HandleSelectionRequest), (HandleSelectionClear),
+	(InitEventHandlerJumpTable), (HandleEvents):
+	* fvwm/ewmh.c: (ewmh_GetEwmhAtomByAtom), (ewmh_ChangeProperty),
+	(ewmh_DeleteProperty), (atom_size), (atom_get), (check_desk),
+	(EWMH_SetCurrentDesktop), (EWMH_SetNumberOfDesktops),
+	(EWMH_SetDesktopViewPort), (EWMH_SetDesktopGeometry),
+	(EWMH_SetShowDesktop), (EWMH_SetActiveWindow), (EWMH_SetWMDesktop),
+	(EWMH_SetWMState), (add_kst_item), (delete_kst_item),
+	(set_kde_sys_tray), (ewmh_AddToKdeSysTray), (ewmh_FreeKdeSysTray),
+	(EWMH_IsKdeSysTrayWindow), (EWMH_ManageKdeSysTray),
+	(EWMH_SetClientList), (EWMH_SetClientListStacking),
+	(ewmh_SetWorkArea), (ewmh_ComputeAndSetWorkArea),
+	(ewmh_HandleDynamicWorkArea), (EWMH_UpdateWorkArea),
+	(EWMH_GetWorkAreaIntersection), (get_intersection),
+	(EWMH_GetBaseStrutIntersection), (EWMH_GetStrutIntersection),
+	(EWMH_SetFrameStrut), (ewmh_AllowsClose), (ewmh_AllowsFullScreen),
+	(ewmh_AllowsMinimize), (ewmh_AllowsMaximize), (ewmh_AllowsMove),
+	(ewmh_AllowsResize), (EWMH_SetAllowedActions),
+	(ewmh_HandleDesktop), (ewmh_HandleDialog), (ewmh_HandleDock),
+	(ewmh_HandleMenu), (ewmh_HandleNormal), (ewmh_HandleToolBar),
+	(ewmh_HandleWindowType), (ksmserver_workarround), (EWMH_GetStyle),
+	(ewmh_check_wm_pid), (EWMH_WindowInit),
+	(EWMH_RestoreInitialStates), (EWMH_DestroyWindow),
+	(EWMH_WindowDestroyed), (set_all_atom_in_list),
+	(set_net_supported), (clean_up), (EWMH_Init), (EWMH_ExitStuff),
+	(EWMH_DLOG), (EWMH_fullscreen):
+	* fvwm/ewmh.h:
+	* fvwm/ewmh_events.c: (ewmh_CurrentDesktop),
+	(ewmh_DesktopGeometry), (ewmh_DesktopViewPort),
+	(ewmh_NumberOfDesktops), (ewmh_ActiveWindow), (ewmh_CloseWindow),
+	(ewmh_MoveResizeWindow), (ewmh_MoveResizeMaximizeWindow),
+	(ewmh_RestackWindow), (ewmh_WMDesktop), (ewmh_MoveResize),
+	(ewmh_WMState), (ewmh_WMStateFullScreen), (ewmh_WMStateHidden),
+	(ewmh_WMStateMaxHoriz), (ewmh_WMStateMaxVert), (ewmh_WMStateModal),
+	(ewmh_WMStateShaded), (ewmh_WMStateSkipPager),
+	(ewmh_WMStateSkipTaskBar), (ewmh_WMStateStaysOnTop),
+	(ewmh_WMStateStaysOnBottom), (ewmh_WMStateSticky),
+	(ewmh_WMIconGeometry), (EWMH_GetIconGeometry), (ewmh_WMStrut),
+	(EWMH_ProcessClientMessage), (EWMH_ProcessPropertyNotify):
+	* fvwm/ewmh_icons.c: (ewmh_WMIcon), (EWMH_DoUpdateWmIcon),
+	(ewmh_SetWmIconFromPixmap), (EWMH_DeleteWmIcon),
+	(EWMH_SetIconFromWMIcon):
+	* fvwm/ewmh_intern.h:
+	* fvwm/ewmh_names.c: (EWMH_SetVisibleName), (EWMH_WMIconName),
+	(EWMH_WMName):
+	* fvwm/focus.c: (focus_grab_buttons_on_layer):
+	* fvwm/frame.c: (frame_mrs_resize_move_windows):
+	* fvwm/functable.c:
+	* fvwm/functions.c: (find_builtin_function):
+	* fvwm/fvwm.1.in:
+	* fvwm/fvwm.c: (SetRCDefaults), (SetMWM_INFO), (main):
+	* fvwm/fvwm.h:
+	* fvwm/geometry.c: (broadcast_icon_geometry):
+	* fvwm/gnome.c: (atom_size), (AtomGet), (GNOME_GetHintIcons),
+	(GNOME_GetHintLayer), (GNOME_GetHintState),
+	(GNOME_GetExpandedSize), (GNOME_SetHints), (GNOME_SetDesk),
+	(GNOME_SetLayer), (GNOME_SetAreaCount), (GNOME_SetCurrentArea),
+	(GNOME_SetDeskCount), (GNOME_SetCurrentDesk), (GNOME_SetWinArea),
+	(GNOME_Init), (CMD_GnomeShowDesks), (GNOME_ProcessClientMessage),
+	(GNOME_HandlePropRequest), (CMD_GnomeButton):
+	* fvwm/icccm2.c: (convertProperty),
+	(icccm2_handle_selection_request):
+	* fvwm/icons.c: (DeIconify), (Iconify):
+	* fvwm/menus.c: (pop_menu_up):
+	* fvwm/menustyle.c: (menustyle_copy):
+	* fvwm/misc.c: (print_grab_stats), (fvwm_msg_report_app),
+	(fvwm_msg_report_app_and_workers):
+	* fvwm/misc.h:
+	* fvwm/modconf.c: (CMD_Send_ConfigInfo):
+	* fvwm/module_interface.c: (HandleModuleInput), (make_new_vpacket),
+	(SendFvwmPicture), (BroadcastFvwmPicture), (PositiveWrite),
+	(CMD_Send_WindowList):
+	* fvwm/move_resize.c: (GetOnePositionArgument), (__move_loop),
+	(__resize_window):
+	* fvwm/placement.c: (get_next_x), (__place_get_nowm_pos):
+	* fvwm/session.c: (GetClientID), (SaveWindowStates),
+	(LoadWindowStates), (MatchWinToSM):
+	* fvwm/stack.c: (dump_stack_ring), (verify_stack_ring_consistency),
+	(raise_over_unmanaged), (__must_move_transients),
+	(__sort_transient_ring), (__get_window_to_insert_after),
+	(__raise_lower_recursion), (ResyncXStackingOrder),
+	(BroadcastRestack), (RaiseWindow), (LowerWindow),
+	(HandleUnusualStackmodes), (mark_transient_subtree), (new_layer),
+	(CMD_Layer), (CMD_DefaultLayers):
+	* fvwm/style.c: (blockissubset), (blocksintersect),
+	(style_ids_are_equal), (style_id_equals_id), (styles_have_same_id),
+	(fw_match_style_id), (one_fw_can_match_both_ids),
+	(cleanup_style_defaults), (merge_styles),
+	(remove_all_of_style_from_list), (__simplify_style_list),
+	(__style_command), (simplify_style_list), (print_styles):
+	* fvwm/update.c: (apply_window_updates):
+	* fvwm/virtual.c: (GetDeskNumber), (MoveViewport), (goto_desk),
+	(HandlePaging), (raisePanFrames), (CMD_DesktopSize),
+	(CMD_GotoDeskAndPage):
+	* fvwm/windowshade.c: (CMD_WindowShade):
+	* libs/Colorset.c: (get_aspect_dimensions):
+	* libs/Event.c:
+	* libs/FBidi.c: (FBidiIsApplicable), (FBidiConvert):
+	* libs/FGettext.c: (fgettext_free_fgpath_list):
+	* libs/FRenderInit.c:
+	* libs/FScreen.h:
+	* libs/FTips.c: (__initialize_window), (__setup_cs), (__setup_gc),
+	(__draw), (__map_window), (FTipsInit), (FTipsNewConfig), (FTipsOn),
+	(FTipsCancel), (FTipsColorsetChanged):
+	* libs/FTips.h:
+	* libs/Fft.h:
+	* libs/FlocaleCharset.c:
+	* libs/Graphics.c: (do_relieve_rectangle_with_rotation),
+	(AllocNonlinearGradient):
+	* libs/Makefile.am:
+	* libs/Parse.c: (_get_suffixed_integer_arguments):
+	* libs/PictureUtils.c: (build_mapping_table), (finish_ct_init):
+	* libs/Strings.c: (CatString3):
+	* libs/Target.c: (fvwmlib_keyboard_shortcuts),
+	(fvwmlib_get_target_window), (fvwmlib_client_window):
+	* libs/fsm.c: (fprintfhex), (SetAuthentication),
+	(MyIoErrorHandler), (CloseConnectionProc), (NewClientProc),
+	(ProcessIceMsg), (GetClientID), (set_session_manager), (fsm_init),
+	(fsm_fdset):
+	* libs/fvwmlib.h:
+	* libs/setpgrp.c:
+	* libs/vpacket.h:
+	* bin/fvwm-menu-desktop.1.in:
+	* bin/fvwm-menu-desktop.in:
+	* bin/fvwm-menu-directory.1:
+	* bin/fvwm-menu-directory.in:
+	* bin/fvwm-root.c: (main):
+	* perllib/FVWM/Constants.pm:
+	* perllib/FVWM/EventNames.pm:
+	* perllib/FVWM/Module.pm.in:
+	* perllib/FVWM/create-constants:
+	* tests/hints/hints_test.c: (main):
+	* tests/perl/module-gtkwinlist:
+	* docs/ANNOUNCE:
+	* docs/ChangeLog:
+	* docs/DEVELOPERS:
+	* docs/FAQ:
+	* po/FvwmTaskBar.ar.gmo:
+	* po/FvwmTaskBar.ar.po:
+	* po/FvwmTaskBar.fr.gmo:
+	* po/FvwmTaskBar.fr.po:
+       	* modules/FvwmAuto/FvwmAuto.c: (main):
+       	* modules/FvwmBacker/FvwmBacker.c: (DeleteRootAtoms), (SetRootAtoms):
+       	* modules/FvwmBanner/fvwm-logo-current.xbm:
+       	* modules/FvwmBanner/fvwm-logo-current.xpm:
+       	* modules/FvwmButtons/FvwmButtons.1.in:
+       	* modules/FvwmButtons/FvwmButtons.c: (SwallowedWindow),(DeadPipeCleanup),
+	(SetButtonSize), (AddButtonAction), (GetButtonAction), (main),
+        (reallyLeaveWindow), (handle_new_position), (Loop), (LoadIconFile),
+        (RecursiveLoadData), (CreateUberButtonWindow), (SpawnSome),
+        (update_root_transparency), (recursive_change_colorset),
+        (change_colorset), (process_message), (CheckForHangon), (swallow):
+       	* modules/FvwmButtons/FvwmButtons.h:
+       	* modules/FvwmButtons/button.c: (buttonSwallowCount), (buttonInfo),
+        (buttonFrameSigned), (buttonXPad), (buttonYPad), (buttonFont),
+        (buttonFore), (buttonBack), (buttonHilite), (buttonShadow),
+        (buttonColorset), (buttonTitle), (buttonIcon), (iconFlagSet),
+        (buttonBackgroundButton), (buttonSwallow), (buttonJustify),
+        (alloc_button), (MakeContainer), (NumberButtons),
+        (PlaceAndExpandButton), (ShuffleButtons), (NextButton),
+        (get_xy_button), (select_button):
+       	* modules/FvwmButtons/button.h:
+       	* modules/FvwmButtons/draw.c: (MakeButton), (buttonBGColorset),
+        (RedrawButton), (DrawTitle):
+       	* modules/FvwmButtons/dynamic.c: (expand_button_vars), (parse_button_id),
+        (parse_message_line):
+       	* modules/FvwmButtons/icons.c: (GetIconPosition), (DrawForegroundIcon):
+       	* modules/FvwmButtons/icons.h:
+       	* modules/FvwmButtons/output.c: (DumpButtons), (SaveButtons):
+       	* modules/FvwmButtons/parse.c: (ParseBoxSize), (ParseSwallow),
+        (ParseContainer), (ParseButton), (ParseConfigLine):
+       	* modules/FvwmConsole/FvwmConsole.c: (clean_up), (server):
+       	* modules/FvwmDebug/FvwmDebug.in:
+       	* modules/FvwmDragWell/xdndDragSource.c: (xdndSrcQueryDndAware):
+       	* modules/FvwmGtk/windowlist.c: (compare_desk):
+       	* modules/FvwmIconMan/xmanager.c: (draw_button):
+       	* modules/FvwmPerl/FvwmPerl.1:
+       	* modules/FvwmPerl/FvwmPerl.in:
+       	* modules/FvwmProxy/FvwmProxy.1.in:
+       	* modules/FvwmProxy/FvwmProxy.c: (parse_options), (myXErrorHandler),
+        (myXIOErrorHandler), (DrawWindow), (DrawProxyBackground),
+        (OpenOneWindow), (AdjustOneWindow), (AdjustWindows),
+        (RecenterProxy), (RecalcProxyTweaks), (TweakProxy),
+        (ReshuffleWindows), (ConfigureWindow), (IconifyWindow),
+        (change_cset):
+       	* modules/FvwmProxy/FvwmProxy.h:
+       	* modules/FvwmScript/FvwmScript.1.in:
+       	* modules/FvwmScript/FvwmScript.c: (MainLoop):
+       	* modules/FvwmTaskBar/ButtonArray.c: (ButtonDraw), (DrawButtonArray):
+       	* modules/FvwmTaskBar/FvwmTaskBar.c: (ParseConfigLine), (SetMwmHints):
+       	* modules/FvwmTaskBar/FvwmTaskBar.h:
+       	* modules/FvwmWinList/FvwmWinList.c: (SetMwmHints):
+       	* modules/FvwmWinList/FvwmWinList.h:
+	merge with fvwm-2.5.14 plus =< 2005-09-02 commits.
+	This contains the 64 bits arch fix. Some work needed in
+	FvwmIconMan (one fix from dom not applied), FvwmButtons (my
+	kde sys tray patch not applied) and some check in fvwm-menu-directory.in
+	
+2005-09-01  Olivier Chapuis  <chapuis@lri.fr>
+	
+	* libs/PictureBase.c (PictureFindImageFile):
+	Fixed a parse bug
+	
+	* fvwm/events.h:
+	* fvwm/events.c (__handle_cr_on_client), (__handle_configure_request),
+	(HandleConfigureRequest), (events_handle_configure_request):
+	*  fvwm/ewmh_events.c (ewmh_MoveResizeWindow),
+	(ewmh_MoveResizeMaximizeWindow), (ewmh_RestackWindow):
+	Added a user argument to allow configure request to be accepted
+	by fvwm when the cr come directly from the user (via a
+	_NET_MOVERESIZE_WINDOW, _NET_RESTACK_WINDOW or the new 
+	_NET_MOVERESIZEMAXIMIZE_WINDOW)
+
+	* fvwm/metisse.c (CMD_ModuleWindowOperation), (my_handleModuleInput):
+	Improved the ModuleWindowOperation cmd to be able to handle module msg
+	during an FvwmCompositor "InteractiveManip".
+	
+	* fvwm/metisse.c (CMD_MetisseTransform):
+	* fvwm/metisse.h:
+	* fvwm/commands.h:
+	* libs/Module.h:
+	Added a new fvwm cmd MetisseTransform and some new message for
+	metisse: MX_MARKINGMENU_FEEDBACK (not yet used),
+	MX_METISSE_VIEWPOINT (not yet used) MX_METISSE_TRANSFORM_MARK,
+	MX_METISSE_TRANSFORM, MX_METISSE_SET_TRANSFORM, MX_METISSE_BOUNDS.
+	MetisseTransform [Mark|State|Set], State and Mark should be used
+	by  FvwmCompositor only to send the transformation of a window
+	to fvwmi. Then, fvwmi forward the transform to modules with
+	MX_METISSE_TRANSFORM_MARK, MX_METISSE_TRANSFORM and MX_METISSE_BOUNDS.
+	State should be used by FvwmCompositor whenever the transformation
+	change (good for a wm tracer or a 3D pager) and Mark should be
+	send less often, e.g., when an op is finished (good for a wm
+	undo/redo app). This is work in progress. A new cmd MetisseViewpoint
+	should be added together with the MX_METISSE_VIEWPOINT module msg.
+	MX_MARKINGMENU_FEEDBACK is not yet used (should be used to replace
+	an horrible SendToModule FvwmAmetista!).
+	
+	* fvwm/Makefile.am:
+	* fvwm/metisse.c:
+	* fvwm/metisse.h:
+	* fvwm/builtins.c (CMD_ModuleInteractiveMove):
+	Put some metisse specific code into new files
+	
+	* fvwm/builtins.c (CMD_CursorMove): 
+	* fvwm/focus.c (warp_to_fvwm_window): 
+	(__activate_window_by_command): 
+	* fvwm/fvwm.c (Done): 
+	* fvwm/gnome.c (GNOME_ProcessClientMessage): 
+	* fvwm/ewmh_events.c (ewmh_DesktopViewPort): 
+	* fvwm/placement.c (__place_window): 
+	* fvwm/session.c (RestartInSession): 
+	(LoadGlobalState): 
+	* fvwm/move_resize.c (__move_loop): 
+	(__move_window):
+	* fvwm/virtual.c (virtual_MoveViewport):
+	(MoveViewport):
+	(AnimatedMoveViewport):
+	(HandlePaging): 
+	(CMD_GotoDeskAndPage): 
+	(CMD_GotoPage): 
+	(CMD_Scroll): 
+	Replaced MoveViewport and AnimateMoveViewport interface function by
+	one interface function virtual_MoveViewport.
+	StartStop support for MoveViewport.
+
+	* fvwm/ewmh_intern.h:
+	* fvwm/ewmh_events.c (ewmh_MoveResizeMaximizeWindow):
+	* fvwm/ewmh.c:
+	* fvwm/move_resize.c (maximize_fvwm_window):
+	* fvwm/move_resize.h:
+	New (fvwmi only for now) ewmh client msg _NET_MOVERESIZEMAXIMIZE_WINDOW
+	Usefull to undo/redo maximize operations
+	
+	* fvwm/commands.h:
+	* fvwm/builtins.c (CMD_Undo),(CMD_Redo):
+	New comd Undo and Redo to send cmd to a wm undo/redo app
+	
+	* fvwm/ewmh_intern.h:
+	* fvwm/ewmh.h:
+	* fvwm/ewmh.c (EWMH_SendStartStopOperation), (EWMH_SendUndoRedo):
+	* fvwm/functable.c:
+	* fvwm/move_resize.c (resize_move_window), (__move_window),
+	(__move_loop), (__resize_window):
+	* fvwm/placement.c (CMD_PlaceAgain):
+	* fvwm/windowshade.c (CMD_WindowShade):
+	Implemented a undo/redo ewmh specification (work in progress)
+	_NET_REDO, _NET_UNDO, _NET_START_OPERATION, _NET_STOP_OPERATION
+	which allows an external program to be an wm undo/redo application.
+	_NET_START_OPERATION, _NET_STOP_OPERATION should also be useful
+	for a wm tracer.
+	
+	
+2005-07-02  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/menus.h:
+	* fvwm/menus.c (__mloop_exit_selected), (add_another_menu_item),
+	(add_to_last_menu_item):
+	* fvwm/menuitem.h:
+	* fvwm/menuitem.c (menuitem_free), (menuitem_clone): 
+	* fvwm/functions.c (find_builtin_function), (CMD_PlusPlus):
+	* fvwm/functable.c (func_table):
+	* fvwm/commands.h:
+	New command ++ to add button 2 and 3 actions to a menu item
+
+	* fvwm/functions.c (execute_complex_function):
+	Wait click time before displaying a marking menu
+
+2005-06-27  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/screen.h:
+	* fvwm/fvwm.c (main):
+	* fvwm/functions.c (*):
+	New functions actions CH (Click Hold), CM (Click Motion),
+	CA (Click mArking),  DH (Double Click Hold), DM (Double Click Motion),
+	DA (Double Click mArking), T (Triple Click). New functions actions E*
+	for hElp sentences for the * action.
+	The mArking action can have now some "labels" with the new
+	Scr.FloatingWindows[8]
+	
+	* fvwm/events.c (__check_click_to_focus_or_raise):
+	Disabled USE_XDND_WINDOW_MANAGMENT_KEYS (should be a style and this
+	is hardcoded!) because this force button press release swallowing
+	until button release and forbid ActionOnPress in FvwmButtons
+
+	* fvwm/builtins.c (CMD_StrokeFunc): 
+	Send StartStroke, StopStroke and StrokeFeed to FvwmAmetista
+	
+	* libs/gravity.c (gravity_get_direction_from_start_end):
+	Removed some debug code
+
+2005-06-23  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/PictureImageLoader.c:
+	* libs/PictureImageLoader.c (PImageLoadWithGdkPixbuf): 
+	Use fgdk_pixbuf_new_from_file_at_size in the place of 
+	fgdk_pixbuf_new_from_file_at_scale to be able to use gdk-pixbuf 2.4
+	only
+	
+2005-06-20  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/fvwm.h:
+	* fvwm/conditional.c (CreateConditionMask):
+	(MatchesConditionMask):
+	New conditions MarkingDirection{Full,Orth,Obl} for the marking func
+	action
+
+	* fvwm/expand.c (expand_vars_extended):
+	New variables $[md.{full,orth,obl}] which are set after a marking
+	manip (A) is done
+
+	* libs/gravity.h:
+	* libs/gravity.c (gravity_get_direction_from_start_end):
+	(gravity_multi_dir_to_dir):
+	(gravity_dir_to_letters_string):
+	* fvwm/functions.h:
+	* fvwm/functions.c (CheckActionType):
+	(execute_complex_function):
+	(get_marking_direction):
+	New function action A (for marking) which works as M (motion) but
+	set the direction of the motion in 3 way. full: N,NE,E,SE,S,SW,W,NW;
+	orth: N,E,S,W; obl: NE,SE,SW,NW.
+
+	* fvwm/move_resize.c (maximize_fvwm_window):
+	Fixed interective resize (reduction) via the bottom border, backported
+	in fvwm cvs
+	
+	* libs/Makefile.am:
+	* fvwm/Makefile.am:
+	* libs/Fgdk-pixbuf.h (new file):
+	* libs/PictureImageLoader.h:
+	* libs/PictureImageLoader.c:
+	* fvwm/fvwm.c (setVersionInfo):
+	(Loaders):
+	(PImageLoadPng):
+	(PImageLoadWithGdkPixbuf): 
+	(PImageCreatePixmapFromArgbData):
+	(PImageCreatePixmapFromArgbDataAtSize):
+	(PImageLoadPixmapFromFile):
+	Added gdk-pixbuf-2.0 image loaders. New interface function
+	PImageCreatePixmapFromArgbDataAtSize which uses the gdk-pixbuf-2.0
+	scaler
+
+	* libs/PictureBase.h:
+	Reordering
+	
+	* libs/PictureBase.h:
+	* libs/PictureBase.c (PictureFindImageFile): 
+	* libs/Picture.c (PGetFvwmPicture):
+	(PCacheFvwmPicture):
+	PictureFindImageFile pass fpa for size spec in the image path name
+
+	* libs/Fpng.h:
+	Typo (backported in fvwm cvs)
+	
+	* fvwm/menustyle.h:
+	* fvwm/menustyle.c (menustyle_get_styleopt_index):
+	(menustyle_copy):
+	New MenuStyle LabelImageSize
+	
+	* fvwm/menus.c (scanForPixmap):
+	(AddToMenu):
+	(NewMenuRoot):
+	Pass the menu style to scanForPixmap for LabelImageSize
+
+	* fvwm/ewmh_icons.c (EWMH_SetIconFromWMIcon):
+	Used new PImageCreatePixmapFromArgbDataAtSize functions to pretty
+	scale ewmh icons when MiniIconSize and/or IconSize is used
+
+	* fvwm/screen.h:
+	* fvwm/icons.c (GetIconFromFile):
+	* fvwm/fvwm.c (InitVariables):
+	* fvwm/functable.c:
+	* fvwm/commands.h:
+	* fvwm/builtins.c (CMD_IconSize):
+	(CMD_MiniIconSize):
+	* fvwm/add_window.c (setup_mini_icon):
+	New cmd MiniIconSize and IconSize
+
+	* fvwm/expand.c (expand_vars_extended):
+	* fvwm/cursor.c (CMD_CursorStyle):
+	PictureFindImageFile update
+
+	* acconfig.h:
+	* acinclude.m4:
+	* configure.in:
+	Detection of gdk-pixbuf-2.0
+
+	* bin/Makefile.am:
+	Added gdk-pixbuf libs and cglags
+	* bin/fvwm-root.c (SetRootWindow):
+	New --scale option and update PictureFindImageFile
+
+	* modules/FvwmWharf/Makefile.am:
+	* modules/FvwmTaskBar/Makefile.am:
+	* modules/FvwmScript/Makefile.am:
+	* modules/FvwmScript/FvwmScript.c (LoadIcon):
+	* modules/FvwmPager/Makefile.am:
+	* modules/FvwmIconBox/icons.c (GetIconFromFile):
+	* modules/FvwmIconBox/Makefile.am:
+	* modules/FvwmGtk/menu.c (menu_item_new_with_pixmap_and_label):
+	* modules/FvwmButtons/Makefile.am: 
+	* modules/FvwmBanner/Makefile.am:
+	* modules/FvwmBanner/FvwmBanner.c (GetImageFile):
+	* modules/FvwmAnimate/Makefile.am:
+	PictureFindImageFile update and LIBS and CFLAGS for gdk
+
+2005-06-06  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/ewmh_events.c (ewmh_WMStateMaxHoriz), (ewmh_WMStateMaxVert): 
+	Fixed Maximize ewmh state
+
+	* fvwm/placement.c:
+	* fvwm/move_resize.h:
+	* fvwm/move_resize.c (__move_loop):
+	(GetMoveArguments):
+	(GetResizeArguments):
+	(GetResizeMoveArguments):
+	(resize_move_window):
+	(InteractiveMove):
+	(__move_window): 
+	New option tmp for the move cmd
+
+2005-01-21  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/virtual.c (CMD_GotoDeskAndPage):
+	Added the Animate option
+	(MoveViewport):
+	Fixed the prev option vs animation
+
+2005-01-17  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/FvwmIconMan.1.in:
+	* FvwmIconMan/xmanager.c (add_win_state):
+	(del_win_state):
+	(draw_button):
+	(draw_transparent_buttons):
+	* FvwmIconMan/readconfig.c (read_in_resources):
+	* FvwmIconMan/fvwm.c (set_win_configuration):
+	(new_window):
+	* FvwmIconMan/FvwmIconMan.h: 
+	New options IconAndSelectButton and IconAndSelectColorset
+
+	* FvwmIconMan/x.c (xevent_loop):
+	Ignored non NotifyNormal Enter and Leave Events. This fixes a flickering
+
+	* FvwmIconMan/xmanager.c (set_win_displaystring):
+	Fixed flickering by setting the string dirty flags only if the displayed
+	string really change. Applied to fvwm cvs.
+
+2005-01-10  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmPager/x_pager.c (DispatchEvent):
+	(MovePage):
+	(SwitchToDesk):
+	(SwitchToDeskAndPage):
+	(Scroll):
+	* FvwmPager/FvwmPager.c (main):
+	(list_add):
+	(ParseOptions):
+	Fixed the "transient-move" options. This option support an arg, the
+	window id, so that we can acts on the good window and not on the
+	current window. New options Animate for using the new Animated
+	Move Viweport patch
+
+	* fvwm/virtual.h:
+	* fvwm/virtual.c (HandlePaging):
+	(HandlePaging):
+	(AnimatedMoveViewport):
+	(get_page_arguments):
+	(CMD_EdgeScroll):
+	(CMD_GotoPage):
+	(CMD_Scroll):
+	* fvwm/screen.h (do_edge_scroll_animate):
+	* fvwm/move_resize.c (__move_window):
+	(__move_loop):
+	(__move_loop):
+	(__resize_window): 
+	(__resize_window):
+	* fvwm/module_interface.c (FlushMessageQueue):
+	* fvwm/focus.c (warp_to_fvwm_window):
+	(__activate_window_by_command):
+	(CMD_WarpToWindow):
+	* fvwm/events.c (HandleEnterNotify): 
+	Animated Move Viewport patch. Note the experimental code in
+	FlushMessageQueue
+
+2005-01-08  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/placement.c (__place_get_nowm_pos):
+	(__place_window):
+	Forced USPPosition Placed inside the working area. See the FIXME 
+
+	* fvwm/session.c (matchWin):
+	(SaveWindowStates):
+	On restarts compare window ids only. Base our matching decision on
+	window role only if we have a client id. Applied to fvwm cvs.
+
+	* fvwm/move_resize.c (GetOnePositionArgument): 
+	Fixed a one pixel bug in the Move and AnimatedMove commands by rounding
+	float values to neast int. Applied to fvwm cvs
+
+	* fvwm/move_resize.c (CMD_Maximize):
+	Applied Arnaud Vrac patch which fixes maximize by growing vs
+	EWMH working area. Applied to fvwm cvs
+
+2004-12-27  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/menus.c (make_menu_window):
+	(make_menu):
+	(update_menu):
+	(pop_menu_up):
+	(menu_tear_off):
+	Set the TransientFor hint for menus
+
+2004-12-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/focus.c (__set_focus_to_fwin):
+	If Scr.bo.MetisseWorkaround allows to pass the focus to a window
+	not in the current page (Metisse pager mode).
+
+2004-12-16  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (__handle_bpress_on_managed):
+	See the FIXME
+
+	* FvwmPager/x_pager.c (DispatchEvent): 
+	Use Control in the place of Mod1 for moving with button 3
+
+	* libs/FTips.c:
+	* libs/FTips.h:
+	* libs/defaults.h:
+	* FvwmIconMan/FvwmIconMan.1.in:
+	* FvwmIconMan/FvwmIconMan.c:
+	* FvwmIconMan/xmanager.c:
+	Tips cleanup
+
+2004-12-01  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c (figure_geometry):
+	* FvwmIconMan/FvwmIconMan.h:
+	* FvwmIconMan/globals.c (init_win_manager):
+	* FvwmIconMan/readconfig.c (read_in_resources): 
+	New option MaxButtonWidthByColumns
+
+2004-11-29  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c (figure_geometry):
+	Fixed buttons layout for maxbuttonwidth. Reformating
+	
+	* FvwmIconMan/xmanager.c (first_row_len): 
+	(index_to_box): 
+	(box_to_index):
+	Removed previous unused change
+
+	* FvwmIconMan/readconfig.c (read_in_resources):
+	Fixed maxbuttonwidth parsing with no argument
+
+2004-11-25  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c (first_row_len):
+	(index_to_box):
+	(box_to_index):
+	Clean up
+	
+	* FvwmIconMan/xmanager.c (set_shape):
+	Fixed MaxButtonWidth vs shape
+
+2004-11-23  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c (box_to_index):
+	Some maxbuttonwidth fixes
+
+2004-11-19  Olivier Chapuis  <chapuis@lri.fr>
+
+	* Merge with fvwm cvs from 2004-11-22 (previous merge was done
+	around the 2004-08-30)
+
+2004-11-19  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmButtons/draw.c (MakeButton):
+	Added a hack for sysTray swallowed window
+
+2004-11-18  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (HandleReparentNotify):
+	(HandleMapRequestKeepRaised):
+	Fixed swallowing/unswalloing of kde systray window
+
+	* fvwm/placement.c (setup_window_placement):
+	Do not show on map a kde system tray window
+
+2004-11-18  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmButtons/button.h:
+	* FvwmButtons/button.c (buttonSwallow):
+	* FvwmButtons/FvwmButtons.c (CheckForHangon):
+	(isSysTrayWindow):
+	* FvwmButtons/FvwmButtons.h (b_sysTray):
+	* FvwmButtons/parse.c (ParseSwallow):
+	New option to Swallow noResClass, noName and sysTray
+
+2004-09-03  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/eventhandler.h:
+	* fvwm/events.c (InitEventHandlerJumpTable): 
+	(__handle_key):
+	(HandleKeyPress):
+	(HandleKeyRelease):
+	Fixed window specific bindings "patch" by sending key release event
+	when needed (commited to fvwm tree too).
+
+2004-08-31  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/stack.c (get_stacking_pointer_fvwm_window):
+	* fvwm/stack.h:
+	* fvwm/conditional.c (CMD_PointerWindow):
+	Removed (my) stupid get_stacking_pointer_fvwm_window func and use
+	get_pointer_fvwm_window.
+
+	* fvwm/events.c (WaitForButtonsUp):
+	Use Scr.MetisseWorkaround to avoid the wait cursor
+
+	* fvwm/events.c (__handle_focus_raise_click): 
+	(__check_click_to_focus_or_raise):
+	Fixed execution of fvwm complex function on the decoration (the Hold
+	case) by checking xdnd only when the context is C_WINDOW.
+
+2004-08-30  Olivier Chapuis  <chapuis@lri.fr>
+
+	* Makefile.am:
+	Added this IChangeLog to the dist
+
+	* libs/FTips.c (__initialize_window):
+	Removed some debug code
+
+	* Merge with fvwm cvs from 2004-08-30 (previous merge was done
+	around the 2004-06-14)
+	
+	* Did a "cvs tag before_merge_2004_08_30" before merging with
+	fvwm current cvs
+
+2004-08-30  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmPager/FvwmPager.h:
+	* FvwmPager/x_pager.c (initialize_balloon_window):
+	(initialize_pager):
+	(HandleExpose):
+	(change_colorset): 
+	(update_pr_transparent_windows):
+	(setup_balloon_window, rm):
+	(setup_balloon_gc, rm):
+	(MapBalloonWindow):
+	(UnmapBalloonWindow):
+	(DrawInBalloonWindow, rm):
+	(change_colorset):
+	Used the new FTips library
+	
+	* FvwmPager/x_pager.c (DispatchEvent):
+	Take care of Enter/Leave Notify event only if the mode is NotifyNormal
+
+2004-08-25  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/xmanager.c (xy_to_button): 
+	(set_manager_width):
+	Try to fixe MaxButtonWidth option. Need more work
+
+2004-08-22  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/FTips.c (new file):
+	* libs/FTips.h (new file):
+	* libs/Makefile.am:
+	A library for tips
+
+	* FvwmIconMan/FvwmIconMan.1:
+	* FvwmIconMan/FvwmIconMan.h:
+	* FvwmIconMan/xmanager.h:
+	* FvwmIconMan/x.c (change_colorset):
+	(xevent_loop):
+	(X_init_manager):
+	(init_display):
+	* FvwmIconMan/fvwm.c (new_window):
+	(destroy_window): 
+	* FvwmIconMan/readconfig.c (read_in_resources):
+	(process_dynamic_config_line):
+	* FvwmIconMan/FvwmIconMan.c (main_loop):
+	* FvwmIconMan/globals.c (init_win_manager):
+	* FvwmIconMan/xmanager.c (set_win_displaystring):
+	(get_tips): 
+	(tips_cancel):
+	(tips_on):
+	(tips_update_label):
+	Added tips with a lot of new options
+
+2004-08-15  Olivier Chapuis  <chapuis@lri.fr>
+
+	* FvwmIconMan/FvwmIconMan.1:
+	* FvwmIconMan/globals.c (init_win_manager):
+	* FvwmIconMan/readconfig.c (read_in_resources):
+	* FvwmIconMan/FvwmIconMan.h:
+	* FvwmIconMan/xmanager.c (figure_geometry): 
+	New option MaxButtonWidth
+
+2004-08-13  Olivier Chapuis  <chapuis@lri.fr>
+
+	* bin/fvwmi-config.in: 
+	Fixed fvwmi
+
+2004-08-11  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/stack.c (__restack_window):
+	(collect_transients_recursive):
+	(__remove_window_from_stack_ring):
+	Fixed experimental focus/stack policy styles
+
+2004-08-07  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (__handle_xdnd_record):
+	Fixed xdnd double key press
+
+	* fvwm/stack.c (put_back_fp_restack_window):
+	(__remove_window_from_stack_ring):
+	( remove_window_from_stack_ring):
+	* fvwm/stack.h:
+	Fixed a crash when one of the fp restack windows is closed during
+	a mouse motion
+
+2004-08-06  Olivier Chapuis  <chapuis@lri.fr>
+
+	* fvwm/events.c (__check_click_to_focus_or_raise): 
+	Disable MX_CLICK_MOTION msg
+
+2004-06-30  Olivier Chapuis  <chapuis@lri.fr>
+
+	* libs/FRecord.c (FRecordAddRange): 
+	Fixed a bug reported by Jason Bechervaise and Miles Crawford
+
+* Started this change log together metisse 0.3.1 development

@@ -1,0 +1,246 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel=stylesheet type="text/css" href="../metisse.css">
+<title>Using and configuring the Metisse compositor</title>
+</head>
+
+<body>
+
+<div class="titre-document">
+<a href="../index.html"><img id="uplink" alt="Metisse home page" src="../up.jpg"></a>
+Using and configuring the Metisse compositor
+</div>
+
+<p>Keep in mind that although very robust, Metisse is still
+experimental software. Many of the interaction techniques and
+configuration mechanisms described here could probably be replaced by
+better ones. Consider them as a starting point. Explore, modify,
+extend and contribute!</p>
+
+<h1>Default bindings</h1>
+
+<p>Some of the mouse and keyboard bindings used by the Metisse
+compositor might be intercepted by your native window system or window
+manager for their own reasons. The <span class="code">Alt-Tab</span>
+key combination, for example, might show the list of windows managed
+by your native window system instead of showing the ones managed by
+Metisse. There are basically three solutions to this problem:</p>
+
+<ol>
+<li>Configuring the Metisse compositor (see below) so that one or more
+modifier key(s) need to be pressed for Metisse operations to avoid
+conflicts;
+<li>Using a window manager that allows to disable its own bindings for
+particular windows (e.g. the FvwmCompositor window);
+<li>Running Metisse without any other window manager.
+</ol>
+
+<p>We recommend using one of the last two solutions. Note, however,
+that these solutions are impossible on OS X.</p>
+
+<p>The following list describes the default mouse and key bindings
+used by the compositor. <span class="code">Super</span> is the
+"Windows" key on PC keyboards or the "Command" key on Apple keyboards
+(the one with the Apple logo). Mouse buttons are numbered as follows:
+<span class="code">M1</span> is the left
+one, <span class="code">M2</span> is the middle
+one, <span class="code">M3</span> is the right
+one. <span class="code">MW</span> is the mouse
+wheel. <span class="code">Mx</span> denotes any mouse button or wheel
+action. Unless otherwise specified, mouse actions on buttons are
+assumed to be simple clicks.</p>
+
+<p><b>Anywhere</b></p>
+
+<p class="indent"><span class="code">Super-MW</span>: virtual desktop zoom in/out</p>
+
+<p><b>Root window</b></p>
+
+<p class="indent">If you use a desktop application such as KDesktop or
+Nautilus, you will need to press the <span class="code">Alt</span> key
+in addition to the mouse button.</p>
+
+<p class="indent"><span class="code">M1</span>: shows the <i>root</i> menu (start programs, restart/quit/configure the compositor)</p>
+<p class="indent"><span class="code">M2</span>: shows the list of 'normal' windows</p>
+<p class="indent"><span class="code">M3</span>: shows the <i>window operations</i> menu</p>
+<!--
+<p class="indent"><span class="code">M4</span>: Nop</p>
+<p class="indent"><span class="code">M5</span>: Nop</p>
+-->
+
+<p><b>Pager</b></p>
+
+<p class="indent"><span class="code">MW</span>: virtual desktop zoom in/out</p>
+
+<p><b>Inside a Window</b></p>
+
+<p class="indent"><span class="code">Alt-M1</span>: move the window</p>
+<p class="indent"><span class="code">Alt-Mx</span>: like the same action on the root window</p>
+<p class="indent"><span class="code">Ctrl-Super-MW</span>: grow/shrink the window </p>
+<p class="indent"><span class="code">Super-M1-drag</span>: mark a window region to be later drag-and-dropped to create a <a href="http://insitu.lri.fr/metisse/facades/">façade</a></p>
+<p class="indent"><span class="code">Super-M1</span>: cancel the last region that was marked in that window</p>
+
+<!--
+<p class="indent"><span class="code">Ctrl-Super-M1</span>: add a region OLIVIER?</p> 
+<p class="indent"><span class="code">Super-M3</span>: inspect the widget under the pointer (need accessibility ... and more!) OLIVIER?</p>
+-->
+
+<p><b>Title bars</b></p>
+
+<p class="indent"><span class="code">M1-drag-or-hold</span>: move the window</p>
+<p class="indent"><span class="code">M1 then M1-drag-or-hold</span>: temporarily move the window</p>
+<p class="indent"><span class="code">M1-double-click</span>: maximize (toggle)</p>
+<p class="indent"><span class="code">M1-double-click then M1-drag-or-hold</span>: send the window to another page (marking menu)</p>
+<p class="indent"><span class="code">M1 triple-click</span>: shrink and maximize vertically (toggle)</p>
+<p class="indent"><span class="code">M2</span>: reset the window transformations</p>
+<p class="indent"><span class="code">M3</span>: shows the <i>window operations</i> menu</p>
+<p class="indent"><span class="code">MW</span>: grow/shrink the window</p>
+
+<p><b>Window borders</b></p>
+
+<p class="indent"><span class="code">M1-drag-or-hold</span>: resize, scale or rotate the window (marking menu)</p>
+<p class="indent"><span class="code">M1 then M1-drag-or-hold</span>: fold, temporarily scale or temporarily rotate the window (fold only at the corners, marking menu at the edges)</p>
+<p class="indent"><span class="code">Shift-M1</span>: resize the window</p>
+<p class="indent"><span class="code">Alt-M1-drag</span>: scale the window</p>
+<p class="indent"><span class="code">Super-M1-drag</span>: temporarily scale the window</p>
+<p class="indent"><span class="code">M1-double-click</span>: maximize (toggle)</p>
+<p class="indent"><span class="code">M2</span>: reset the window transformations</p>
+<p class="indent"><span class="code">M3</span>: shows the <i>window operations</i> menu</p>
+
+<p><b>Window buttons</b></p>
+
+<p class="indent">Menu button</p>
+<p class="indentmore"><span class="code">M1</span>: shows the <i>window operations</i> menu</p>
+<p class="indentmore"><span class="code">M1-double-click</span>: close the window</p>
+<p class="indentmore"><span class="code">M2</span>: some special menus items (façades)</p>
+<p class="indentmore"><span class="code">M3</span>: send the window to another page</p>
+
+<p class="indent">Maximize button</p>
+<p class="indentmore"><span class="code">M1</span>: maximize the window (toggle)</p>
+<p class="indentmore"><span class="code">M1-drag</span>: maximize the window in the direction of the drag</p>
+<p class="indentmore"><span class="code">M1-double-click</span>: shows a maximize/grow menu</p>
+<p class="indentmore"><span class="code">M2 or M3</span>: grow the window</p>
+<p class="indentmore"><span class="code">MW</span>: maximize vertically/unmaximize the window</p>
+
+<p class="indent">Minimize button</p>
+<p class="indentmore"><span class="code">M1 or MW</span>: iconify the window</p>
+<p class="indentmore"><span class="code">M1-double-click</span>: shows a shrink menu</p>
+<p class="indentmore"><span class="code">M2 or M3</span>: shrink the window</p>
+
+<p class="indent">Close button (only in certain themes)</p>
+<p class="indentmore"><span class="code">M1</span>: delete the window</p>
+<p class="indentmore"><span class="code">(M1 or M2)-double-click</span>: close the window</p>
+<p class="indentmore"><span class="code">M3</span>: destroy the window</p>
+
+<p class="indent">Stick button (only in certain themes)</p>
+<p class="indentmore"><span class="code">Mx: stick the window (toggle)</p>
+
+<p class="indent">Inclined arrow button (only in certain themes)</p>
+<p class="indentmore"><span class="code">M1-drag</span>: interactive Z rotation</p>
+<p class="indentmore"><span class="code">M2</span>: turn the window upside-down</p>
+<p class="indentmore"><span class="code">M3</span>: 90° counterclockwise Z rotation</p>
+
+<p class="indent">Up-down arrow button (only in certain themes): similar to the inclined arrow for the X axis</p>
+<p class="indent">Left-right arrow button (only in certain themes): similar to the inclined arrow for the Y axis</p>
+
+<p><b>Keyboard shortcuts</b></p>
+
+<p class="indent"><span class="code">Super-F1</span>: reset the window transformations</p>
+<p class="indent"><span class="code">Super-F2</span> and <span class="code">Super-F3</span>: Z rotations</p>
+<p class="indent"><span class="code">Super-F4</span> and <span class="code">Super-F5</span>: Y rotations</p>
+<p class="indent"><span class="code">Super-F6</span> and <span class="code">Super-F7</span>: X rotations</p>
+<p class="indent"><span class="code">Super-F8</span> and <span class="code">Super-F9</span>: virtual desktop zoom out/in</p>
+<p class="indent"><span class="code">Super-F10</span>: decrease the transparency of the current window</p>
+<p class="indent"><span class="code">Super-F11</span>: increase the transparency of the current window</p>
+<p class="indent"><span class="code">Super-F12</span>: restore the standard desktop view</p>
+
+<p class="indent"><span class="code">Super-PageDown</span> and <span class="code">Super-PageUp</span>: virtual desktop zoom out/in</p>
+<p class="indent"><span class="code">Super-(left,right,up,down)</span>: pan the virtual desktop, if zoomed in</p>
+
+<!-- broken!
+  Super e: very weak expose mode (� la Mac OSX), then press Esc or click on a window</p>
+-->
+<p class="indent"><span class="code">Super-z</span>: grow the current window</p>
+<p class="indent"><span class="code">Super-s</span>: shrink the current window</p>
+<p class="indent"><span class="code">Super-c</span>: map the current window on a circular shape (more or less broken, just for fun...)</p>
+<p class="indent"><span class="code">Super-a</span>: animate the window (toggle, just for fun)</p>
+<p class="indent"><span class="code">Super-o</span>: start an interactive XY rotation</p>
+<p class="indent"><span class="code">Super-t</span>: switch the transparency of the current window between 1.0 and 0.7</p>
+<p class="indent"><span class="code">Super-i</span>: toggle an animated scaling operation on the current window</p>
+<p class="indent"><span class="code">Super-x</span>: scale the current window so that it takes up all screen space</p>
+<p class="indent"><span class="code">Super-f</span>: take a screenshot and save it as capture.jpg in the directory where the compositor was launched from</p>
+<p class="indent"><span class="code">Super-d</span>: zoom out to full virtual desktop view or in to the current page</p>
+<p class="indent"><span class="code">Alt-F1</span>: shows the <i>root</i> menu</p>
+<p class="indent"><span class="code">Alt-F2</span>: shows the list of 'normal' windows</p>
+<p class="indent"><span class="code">Alt-F3</span>: shows the <i>window operations</i> menu</p>
+<p class="indent"><span class="code">Alt-F4</span>: close the current window (i.e. the one under the mouse pointer)</p>
+<p class="indent"><span class="code">Alt-F5</span>: move the current window to the front or back</p>
+<p class="indent"><span class="code">Alt-F6</span>: restore the current window to its original state</p>
+<p class="indent"><span class="code">Alt-F7</span>: move the current window</p>
+<p class="indent"><span class="code">Alt-F8</span>: resize the current window</p>
+<p class="indent"><span class="code">Alt-F9</span>: iconify the current window</p>
+<p class="indent"><span class="code">Alt-F10</span>: maximize the current window vertically</p>
+<p class="indent"><span class="code">Alt-F11</span>: maximize the current window horizontally</p>
+<p class="indent"><span class="code">Alt-F12</span>: start an FvwmConsole</p>
+<p class="indent"><span class="code">Alt-Tab</span>: shows the list of 'normal' windows</p>
+<p class="indent"><span class="code">Ctrl-Alt-(left,right,up,down)</span>: move to the left, right, up or down page</p>
+
+
+<p class="indent"><span class="code">Ctrl-Alt-z</span>: move to the previous page</p>
+<p class="indent"><span class="code">Ctrl-Alt-(PageUp,PageDown):</span>: circulate between the desktops</p>
+
+<!-- 
+FIXME: say something about gesture-based interaction 
+FIXME: say something about the façades
+-->
+
+<h1>Configuring the compositor</h1>
+
+<p>The <i>root</i> menu shows a <span class="code">WM
+Configuration</span> item which allows to control some parameters
+(e.g. window transparency during move or resize operations), to
+configure the FVWM panel and to choose a graphical theme.</p>
+
+<p>The compositor can be further customized by editing the FVWM
+configuration files it uses. These files are stored
+in <span class="code">~/.fvwm-metisse</span> and contain some comments
+that should help you understand their purpose
+(the <a
+href="http://www.fvwm.org/documentation/manpages/unstable/fvwm.php">FVWM
+man page</a> can help you figure out the details). As an example, to
+modify the list of applications accessible from the root menu and the
+panel, edit the
+<span class="code">applications</span> file. To change the mouse and
+key bindings, edit <span class="code">bindings-functions</span>
+or <span class="code">bindings</span>.  If you're not happy with the
+default fonts, edit
+<span class="code">fonts</span>. If you want something else than a
+single desk of nine pages, edit <span class="code">desks</span>. To
+change the look of menus,
+edit <span class="code">menustyles</span>. To change the content of
+the root and window menus, edit <span class="code">menus</span>. To
+change the desktop background,
+edit <span class="code">background</span>.</p>
+
+<p>The main configuration file
+is <span class="code">metisserc</span>. It is not recommended to edit
+it to add your own personal stuff. Instead, create an
+<span class="code">extra</span> file. It will be automatically read
+by <span class="code">metisserc</span> after all the others.</p>
+
+<p>In order to try your new configuration after having edited one or
+more files, just restart the compositor using the root menu or issue
+the appropriate commands in an
+<a
+href="http://www.fvwm.org/documentation/manpages/stable/FvwmConsole.php">FvwmConsole</a>.</p>
+
+<p>If you encounter some problems after an upgrade, try running the
+compositor with a clean default configuration
+(e.g. <span class="code">cd ; mv .fvwm-metisse .fvwm-metisse-old ;
+metisse-start-fvwm</span>) and compare it with your customized one
+(e.g. <span class="code">cd ; diff -r .fvwm-metisse
+.fvwm-metisse-old</span>).</p>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel=stylesheet type="text/css" href="../metisse.css">
+<title>Building Metisse</title>
+</head>
+
+<body>
+
+<div class="titre-document">
+<a href="../index.html"><img id="uplink" alt="Metisse home page" src="../up.jpg"></a>
+Building Metisse
+</div>
+
+<p>
+To build from the CVS source code, you will need recent versions
+of <a
+href="http://www.gnu.org/software/automake/">automake</a>, <a
+href="http://www.gnu.org/software/libtool/">libtool</a>
+and <a href="http://www.gnu.org/software/autoconf/">autoconf</a>. The
+build system also
+uses <a href="http://pkg-config.freedesktop.org/wiki/">pkg-config</a>
+to look for dependencies.</p>
+
+<p>The Metisse server is a
+modified <a
+href="http://freedesktop.org/wiki/Software/Xserver">xserver</a>. The
+compositor is
+a <a
+href="http://insitu.lri.fr/~roussel/projects/nucleo/">núcleo</a>-based
+module for FVWM-InSitu, a modified version
+of <a href="http://www.fvwm.org/">FVWM</a> 2.5.x. The whole system
+should build relatively easily on modern Linux distributions and Mac
+OS X.</p>
+ 
+<h1>Building núcleo</h1>
+
+<p>Núcleo will require Mesa development packages (libmesaglu1-devel on Mandriva)</p>
+
+<p>The núcleo source code can be obtained as a tarball from <a href="http://insitu.lri.fr/metisse/download/">http://insitu.lri.fr/metisse/download/</a>:</p>
+
+<! -- NUCLEO_VERSION -->
+<pre class="code">
+wget <a
+href="http://insitu.lri.fr/metisse/download/0.4.0-rc4/nucleo-0.6.tar.bz2">http://insitu.lri.fr/metisse/download/0.4.0-rc4/nucleo-0.6.tar.bz2</a>
+tar xjvf nucleo-0.6.tar.bz2
+cd nucleo-0.6 
+</pre>
+
+<p>or from the CVS repository:</p>
+
+<pre class="code">
+cvs -d :pserver:anonymous@cvs.lri.fr:/users/asspro/roussel/cvsroot login
+# hit the Return key
+cvs -z 3 -d :pserver:anonymous@cvs.lri.fr:/users/asspro/roussel/cvsroot co nucleo
+cd nucleo
+./build-utils/bootstrap
+</pre>
+
+<p>Compiling the code is pretty straightforward. Just make sure that
+the <span class="code">configure</span> script found a "glWindow backend" (e.g. GLX or
+AGL):</p>
+
+<pre class="code">
+./configure
+make
+make install # or sudo make install
+</pre>
+
+<p>Núcleo build problems should be reported to the
+<a href="http://lists.lri.fr/mailman/listinfo/nucleo">
+núcleo mailing list</a>.</p>
+
+<h1>Building the Metisse server and compositor</h1>
+
+<p>Metisse will require development packages for at least the following libraries :</p>
+
+<ul>
+<li>freetype</li>
+<li>xorg-x11</li>
+<li>gdk_pixbuf</li>
+</ul>
+
+<p>The Metisse source code can be obtained as a tarball from <a href="http://insitu.lri.fr/metisse/download/">http://insitu.lri.fr/metisse/download/</a>:</p>
+
+<! -- METISSE_VERSION -->
+<pre class="code">
+wget <a
+href="http://insitu.lri.fr/metisse/download/0.4.0-rc4/metisse-0.4.0-rc4.tar.bz2">http://insitu.lri.fr/metisse/download/0.4.0-rc4/metisse-0.4.0-rc4.tar.bz2</a>
+tar xjvf metisse-0.4.0-rc4.tar.bz2
+cd metisse-0.4.0-rc4
+</pre>
+
+<p>or from the CVS repository:</p>
+
+<pre class="code">
+cvs -d :pserver:anonymous@cvs.lri.fr:/users/asspro/ihm/metisse-cvs login
+# hit the Return key
+cvs -z 3 -d :pserver:anonymous@cvs.lri.fr:/users/asspro/ihm/metisse-cvs co metisse
+cd metisse
+cvs -z 3 -d :pserver:anonymous@cvs.lri.fr:/users/asspro/ihm/metisse-cvs co fvwm-insitu
+./bootstrap
+</pre>
+
+<p>Compiling the code is again pretty straightforward:</p>
+
+<pre class="code">
+./configure
+make
+make install # or sudo make install
+</pre>
+
+<p>Depending on your platform, you might want to pass some options to
+the <span class="code">configure</span> script such
+as <span class="code">--enable-glx</span>, <span class="code">--enable-glx-x86</span>
+or <span class="code">--enable-mmx</span>. As usual, <span class="code">configure --help</span> will
+give you the list of available options.</p>
+
+<p>The Metisse server will not run without fonts. If your X11 fonts
+are not installed
+in <span class="code">/usr/share/fonts/X11</span>, <span class="code">/usr/share/fonts</span>
+or <span class="code">/usr/lib/X11/fonts</span>, use the <span class="code">--with-fontdir</span> option
+to indicate their location as in the example below:</p>
+
+<pre class="code">
+./configure --with-fontdir=/opt/X11R7/share/fonts
+</pre>
+
+<p>Metisse build problems should be reported to the
+<a href="http://lists.lri.fr/mailman/listinfo/metisse">Metisse mailing
+list</a>.
+
+</body>
+</html>

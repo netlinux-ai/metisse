@@ -1,0 +1,624 @@
+/* -*-c-*- */
+/* This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+/* ---------------------------- included header files ---------------------- */
+
+#include "config.h"
+
+#include <stdio.h>
+
+#include "libs/fvwmlib.h"
+#include "fvwm.h"
+#include "libs/PictureImageLoader.h"
+#include "externs.h"
+#include "cursor.h"
+#include "functions.h"
+#include "bindings.h"
+#include "misc.h"
+#include "screen.h"
+#include "cursor.h"
+#include "menus.h"
+
+/* ---------------------------- local definitions -------------------------- */
+
+/* ---------------------------- local macros ------------------------------- */
+
+/* ---------------------------- imports ------------------------------------ */
+
+/* ---------------------------- included code files ------------------------ */
+
+/* ---------------------------- local types -------------------------------- */
+
+/* ---------------------------- forward declarations ----------------------- */
+
+/* ---------------------------- local variables ---------------------------- */
+
+static Cursor cursors[CRS_MAX];
+static const unsigned int default_cursors[CRS_MAX] =
+{
+	None,
+	XC_top_left_corner,      /* CRS_POSITION */
+	XC_top_left_arrow,       /* CRS_TITLE */
+	XC_top_left_arrow,       /* CRS_DEFAULT */
+	XC_hand2,                /* CRS_SYS */
+	XC_fleur,                /* CRS_MOVE */
+	XC_sizing,               /* CRS_RESIZE */
+	XC_watch,                /* CRS_WAIT */
+	XC_top_left_arrow,       /* CRS_MENU */
+	XC_crosshair,            /* CRS_SELECT */
+	XC_pirate,               /* CRS_DESTROY */
+	XC_top_side,             /* CRS_TOP */
+	XC_right_side,           /* CRS_RIGHT */
+	XC_bottom_side,          /* CRS_BOTTOM */
+	XC_left_side,            /* CRS_LEFT */
+	XC_top_left_corner,      /* CRS_TOP_LEFT */
+	XC_top_right_corner,     /* CRS_TOP_RIGHT */
+	XC_bottom_left_corner,   /* CRS_BOTTOM_LEFT */
+	XC_bottom_right_corner,  /* CRS_BOTTOM_RIGHT */
+	XC_top_side,             /* CRS_TOP_EDGE */
+	XC_right_side,           /* CRS_RIGHT_EDGE */
+	XC_bottom_side,          /* CRS_BOTTOM_EDGE */
+	XC_left_side,            /* CRS_LEFT_EDGE */
+	XC_left_ptr,             /* CRS_ROOT */
+	XC_plus,                 /* CRS_STROKE */
+	XC_sizing,               /* CRS_FOLD, a better one? */
+	XC_sizing,               /* CRS_FOLD_TOP */
+	XC_sizing,               /* CRS_FOLD_BOTTOM */
+	XC_sizing,               /* CRS_FOLD_TOP_LEFT */
+	XC_sizing,               /* CRS_FOLD_TOP_RIGHT */
+	XC_sizing,               /* CRS_FOLD_BOTTOM_LEFT */
+	XC_sizing,               /* CRS_FOLD_BOTTOM_RIGHT */
+	XC_sizing,               /* CRS_FOLD_RIGHT */
+	XC_sizing,               /* CRS_FOLD_LEFT */
+	XC_sb_v_double_arrow,    /* CRS_ROTATEX */
+	XC_sb_h_double_arrow,    /* CRS_ROTATEY */
+	XC_top_right_corner,     /* CRS_ROTATEZ NO good cursor!! */
+	XC_circle                /* CRS_ROTATEXY */
+};
+
+/* ---------------------------- exported variables (globals) --------------- */
+
+/* ---------------------------- local functions ---------------------------- */
+
+static void SafeDefineCursor(Window w, Cursor cursor)
+{
+	if (w)
+	{
+		XDefineCursor(dpy,w,cursor);
+	}
+
+	return;
+}
+
+/* ---------------------------- interface functions ------------------------ */
+
+/* CreateCursors - Loads fvwm cursors */
+Cursor *CreateCursors(Display *dpy)
+{
+	int i;
+	/* define cursors */
+	cursors[0] = None;
+	for (i = 1; i < CRS_MAX; i++)
+	{
+		cursors[i] = XCreateFontCursor(dpy, default_cursors[i]);
+	}
+
+	return cursors;
+}
+
+int cursor_name_to_index(char *cname)
+{
+
+	int index = CRS_NONE;
+
+	if (StrEquals("POSITION", cname))
+	{
+		index = CRS_POSITION;
+	}
+	else if (StrEquals("DEFAULT", cname))
+	{
+		index = CRS_DEFAULT;
+	}
+	else if (StrEquals("SYS", cname))
+	{
+		index = CRS_SYS;
+	}
+	else if (StrEquals("TITLE", cname))
+	{
+		index = CRS_TITLE;
+	}
+	else if (StrEquals("MOVE", cname))
+	{
+		index = CRS_MOVE;
+	}
+	else if (StrEquals("RESIZE", cname))
+	{
+		index = CRS_RESIZE;
+	}
+	else if (StrEquals("MENU", cname))
+	{
+		index = CRS_MENU;
+	}
+	else if (StrEquals("WAIT", cname))
+	{
+		index = CRS_WAIT;
+	}
+	else if (StrEquals("SELECT", cname))
+	{
+		index = CRS_SELECT;
+	}
+	else if (StrEquals("DESTROY", cname))
+	{
+		index = CRS_DESTROY;
+	}
+	else if (StrEquals("LEFT", cname))
+	{
+		index = CRS_LEFT;
+	}
+	else if (StrEquals("RIGHT", cname))
+	{
+		index = CRS_RIGHT;
+	}
+	else if (StrEquals("TOP", cname))
+	{
+		index = CRS_TOP;
+	}
+	else if (StrEquals("BOTTOM", cname))
+	{
+		index = CRS_BOTTOM;
+	}
+	else if (StrEquals("TOP_LEFT", cname))
+	{
+		index = CRS_TOP_LEFT;
+	}
+	else if (StrEquals("TOP_RIGHT", cname))
+	{
+		index = CRS_TOP_RIGHT;
+	}
+	else if (StrEquals("BOTTOM_LEFT", cname))
+	{
+		index = CRS_BOTTOM_LEFT;
+	}
+	else if (StrEquals("BOTTOM_RIGHT", cname))
+	{
+		index = CRS_BOTTOM_RIGHT;
+	}
+	else if (StrEquals("LEFT_EDGE", cname))
+	{
+		index = CRS_LEFT_EDGE;
+	}
+	else if (StrEquals("RIGHT_EDGE", cname))
+	{
+		index = CRS_RIGHT_EDGE;
+	}
+	else if (StrEquals("TOP_EDGE", cname))
+	{
+		index = CRS_TOP_EDGE;
+	}
+	else if (StrEquals("BOTTOM_EDGE", cname))
+	{
+		index = CRS_BOTTOM_EDGE;
+	}
+	else if (StrEquals("ROOT", cname))
+	{
+		index = CRS_ROOT;
+	}
+	else if (StrEquals("STROKE", cname))
+	{
+		index = CRS_STROKE;
+	}
+	else if (StrEquals("FOLD", cname))
+	{
+		index = CRS_FOLD;
+	}
+	else if (StrEquals("FOLD_LEFT", cname))
+	{
+		index = CRS_FOLD_LEFT;
+	}
+	else if (StrEquals("FOLD_RIGHT", cname))
+	{
+		index = CRS_FOLD_RIGHT;
+	}
+	else if (StrEquals("FOLD_TOP", cname))
+	{
+		index = CRS_FOLD_TOP;
+	}
+	else if (StrEquals("FOLD_BOTTOM", cname))
+	{
+		index = CRS_FOLD_BOTTOM;
+	}
+	else if (StrEquals("FOLD_TOP_LEFT", cname))
+	{
+		index = CRS_FOLD_TOP_LEFT;
+	}
+	else if (StrEquals("FOLD_TOP_RIGHT", cname))
+	{
+		index = CRS_FOLD_TOP_RIGHT;
+	}
+	else if (StrEquals("FOLD_BOTTOM_LEFT", cname))
+	{
+		index = CRS_FOLD_BOTTOM_LEFT;
+	}
+	else if (StrEquals("FOLD_BOTTOM_RIGHT", cname))
+	{
+		index = CRS_FOLD_BOTTOM_RIGHT;
+	}
+	else if (StrEquals("ROTATEX", cname))
+	{
+		index = CRS_ROTATEX;
+	}
+	else if (StrEquals("ROTATEY", cname))
+	{
+		index = CRS_ROTATEY;
+	}
+	else if (StrEquals("ROTATEZ", cname))
+	{
+		index = CRS_ROTATEZ;
+	}
+	else if (StrEquals("ROTATEXY", cname))
+	{
+		index = CRS_ROTATEXY;
+	}
+	else if (StrEquals("CROSS_HAIR", cname))
+	{
+		index = CRS_SELECT;
+	}
+	return index;
+}
+
+/* ---------------------------- builtin commands --------------------------- */
+
+void CMD_CursorStyle(F_CMD_ARGS)
+{
+	char *cname=NULL, *newcursor=NULL;
+	char *errpos = NULL;
+	char *fore = NULL, *back = NULL;
+	XColor colors[2];
+	int index,nc, i, my_nc;
+	FvwmWindow *fw2;
+
+	action = GetNextToken(action, &cname);
+	action = GetNextToken(action, &newcursor);
+
+	if (!cname)
+	{
+		fvwm_msg(ERR, "CursorStyle", "Bad cursor style");
+		if (cname)
+		{
+			free(cname);
+		}
+		return;
+	}
+
+	index = cursor_name_to_index(cname);
+
+	if (index == CRS_NONE)
+	{
+		fvwm_msg(ERR, "CursorStyle", "Unknown cursor name %s", cname);
+		free(cname);
+		free(newcursor);
+		return;
+	}
+	free(cname);
+
+	/* check if the cursor is given by X11 name */
+	if (newcursor)
+	{
+		my_nc = fvwmCursorNameToIndex(newcursor);
+	}
+	else
+	{
+		my_nc = default_cursors[index];
+	}
+
+	if (my_nc == -1)
+	{
+		nc = strtol(newcursor, &errpos, 10);
+		if (errpos && *errpos == '\0')
+		{
+			my_nc = 0;
+		}
+	}
+	else
+	{
+		nc = my_nc;
+	}
+
+	if (my_nc > -1)
+	{
+		/* newcursor was a number or the name of a X11 cursor */
+		if ((nc < 0) || (nc >= XC_num_glyphs) || ((nc % 2) != 0))
+		{
+			fvwm_msg(ERR, "CursorStyle", "Bad cursor number %s",
+				 newcursor);
+			free(newcursor);
+			return;
+		}
+		free(newcursor);
+
+		/* replace the cursor defn */
+		if (Scr.FvwmCursors[index])
+		{
+			XFreeCursor(dpy,Scr.FvwmCursors[index]);
+		}
+		Scr.FvwmCursors[index] = XCreateFontCursor(dpy,nc);
+	}
+	else
+	{
+		/* newcursor was not a number neither a X11 cursor name */
+		if (StrEquals("none", newcursor) ||
+		    StrEquals("tiny", newcursor))
+		{
+			static Pixmap nocursor = None;
+			XColor nccol;
+
+			if (nocursor == None)
+			{
+				if (Scr.FvwmCursors[index])
+				{
+					XFreeCursor(
+						dpy, Scr.FvwmCursors[index]);
+				}
+				XSetForeground(
+					dpy, Scr.MonoGC,
+					(tolower(*newcursor) == 'n') ? 0 : 1);
+				XFillRectangle(
+					dpy, Scr.ScratchMonoPixmap, Scr.MonoGC,
+					0, 0, 1, 1);
+				Scr.FvwmCursors[index] = XCreatePixmapCursor(
+					dpy, Scr.ScratchMonoPixmap,
+					Scr.ScratchMonoPixmap, &nccol, &nccol,
+					0, 0);
+				free(newcursor);
+			}
+		}
+		else
+		{
+			Pixmap source, mask;
+			char *path;
+			unsigned int x;
+			unsigned int y;
+			FvwmPictureAttributes fpa; /* dummy ? */
+
+			fpa.mask = 0;
+
+			path = PictureFindImageFile(newcursor, NULL, R_OK, &fpa);
+			if (!path)
+			{
+				fvwm_msg(ERR, "CursorStyle",
+					"Cursor %s not found", newcursor);
+				free(newcursor);
+				return;
+			}
+
+			if (!PImageLoadCursorPixmapFromFile(
+				dpy, Scr.Root, path, &source, &mask, &x, &y))
+			{
+				free(path);
+				free(newcursor);
+				return;
+			}
+			if (Scr.FvwmCursors[index])
+			{
+				XFreeCursor(dpy, Scr.FvwmCursors[index]);
+			}
+
+			colors[0].pixel = GetColor(DEFAULT_CURSOR_FORE_COLOR);
+			colors[1].pixel = GetColor(DEFAULT_CURSOR_BACK_COLOR);
+			XQueryColors(dpy, Pcmap, colors, 2);
+			Scr.FvwmCursors[index] = XCreatePixmapCursor(
+				dpy, source, mask, &(colors[0]), &(colors[1]),
+				x, y);
+
+			free(newcursor);
+			free(path);
+		}
+	}
+
+	/* look for optional color arguments */
+	action = GetNextToken(action, &fore);
+	action = GetNextToken(action, &back);
+	if (fore && back)
+	{
+		colors[0].pixel = GetColor(fore);
+		colors[1].pixel = GetColor(back);
+		XQueryColors (dpy, Pcmap, colors, 2);
+		XRecolorCursor(
+			dpy, Scr.FvwmCursors[index], &(colors[0]),
+			&(colors[1]));
+	}
+	if (fore)
+	{
+		free(fore);
+	}
+	if (back)
+	{
+		free(back);
+	}
+
+	/* redefine all the windows using cursors */
+	for (fw2 = Scr.FvwmRoot.next; fw2; fw2 = fw2->next)
+	{
+		if (!HAS_HANDLES(fw2))
+		{
+			/* Ignore windows without handles */
+			continue;
+		}
+		for (i = 0; i < 4; i++)
+		{
+			SafeDefineCursor(
+				FW_W_CORNER(fw2, i),
+				Scr.FvwmCursors[CRS_TOP_LEFT + i]);
+			SafeDefineCursor(
+				FW_W_SIDE(fw2, i),
+				Scr.FvwmCursors[CRS_TOP + i]);
+		}
+		for (i = 0; i / 2 < Scr.nr_left_buttons; i += 2)
+		{
+			SafeDefineCursor(
+				FW_W_BUTTON(fw2, i), Scr.FvwmCursors[CRS_SYS]);
+		}
+		for (i = 1; i / 2 < Scr.nr_right_buttons; i += 2)
+		{
+			SafeDefineCursor(
+				FW_W_BUTTON(fw2, i), Scr.FvwmCursors[CRS_SYS]);
+		}
+		SafeDefineCursor(FW_W_TITLE(fw2), Scr.FvwmCursors[CRS_TITLE]);
+		if (index == CRS_DEFAULT)
+		{
+			SafeDefineCursor(
+				FW_W_FRAME(fw2), Scr.FvwmCursors[CRS_DEFAULT]);
+			SafeDefineCursor(
+				FW_W_PARENT(fw2), Scr.FvwmCursors[CRS_DEFAULT]);
+			if (IS_ICONIFIED(fw2))
+			{
+				if (!HAS_NO_ICON_TITLE(fw2))
+				{
+					SafeDefineCursor(
+						FW_W_ICON_TITLE(fw2),
+						Scr.FvwmCursors[CRS_DEFAULT]);
+				}
+				if (FW_W_ICON_PIXMAP(fw2) != None)
+				{
+					SafeDefineCursor(
+						FW_W_ICON_PIXMAP(fw2),
+						Scr.FvwmCursors[CRS_DEFAULT]);
+				}
+			}
+		}
+	}
+
+	/* Do the menus for good measure */
+	SetMenuCursor(Scr.FvwmCursors[CRS_MENU]);
+
+	SafeDefineCursor(Scr.PanFrameTop.win, Scr.FvwmCursors[CRS_TOP_EDGE]);
+	SafeDefineCursor(
+		Scr.PanFrameBottom.win, Scr.FvwmCursors[CRS_BOTTOM_EDGE]);
+	SafeDefineCursor(Scr.PanFrameLeft.win, Scr.FvwmCursors[CRS_LEFT_EDGE]);
+	SafeDefineCursor(
+		Scr.PanFrameRight.win, Scr.FvwmCursors[CRS_RIGHT_EDGE]);
+	/* migo (04/Nov/1999): don't annoy users which use xsetroot */
+	if (index == CRS_ROOT)
+	{
+		SafeDefineCursor(Scr.Root, Scr.FvwmCursors[CRS_ROOT]);
+	}
+}
+
+/* Defines in which cases fvwm "grab" the cursor during execution of certain
+ * functions. */
+void CMD_BusyCursor(F_CMD_ARGS)
+{
+	char *option = NULL;
+	char *optstring = NULL;
+	char *args = NULL;
+	int flag = -1;
+	char *optlist[] = {
+		"read", "wait", "modulesynchronous", "dynamicmenu", "*", NULL
+	};
+
+	while (action  && *action != '\0')
+	{
+		action = GetQuotedString(
+			action, &optstring, ",", NULL, NULL, NULL);
+		if (!optstring)
+		{
+			break;
+		}
+
+		args = GetNextToken(optstring, &option);
+		if (!option)
+		{
+			free(optstring);
+			break;
+		}
+
+		flag = ParseToggleArgument(args, NULL, -1, True);
+		free(optstring);
+		if (flag == -1)
+		{
+			fvwm_msg(ERR, "BusyCursor",
+				 "error in boolean specification");
+			free(option);
+			break;
+		}
+
+		switch (GetTokenIndex(option, optlist, 0, NULL))
+		{
+		case 0: /* read */
+			if (flag)
+			{
+				Scr.BusyCursor |= BUSY_READ;
+			}
+			else
+			{
+				Scr.BusyCursor &= ~BUSY_READ;
+			}
+			break;
+
+		case 1: /* wait */
+			if (flag)
+			{
+				Scr.BusyCursor |= BUSY_WAIT;
+			}
+			else
+			{
+				Scr.BusyCursor &= ~BUSY_WAIT;
+			}
+			break;
+
+		case 2: /* modulesynchronous */
+			if (flag)
+			{
+				Scr.BusyCursor |= BUSY_MODULESYNCHRONOUS;
+			}
+			else
+			{
+				Scr.BusyCursor &= ~BUSY_MODULESYNCHRONOUS;
+			}
+			break;
+
+		case 3: /* dynamicmenu */
+			if (flag)
+			{
+				Scr.BusyCursor |= BUSY_DYNAMICMENU;
+			}
+			else
+			{
+				Scr.BusyCursor &= ~BUSY_DYNAMICMENU;
+			}
+			break;
+
+		case 4: /* "*" */
+			if (flag)
+			{
+				Scr.BusyCursor |= BUSY_ALL;
+			}
+			else
+			{
+				Scr.BusyCursor &= ~(BUSY_ALL);
+			}
+			break;
+
+		default:
+			fvwm_msg(ERR, "BusyCursor", "unknown context '%s'",
+				 option);
+			break;
+		}
+		free(option);
+	}
+
+	return;
+}
