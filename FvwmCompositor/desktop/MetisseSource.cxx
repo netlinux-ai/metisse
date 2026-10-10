@@ -623,7 +623,7 @@ MetisseSource::start(void)
 
 		// --- Encoding ----------------------------------------------
 
-		char buf[sz_rfbSetEncodingsMsg + 5 * 4]; // 5 = MAX_ENCODINGS
+		char buf[sz_rfbSetEncodingsMsg + 8 * 4]; // 8 >= max encodings pushed below (was 5: stack overflow with Xcursor)
 		rfbSetEncodingsMsg *se = (rfbSetEncodingsMsg *)buf;
 		CARD32 *encs = (CARD32 *)(&buf[sz_rfbSetEncodingsMsg]);
 		se->type = rfbSetEncodings;
