@@ -21,8 +21,15 @@ testing, `set-transform.sh WINDOW RX RY RZ [SCALE [OPACITY]]` does this with
 it removes the transform. Pointer input is not yet remapped (phase 4): clicks
 still hit the real, flat window.
 
+`spin.sh WINDOW [SECONDS]` swings a window through 3D as a demo.
+
+With a patched Openbox (branch `feature/metisse-tilt` of the NetLinux Openbox
+fork), Alt+Shift+drag tilts a window and Alt+Shift+middle-click removes the
+tilt; Openbox only publishes the property, this program draws it.
+
 Run it under any window manager. It was developed against Openbox on Xephyr.
 Needs libx11, libxcomposite (>= 0.4), libxdamage, libxfixes and libgl.
 
-Status: tested on Xephyr (software GL, llvmpipe) only. Not yet tested on a
-hardware GL driver.
+Status: tested on Xephyr (software GL, llvmpipe) and on a real X11 desktop
+with the NVIDIA proprietary driver (Quadro K620, direct rendering, about 5% of
+one CPU core for a 1920x1080 desktop with hundreds of windows).
