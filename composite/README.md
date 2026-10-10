@@ -59,3 +59,12 @@ Status: pointer remapping tested on Xephyr (software GL) only, in both
 absolute and relative modes; rendering also tested on a real X11 desktop
 with the NVIDIA proprietary driver (Quadro K620, direct rendering, about 5% of
 one CPU core for a 1920x1080 desktop with hundreds of windows).
+
+## Animation (phase 5)
+
+`_METISSE_TRANSFORM` holds the *target*. The drawn rotation, scale and
+opacity ease towards it exponentially (time constant 70 ms), so tilts and
+untilts glide instead of snapping. Pointer remapping uses the drawn values, so
+it always agrees with what is on screen. Newly seen windows start at their
+target. `-noanim` applies changes instantly. The loop runs at ~8 ms only
+while something is moving or tilted.
