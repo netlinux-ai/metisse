@@ -1,0 +1,16 @@
+# build products
+*.o
+*.lo
+*.la
+*.a
+*.so*
+.deps/
+.libs/
+Makefile
+config.status
+config.log
+libtool
+stamp-h1
+nucleo-config
+nucleo.pc
+nucleo/config.H
