@@ -55,9 +55,10 @@ pointer is remapped (keyboard focus is unaffected); one screen only.
 Run it under any window manager. It was developed against Openbox on Xephyr.
 Needs libx11, libxcomposite (>= 0.4), libxdamage, libxfixes and libgl.
 
-Status: pointer remapping tested on Xephyr (software GL) only, in both
-absolute and relative modes; rendering also tested on a real X11 desktop
-with the NVIDIA proprietary driver (Quadro K620, direct rendering, about 5% of
+Status: pointer remapping tested on Xephyr (software GL) in both absolute
+and relative modes, and by hand on a real X11 desktop with a real mouse and
+the NVIDIA proprietary driver (tilt via set-transform.sh, view, click, type,
+close button all behaved correctly); rendering on that desktop (Quadro K620, direct rendering, about 5% of
 one CPU core for a 1920x1080 desktop with hundreds of windows).
 
 ## Animation (phase 5)
