@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /Data/metisse/prefix/libexec/fvwm-insitu/2.5.20/FvwmForm $@ FvwmForm-Talk

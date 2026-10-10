@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+
+# Allow the user to create a 'frequent' list of radio buttons facading into a
+# combo-box. This is a generic system. A good example uses the address
+# combobox:
+#
+# ./replace-combo-with-frequent-radio address-app Province
+
+# This will bring up a checkbox dialog allowing the user to select
+# which items are frequently selected. Then a new radiobox of these
+# items is created, with an option to select other items from a 
+# combobox in a separate dialog.
+
+import sys
+sys.path.append('')
+
+import facade_setup
+import gtk
+import bonobo
+
+class ComboCaller(facade_setup.AccessorApp):
+  def toggled(self, widget, data=None):
+    '''When a radio button is toggled on, update the combobox in the accessible
+    application to reflect the new value'''
+    if widget.get_active():
+      selection = self.combo_to_access.queryInterface("IDL:Accessibility/Selection:1.0")
+      selection.selectChild(data)
+
+  def combo_select(self, widget, data=None):
+    combo, index_map = data
+    selection = self.combo_to_access.queryInterface("IDL:Accessibility/Selection:1.0")
+    selection.selectChild(index_map[combo.get_active_text()])
+
+  def other_handler(self, widget, data=None):
+    if not widget.get_active():
+	  return
+    list, index_map = data
+    dialog = gtk.Dialog(title="Other", parent=self.win, flags=gtk.DIALOG_MODAL, buttons=(gtk.STOCK_OK, gtk.RESPONSE_ACCEPT, gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
+    combo = gtk.combo_box_new_text()
+    for id in list:
+      combo.append_text(id)
+      combo.connect("changed", self.combo_select, (combo, index_map))
+    dialog.vbox.pack_start(combo)
+    dialog.vbox.show_all()
+    dialog.run()
+    dialog.destroy()
+    
+  def __init__(self, app_name, combo_name):
+    facade_setup.AccessorApp.__init__(self)
+    #accessibility stuff
+    self.desktop = self.accessible_registry.getDesktop(0)
+    self.combo_to_access = facade_setup.find_comp(self.desktop, app_name, combo_name, "combo box")
+    menu = self.combo_to_access.getChildAtIndex(0)
+
+    list = []
+    index_map = {}
+    for id in range(menu.childCount):
+      item = menu.getChildAtIndex(id).name
+      if item != "Select Province": #Extremely messy hack
+        list.append(item)
+        index_map[item] = id
+
+    dialog = gtk.Dialog(title="Select Frequently Used Entries", parent=self.win, flags=gtk.DIALOG_MODAL, buttons=(gtk.STOCK_OK, gtk.RESPONSE_ACCEPT, gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
+    clist = []
+    for id in list:
+      check = gtk.CheckButton(id)
+      dialog.vbox.pack_start(check)
+      clist.append(check)
+    other = gtk.CheckButton("Remainder in Other... Dialog")
+    dialog.vbox.pack_start(other)
+    dialog.vbox.show_all()
+    dialog.run()
+	# missing: handle CANCEL
+
+    flist = []    # frequently selectd options
+    olist = []    # everything for the Other... dialog
+    for id in clist:
+      if id.get_active():
+        flist.append(id.get_label())
+      else:
+        olist.append(id.get_label())
+    dialog.destroy() 
+
+    radiobox = gtk.HBox()
+    radio = None 
+
+    for id in flist:
+      radio = gtk.RadioButton(radio, id)
+      radio.connect("toggled", self.toggled, index_map[id])
+      radiobox.pack_start(radio)
+    if other.get_active():
+    	otherbutton = gtk.RadioButton(radio,"Other...")
+    	otherbutton.connect("toggled", self.other_handler, (olist, index_map))
+        radiobox.pack_start(otherbutton)
+
+    self.win.add(radiobox)
+    self.win.show_all()
+
+if __name__ == "__main__":
+  print sys.argv[1]
+  ComboCaller(sys.argv[1], sys.argv[2]).main()
+
+
+
+
+
+
+
+

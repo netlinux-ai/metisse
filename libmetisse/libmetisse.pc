@@ -1,0 +1,13 @@
+prefix=/Data/metisse/prefix
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Metisse server library
+Description: The metisse protocol and a library to facilitate connection to
+the Metisse server  
+Version: 1.0.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lmetisse
+ 
+ 

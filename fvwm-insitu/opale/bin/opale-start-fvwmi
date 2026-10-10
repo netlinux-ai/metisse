@@ -1,0 +1,207 @@
+#!/bin/sh
+
+# This script runs fvwmi. It should be run under X (e.g., as the last line of
+# your .Xclients, .xinitrc or .xsession file).
+
+prefix=/Data/metisse/prefix
+datadir=${prefix}/share
+pkgdatadir=${datadir}/fvwm-insitu
+
+opale_version=1
+opale_revision=0
+
+OPALE_CONFIG_DIR=${datadir}/fvwm-insitu
+
+print_help ()
+{
+    echo "Usage:
+
+  opale-start-fvwmi [ options ] -- [fvwm options]
+
+opale-start-fvwm options:
+
+  -h        show this help and exit
+  -c  path  user fvwm config dir (default ~/.fvwm-opale)
+  -e  exec  name of the FVWM executable (default fvwmi)
+  -o  name  opale subsystem (default opale)
+  -r        re-install user configuration file 
+"
+}
+
+# Arguments
+fvwmArgs=""
+whoseArgs="my"
+
+start=yes
+reInstallConfig=0
+fvwmExe="fvwmi"
+session="main"
+subsystem="opale"
+user_config_dir=
+
+while [ "x$1" != "x" ]; do
+	case "$1" in
+	--)
+		whoseArgs="fvwm" ;;
+	*)
+		if [ "$whoseArgs" = "fvwm" ]; then
+			fvwmArgs="$fvwmArgs $1"
+		else
+			case "$1" in
+			--no-start|-no-start|-n)
+				start=no
+			;;
+			--fvwm|-fvwm|--fvwm-exe|-fvwm-exe|-e)
+				shift
+				fvwmExe="$1"
+			;;
+			--session|-session|-s)
+				if [ $# -gt 1 ]; then
+					shift
+	 				if [ "$1" = "--" ]; then
+						whoseArgs="fvwm"
+					else
+						session="$1"
+					fi
+				fi
+			;;
+			-r|--re-install-conf)
+				reInstallConfig=1
+			;;
+			-c|--c)
+			    shift
+			    user_config_dir="$1"
+			;;
+			-o|--o)
+			    shift
+			    subsystem="$1"
+			;;
+			*)
+				print_help
+				exit 0
+			;;
+			esac
+		fi ;;
+	esac
+	shift
+done
+
+if [ x$user_config_dir = "x" ]; then
+    user_config_dir=$HOME/.fvwm-$subsystem
+fi
+
+system_config=$OPALE_CONFIG_DIR/$subsystem-user-config
+
+# sanity check
+bad_install=0
+not_found=""
+
+if [ ! -d $OPALE_CONFIG_DIR ]; then
+    bad_install=1
+    not_found="$not_found $OPALE_CONFIG_DIR"
+fi
+
+if [ ! -f $system_config ]; then
+    bad_install=1
+    not_found="$not_found $system_config"
+fi
+
+if [ $bad_install = 1 ]; then
+    echo "WARNING:"
+    echo "WARNING: cannot found fvwm $subsystem opale config file(s):"
+    echo "WARNING: $not_found"
+    echo "WARNING: do you make install?"
+    echo "WARNING: ABORT!"
+    echo "WARNING:"
+    exit 1
+fi
+
+[ -d $user_config_dir ] || mkdir -p $user_config_dir
+
+if [ ! -d $user_config_dir ]; then
+	echo "Fail to create $user_config_dir"
+	echo "ABORT!"
+	exit 1
+fi
+
+isNewVersion=0
+isNewRevision=0
+reinstall=0
+
+user_config=$user_config_dir/config
+
+if [ ! -f $user_config -o $reInstallConfig = 1 ]; then
+    isNewVersion=1
+    isNewRevision=1
+    reinstall=1
+else
+    hl="`head -1 $user_config 2>/dev/null`"
+    test "x`echo $hl | cut -d' ' -f4`" = "x$opale_version"
+    isNewVersion="$?"
+    isNewRevision=isNewVersion
+fi
+
+if [ -f $user_config -a "x$isNewRevision" = "x0" ]; then
+    hl="`head -1 $user_config 2>/dev/null`"
+    test "x`echo $hl | cut -d' ' -f5`" = "x$opale_revision"
+    isNewRevision="$?"
+fi
+
+if [ "x$isNewRevision" = "x1" -a ! x$subsystem = "xmini" ]; then
+    echo "[opale-start-fvwmi] Installing: $user_config"
+    if [ -f $user_config ]; then
+	cp -f $user_config prev-$user_config
+    fi
+    cp -f $system_config $user_config
+    isNewRevision=0
+fi
+
+if [ "x$reinstall" = "x1" -a ! x$subsystem = "xmini" ]; then
+    isNewVersion=0
+    
+    if [ ! -d $user_config_dir/common ]; then
+	mkdir $user_config_dir/common
+    fi
+    if [ ! -d $user_config_dir/$subsystem ]; then
+	mkdir $user_config_dir/$subsystem
+    fi
+    src=$OPALE_CONFIG_DIR/common
+    dest=$user_config_dir/common
+    for f in `cat  $src/$user_config_files_list`; do
+	echo "[opale-start-fvwmi] Installing: $src/$f" 
+	cp -f $src/$f $dest/$f
+    done
+    src=$OPALE_CONFIG_DIR/$subsystem
+    dest=$user_config_dir/$subsystem
+    for f in `cat  $src/$user_config_files_list`; do
+	echo "[opale-start-fvwmi] Installing: $src/$f" 
+	cp -f $src/$f $dest/$f
+    done
+    reinstall = 0
+fi
+
+if [ $reinstall = 1 -a x$subsystem = "xmini" ]; then
+    if [ -f $user_config ]; then
+	cp -f $user_config prev-$user_config
+    fi
+    cp -f $system_config $user_config
+    isNewRevision=0
+    isNewVersion=0
+fi
+
+if [ "x$isNewVersion" = "x1" ]; then
+    echo "
+    [opale-start-fvwmi] WARNING:
+    [opale-start-fvwmi] WARNING: your $subsystem fvwmi config files do not match the
+    [opale-start-fvwmi] WARNING: fvwmi version. You may want to backup your
+    [opale-start-fvwmi] WARNING: $user_config_dir dir and use the
+    [opale-start-fvwmi] WARNING: -r option
+    [opale-start-fvwmi] WARNING:
+    "
+fi
+
+if [ x$start = "xno" ]; then
+    exit 0
+fi
+
+env OPALE_CONFIG_DIR=$OPALE_CONFIG_DIR OPALE_SUBSYSTEM=$subsystem FVWM_USERDIR=$user_config_dir $fvwmExe $fvwmArgs

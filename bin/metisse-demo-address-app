@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+# Simple GTK app that prompts the user for a Canadian address and outputs
+# it on the console. Accessed by 'address-caller' application.
+
+import sys
+sys.path.append('')
+
+import facade_setup
+import gtk
+
+class AddressApp(facade_setup.AccessibleApp):
+  def clicked(self, widget, data=None):
+    ''' Called when the button is clicked, this method displays the current address on standard out.
+    '''
+    print "The address is:"
+    print "================"
+    if self.entries["Name"].get_text() != "":
+      print "Name " + self.entries["Name"].get_text()
+    print self.entries["Address"].get_text()
+    print self.entries["City"].get_text() , #newline suppressing trick, ugly python ugly!
+    print " " + self.province.get_active_text()
+    print self.entries["Postal Code"].get_text()
+    print "CANADA"
+    
+  def __create_entry(self, name, box):
+    '''creates an accessible text-entry and label and adds the entry to
+    a dictionary. Adds the resulting component to the box. Just cause I hate
+    duplicate code.'''
+    entry = accessible_entry(name)
+    self.entries[name] = entry
+    box.pack_start(get_labeled_component(name, entry))
+
+  def __init__(self):
+    facade_setup.AccessibleApp.__init__(self)
+    self.entries = {}
+    box = gtk.VBox()
+    
+    for name in ("Name", "Address", "City"):
+      self.__create_entry(name, box)
+      
+    self.province = gtk.combo_box_new_text()
+    for i in ("Select Province", "AB	", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"):
+      self.province.append_text(str(i))
+    self.province.set_active(0)
+    self.province.get_accessible().set_name("Province")
+    self.province.set_wrap_width(1) # it scrolls otherwise
+    self.province.set_size_request(self.entries['Name'].size_request()[0], self.province.size_request()[1])
+    box.pack_start(get_labeled_component("Province", self.province))
+      
+    self.__create_entry("Postal Code", box)
+    
+    self.button = gtk.Button("Show Address")
+    self.button.connect("clicked", self.clicked, None)
+
+    #box.pack_start(self.button)
+    
+    self.win.add(box)
+    self.win.set_usize(313,129)
+    self.win.show_all()
+
+# some convenience methods that might go into a utilities module if they
+# are needed again
+def accessible_entry(accessible_name):
+  '''create a text-entry field with a specific accessible name. Should probably
+  be refactored to autilities module.'''
+  entry = gtk.Entry()
+  entry.get_accessible().set_name(accessible_name)
+  return entry
+  
+def get_labeled_component(caption, component):
+  '''returns a box containing a label to the left and the component to the right.
+  Convenience method should probably be moved into a utilities module. Caption
+  is the title of the label, component is the object to be added'''
+  label = gtk.Label(caption)
+  box = gtk.HBox(False, 5)
+  box.pack_start(label, False, False, 0)
+  box.pack_end(component, False, False, 0)
+  return box
+  
+if __name__ == "__main__":
+  AddressApp().main()
