@@ -24,6 +24,7 @@
  * virtual position. Remapping stands down while Openbox holds a pointer grab
  * (_METISSE_GRAB on the root), e.g. during a move, resize or tilt.
  *   -absolute  the pointer device reports absolute positions (e.g. Xephyr)
+ *   -noanim    apply transforms instantly instead of easing
  *   -verbose   log each remapped pointer position
  *
  * Usage:  composite [-display NAME] [-shot FILE.ppm]
@@ -49,6 +50,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <sys/select.h>
 
 #ifndef GL_BGRA
@@ -72,6 +74,7 @@ typedef struct Win {
 	int inverted;		/* texture is stored top-down */
 	float rx, ry, rz;	/* rotation in degrees */
 	float scale, opacity;
+	float trx, try_, trz, tscale, topacity;	/* targets; the above ease to them */
 	struct Win *next;	/* towards the top of the stack */
 } Win;
 
@@ -84,7 +87,7 @@ static int xerr;
 static Atom transform_atom, grab_atom;
 static int xfixes_event;
 static int grab_active;		/* Openbox holds the pointer */
-static int absolute_input, verbose;
+static int absolute_input, verbose, no_animate;
 static int cursor_hidden;
 static int virt_valid;
 static double vx, vy;		/* virtual pointer: where the cursor is drawn */
@@ -242,7 +245,7 @@ static int update_texture(Win *w)
 	return w->gpix != 0;
 }
 
-static void read_transform(Win *w)
+static void read_transform(Win *w, int snap)
 {
 	Atom type;
 	int fmt;
@@ -259,12 +262,61 @@ static void read_transform(Win *w)
 	}
 	if (data)
 		XFree(data);
-	w->rx = v[0] / 1000.0f;
-	w->ry = v[1] / 1000.0f;
-	w->rz = v[2] / 1000.0f;
-	w->scale = v[3] / 1000.0f;
-	w->opacity = v[4] < 0 ? 0 : v[4] > 1000 ? 1 : v[4] / 1000.0f;
+	w->trx = v[0] / 1000.0f;
+	w->try_ = v[1] / 1000.0f;
+	w->trz = v[2] / 1000.0f;
+	w->tscale = v[3] / 1000.0f;
+	w->topacity = v[4] < 0 ? 0 : v[4] > 1000 ? 1 : v[4] / 1000.0f;
+	if (snap || no_animate) {
+		w->rx = w->trx; w->ry = w->try_; w->rz = w->trz;
+		w->scale = w->tscale; w->opacity = w->topacity;
+	}
 	need_paint = 1;
+}
+
+/* ---- easing -------------------------------------------------------------- */
+
+#define EASE_TAU 0.07	/* seconds; each step closes 1 - exp(-dt/tau) of the gap */
+
+static double now_sec(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec + ts.tv_nsec / 1e9;
+}
+
+static float ease1(float cur, float tgt, double k, float eps, int *moving)
+{
+	if (fabsf(tgt - cur) <= eps)
+		return tgt;
+	*moving = 1;
+	return cur + (tgt - cur) * (float)k;
+}
+
+/* Advance every window towards its target; returns non-zero while any is
+ * still moving. */
+static int animate(void)
+{
+	static double last;
+	double t = now_sec(), dt = last ? t - last : 0.016;
+	int moving = 0;
+
+	last = t;
+	if (dt > 0.1)
+		dt = 0.1;
+	double k = 1.0 - exp(-dt / EASE_TAU);
+	for (Win *w = bottom; w; w = w->next) {
+		w->rx = ease1(w->rx, w->trx, k, 0.05f, &moving);
+		w->ry = ease1(w->ry, w->try_, k, 0.05f, &moving);
+		w->rz = ease1(w->rz, w->trz, k, 0.05f, &moving);
+		w->scale = ease1(w->scale, w->tscale, k, 0.0005f, &moving);
+		w->opacity = ease1(w->opacity, w->topacity, k, 0.002f, &moving);
+	}
+	if (!moving)
+		last = 0;
+	else
+		need_paint = 1;
+	return moving;
 }
 
 /* ---- tracking top-level windows ---------------------------------------- */
@@ -283,11 +335,11 @@ static void add_win(Window id)
 	w->bw = a.border_width;
 	w->depth = a.depth;
 	w->vid = XVisualIDFromVisual(a.visual);
-	w->scale = w->opacity = 1.0f;
+	w->scale = w->opacity = w->tscale = w->topacity = 1.0f;
 	w->mapped = (a.map_state == IsViewable);
 	w->damage = XDamageCreate(dpy, id, XDamageReportNonEmpty);
 	XSelectInput(dpy, id, PropertyChangeMask);
-	read_transform(w);
+	read_transform(w, 1);
 	Win **p = &bottom;
 	while (*p)
 		p = &(*p)->next;
@@ -402,7 +454,7 @@ static void handle_event(XEvent *e)
 		}
 		if (e->xproperty.atom == transform_atom &&
 		    (w = find_win(e->xproperty.window)))
-			read_transform(w);
+			read_transform(w, 0);
 		break;
 	case SelectionClear:
 		quit = 1;	/* another compositor took over */
@@ -891,10 +943,12 @@ int main(int argc, char **argv)
 			shot_file = argv[++i];
 		else if (!strcmp(argv[i], "-absolute"))
 			absolute_input = 1;
+		else if (!strcmp(argv[i], "-noanim"))
+			no_animate = 1;
 		else if (!strcmp(argv[i], "-verbose"))
 			verbose = 1;
 		else {
-			fprintf(stderr, "usage: %s [-display D] [-shot F.ppm] [-absolute] [-verbose]\n", argv[0]);
+			fprintf(stderr, "usage: %s [-display D] [-shot F.ppm] [-absolute] [-noanim] [-verbose]\n", argv[0]);
 			return 2;
 		}
 	}
@@ -1012,6 +1066,8 @@ int main(int argc, char **argv)
 			virt_valid = 0;
 			need_paint = 1;
 		}
+		int moving = animate();
+		tilted = count_tilted();
 		if (tilted)
 			pointer_update();
 		if (need_paint || want_shot) {
@@ -1020,7 +1076,7 @@ int main(int argc, char **argv)
 		} else if (!XPending(dpy)) {
 			fd_set fds;
 			/* poll the pointer quickly only while remapping it */
-			struct timeval tv = { 0, tilted ? 8000 : 200000 };
+			struct timeval tv = { 0, moving ? 8000 : tilted ? 8000 : 200000 };
 			FD_ZERO(&fds);
 			FD_SET(ConnectionNumber(dpy), &fds);
 			select(ConnectionNumber(dpy) + 1, &fds, NULL, NULL, &tv);
