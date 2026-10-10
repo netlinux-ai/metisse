@@ -165,16 +165,16 @@ Bool PImageLoadPng(FIMAGE_CMD_ARGS)
 	{
 		Fpng_set_expand(Fpng_ptr);
 	}
-	if (Finfo_ptr->color_type == FPNG_COLOR_TYPE_RGB_ALPHA)
+	if (color_type == FPNG_COLOR_TYPE_RGB_ALPHA)
 	{
 		hasa = 1;
 	}
-	if (Finfo_ptr->color_type == FPNG_COLOR_TYPE_GRAY_ALPHA)
+	if (color_type == FPNG_COLOR_TYPE_GRAY_ALPHA)
 	{
 		hasa = 1;
 		hasg = 1;
 	}
-	if (Finfo_ptr->color_type == FPNG_COLOR_TYPE_GRAY)
+	if (color_type == FPNG_COLOR_TYPE_GRAY)
 	{
 		hasg = 1;
 	}

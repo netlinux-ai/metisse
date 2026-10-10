@@ -5159,7 +5159,7 @@ AScreen::AScreen(MetisseDesktop *metisseDesktop, bool ortho,
 	_clipOpWaitForCtrlReleased = false;
 	_clipAutoRepeatOff = false;
 	_miIn = false;
-	_motionInterceptTk = false;
+	_motionInterceptTk = 0;
 	_miTkcount = 0;
 	_miFeed = 0;
 	_setupRightLongPressTimeOut();

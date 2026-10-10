@@ -1293,7 +1293,7 @@ void FvwmModule::_parseMessageLine(Window id, char *line)
 			_ascr->root->setSnapAttractMode(
 				SNAP_ATTRAC_MODE_NONE);
 		}
-		else if (!opt || opt == '\0')
+		else if (!opt || *opt == '\0')
 		{
 			_ascr->root->setSnapAttractMode();
 		}

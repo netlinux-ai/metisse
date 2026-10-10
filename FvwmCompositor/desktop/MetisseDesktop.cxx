@@ -1107,8 +1107,8 @@ MetisseDesktop::MetisseDesktop(
 }
 
 MetisseDesktop::MetisseDesktop(std::string rfburi)
+	: MetisseDesktop(rfburi, "foldable", false, (const char *)0)
 {
-	MetisseDesktop(rfburi, "foldable", false, false);
 }
 
 // --------------------------------------------------------------------------
