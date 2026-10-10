@@ -17,3 +17,5 @@ nucleo/config.H
 FvwmCompositor/config/config
 */config-files-list
 **/config-files-list
+composite/composite
+!composite/Makefile
