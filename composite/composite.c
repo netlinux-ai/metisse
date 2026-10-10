@@ -567,9 +567,15 @@ int main(int argc, char **argv)
 	}
 	XUngrabServer(dpy);
 
-	signal(SIGINT, on_signal);
-	signal(SIGTERM, on_signal);
-	signal(SIGUSR1, on_signal);
+	/* sigaction, not signal(): under _POSIX_C_SOURCE signal() resets the
+	 * handler after one delivery, so a second SIGUSR1 would kill us. */
+	struct sigaction sa;
+	memset(&sa, 0, sizeof sa);
+	sa.sa_handler = on_signal;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
+	sigaction(SIGUSR1, &sa, NULL);
 
 	while (!quit) {
 		while (XPending(dpy)) {
